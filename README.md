@@ -1,4 +1,4 @@
-# TimeTracker Service
+# Clean Architecture Example
 
 [![Version](https://img.shields.io/badge/Version-0.0.1-blue)](https://github.com/hulkthedev/timetrackerservice)
 [![Build Status](https://travis-ci.org/hulkthedev/symfony-clean-architecture-example.svg?branch=develop)](https://travis-ci.org/hulkthedev/timetrackerservice)
@@ -6,7 +6,12 @@
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=hulkthedev_symfony-clean-architecture-example&metric=coverage)](https://sonarcloud.io/dashboard?id=hulkthedev_timetrackerservice)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-A simple REST based micro service to demonstrate usage of REST, clean architecture and behat testing. 
+A simple REST based micro service to demonstrate usage of REST, clean architecture and behat testing.
+
+## Requirements
+
+* [Docker](https://docs.docker.com/engine/install/) - A software framework for building, running, and managing containers on servers and the cloud.
+* [Docker-Compose](https://docs.docker.com/compose/install/) - A tool for defining and running multi-container Docker applications.
 
 ##### build
 

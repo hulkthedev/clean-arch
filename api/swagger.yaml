@@ -1,0 +1,464 @@
+openapi: 3.0.1
+
+info:
+  title: REST based micro service
+  contact:
+    url: https://www.%placeholder%.de
+    email: fatal.error.27@gmail.com
+  version: "0.1"
+
+servers:
+  - url: https://www.PLACEHOLDER.de/tracking
+
+paths:
+  /ca-example/{userId}:
+    get:
+      description: load all entities for employer X
+      parameters:
+        - name: employerId
+          in: path
+          description: employer id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: loading entities was successful
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/SuccessEntityResponse'
+        400:
+          description: invalid parameter
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        415:
+          description: invalid media type
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        500:
+          description: internal server error / php or pdo error
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+
+  /ca-example/{date}/{employerId}/{employerWorkingTimeId}:
+    get:
+      description: load single entity depends on employer id and date
+      parameters:
+        - name: date
+          in: path
+          description: date (YYYY-MM-DD)
+          required: true
+          schema:
+            type: string
+        - name: employerId
+          in: path
+          description: employer id
+          required: true
+          schema:
+            type: integer
+        - name: employerWorkingTimeId
+          in: path
+          description: employer working time id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: loading entity was successful
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/SuccessEntityResponse'
+        400:
+          description: invalid parameter
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        415:
+          description: invalid media type
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        500:
+          description: internal server error  / php or pdo error
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+    put:
+      description: add single entity
+      parameters:
+        - name: date
+          in: path
+          description: date (YYYY-MM-DD)
+          required: true
+          schema:
+            type: string
+        - name: employerId
+          in: path
+          description: employer id
+          required: true
+          schema:
+            type: integer
+        - name: employerWorkingTimeId
+          in: path
+          description: employer working time id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/requestBodies/AddEntityBody'
+      responses:
+        201:
+          description: adding entity was successful
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/SuccessEntityResponse'
+        400:
+          description: invalid parameter
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        415:
+          description: invalid media type
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        500:
+          description: internal server error  / php or pdo error
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+    delete:
+      description: delete single entity
+      parameters:
+        - name: date
+          in: path
+          description: date (YYYY-MM-DD)
+          required: true
+          schema:
+            type: string
+        - name: employerId
+          in: path
+          description: employer id
+          required: true
+          schema:
+            type: integer
+        - name: employerWorkingTimeId
+          in: path
+          description: employer working time id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: deleting entity was successful
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/SuccessEntityResponse'
+        400:
+          description: invalid parameter
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        415:
+          description: invalid media type
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        500:
+          description: internal server error  / php or pdo error
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+    patch:
+      description: update single entity
+      parameters:
+        - name: date
+          in: path
+          description: date (YYYY-MM-DD)
+          required: true
+          schema:
+            type: string
+        - name: employerId
+          in: path
+          description: employer id
+          required: true
+          schema:
+            type: integer
+        - name: employerWorkingTimeId
+          in: path
+          description: employer working time id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: working mode
+        content:
+          'application/json':
+            schema:
+              type: string
+        required: false
+      responses:
+        200:
+          description: entity updating was successful
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/SuccessEntityResponse'
+        400:
+          description: invalid parameter syntax
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        415:
+          description: invalid media type
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        500:
+          description: internal server error / php or pdo error
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+
+  /ca-example/{date}/{toDate}/{employerId}/{employerWorkingTimeId}:
+    put:
+      description: adding many entities was sucessful
+      parameters:
+        - name: date
+          in: path
+          description: date (YYYY-MM-DD)
+          required: true
+          schema:
+            type: string
+        - name: toDate
+          in: path
+          description: date (YYYY-MM-DD)
+          required: true
+          schema:
+            type: string
+        - name: employerId
+          in: path
+          description: employer id
+          required: true
+          schema:
+            type: integer
+        - name: employerWorkingTimeId
+          in: path
+          description: employer working time id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: working mode
+        content:
+          'application/json':
+            schema:
+              type: string
+        required: false
+      responses:
+        201:
+          description: adding entity was successful
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/SuccessEntityResponse'
+        400:
+          description: invalid parameter
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        415:
+          description: invalid media type
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        500:
+          description: internal server error / php or pdo error
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+components:
+  schemas:
+    ClientErrorResponse:
+      type: object
+      properties:
+        code:
+          type: number
+          description: |
+            | Code | Description
+            +------+------------
+            |  -1  | Invalid parameter
+            |  -2  | Invalid media type
+            |  -3  | Invalid json content
+        message:
+          type: string
+
+    ServerErrorResponse:
+      type: object
+      properties:
+        code:
+          type: number
+          description: |
+            | Code | Description
+            +------+------------
+            | -10  | PDO Exception
+            | -11  | PDO Exception no login data
+            | -12  | DB is empty
+            | -13  | Entity not found
+            | -14  | Entity can not be saved
+            | -15  | Entity can not be deleted
+            | -16  | Entity can not be updated
+            | -99  | Unknown error
+        entities:
+          type: array
+          items:
+            type: object
+            properties: {}
+            description: always empty array on error
+
+    SuccessEntityResponse:
+      type: object
+      properties:
+        code:
+          type: number
+          description: |
+            | Code | Description
+            +------+------------
+            |   1  | Success
+        entities:
+          type: array
+          description: filled on get methods, else empty object
+          items:
+            type: object
+            properties:
+              weekDays:
+                type: array
+                items:
+                  type: object
+                  properties: {}
+              weekNo:
+                type: integer
+              weekDelta:
+                type: integer
+  parameters:
+    employerId:
+      name: employerId
+      in: path
+      description: employer id
+      required: true
+      example: 1
+      schema:
+        type: integer
+    employerWorkingTimeId:
+      name: employerWorkingTimeId
+      in: path
+      description: employer working time id
+      required: true
+      example: 1
+      schema:
+        type: integer
+    date:
+      name: date
+      in: path
+      description: date (YYYY-MM-DD)
+      required: true
+      example: 2020-01-01
+      schema:
+        type: string
+    toDate:
+      name: toDate
+      in: path
+      description: date (YYYY-MM-DD)
+      required: true
+      example: 2020-01-01
+      schema:
+        type: string
+
+  requestBodies:
+    AddEntityBody:
+      required: true
+      description: required parameter for add
+      content:
+        'application/json':
+          schema:
+            type: object
+            properties:
+              begin:
+                $ref: '#/components/requestBodies/begin'
+              mode:
+                $ref: '#/components/requestBodies/mode'
+
+    UpdateEntityBody:
+      required: true
+      description: required parameter for update
+      content:
+        'application/json':
+          schema:
+            type: object
+            properties:
+              begin:
+                $ref: '#/components/requestBodies/begin'
+              end:
+                $ref: '#/components/requestBodies/end'
+              break:
+                $ref: '#/components/requestBodies/break'
+              mode:
+                $ref: '#/components/requestBodies/mode'
+
+    begin:
+      required: true
+      description: timestamp of beginning working
+      content:
+        'application/json':
+          schema:
+            type: integer
+    end:
+      required: true
+      description: timestamp of ending working
+      content:
+        'application/json':
+          schema:
+            type: integer
+    break:
+      required: true
+      description: break in minutes
+      content:
+        'application/json':
+          schema:
+            type: integer
+    mode:
+      required: true
+      description: working mode
+      content:
+        'application/json':
+          schema:
+            type: string
