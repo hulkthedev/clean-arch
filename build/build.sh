@@ -24,8 +24,12 @@ docker run --rm -i -t \
     -c "composer global require hirak/prestissimo &> /dev/null; composer install --prefer-dist --no-progress --no-interaction --optimize-autoloader"
 
 # build images
-#cd "${PROJECT_DIR}/infrastructure" || exit
-#docker-compose -f docker-compose.yml build
+cd "${PROJECT_DIR}/infrastructure" || exit
+docker-compose -f docker-compose.yml build
+
+# docker exec php container
+# .env MySQL aktivieren
+# php bin/console docrine:database:create
 
 # run container
 #cd "${PROJECT_DIR}" || exit

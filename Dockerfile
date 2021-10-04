@@ -10,8 +10,6 @@ RUN apk update && \
         php8-pdo \
         php8-mysqli \
         php8-pdo_mysql \
-        php8-pdo_pgsql \
-        php8-pdo_sqlite \
         bash
 
 RUN pecl install \
