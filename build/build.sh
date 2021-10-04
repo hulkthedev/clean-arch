@@ -9,11 +9,11 @@ PROJECT_DIR="$(dirname "${BUILD_DIR}")";
 mkdir -p var/log var/cache
 chmod 777 var/log var/cache
 
+# install composer
 COMPOSER_CACHE_VOLUME=composer-cache
 COMPOSER_IMAGE="composer"
 COMPOSER_TAG="2.1.8"
 
-# install composer
 docker run --rm -i -t \
     -v ${CACHE_VOLUME}:/tmp \
     -v "${PROJECT_DIR}":/app \
@@ -24,12 +24,12 @@ docker run --rm -i -t \
     -c "composer global require hirak/prestissimo &> /dev/null; composer install --prefer-dist --no-progress --no-interaction --optimize-autoloader"
 
 # build images
-cd "${PROJECT_DIR}/infrastructure" || exit
+cd "${PROJECT_DIR}" || exit
 docker-compose -f docker-compose.yml build
 
 # docker exec php container
 # .env MySQL aktivieren
-# php bin/console docrine:database:create
+# php bin/console doctrine:database:create
 
 # run container
 #cd "${PROJECT_DIR}" || exit

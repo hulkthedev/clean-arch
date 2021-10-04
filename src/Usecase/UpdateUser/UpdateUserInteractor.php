@@ -6,6 +6,7 @@ use App\Usecase\BaseInteractor;
 use App\Usecase\BaseResponse;
 use App\Usecase\ResultCodes;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\UnsupportedMediaTypeHttpException;
 use Throwable;
 
 class UpdateUserInteractor extends BaseInteractor
@@ -32,6 +33,8 @@ class UpdateUserInteractor extends BaseInteractor
      */
     private function validateRequest(Request $request)
     {
-
+        if (self::SUPPORTED_MEDIA_TYPE !== strtolower($request->getContentType())) {
+            throw new UnsupportedMediaTypeHttpException('Unsupported media type was transmitted!');
+        }
     }
 }

@@ -32,3 +32,9 @@ services:
 
     App\Usecase\:
         resource: '../src/Usecase/*'
+
+    App\Repository\:
+        resource: '../src/Repository/*'
+
+    App\Mapper\:
+        resource: '../src/Mapper/*'

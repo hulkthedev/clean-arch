@@ -4,11 +4,10 @@ namespace App\Repository;
 
 use App\Repository\Exception\DatabaseException;
 use App\Usecase\ResultCodes;
-use Exception;
 use PDO;
 use App\Mapper\MariaDbMapper as Mapper;
 
-class MariaDbUserRepository implements RepositoryInterface
+class MariaDbRepository implements RepositoryInterface
 {
     private const DATABASE_CONNECTION_TIMEOUT = 30;
 
@@ -48,7 +47,7 @@ class MariaDbUserRepository implements RepositoryInterface
      */
     public function getUserById(int $userId): array
     {
-        $statement = $this->getPdoDriver()->prepare('SELECT ...');
+        $statement = $this->getPdoDriver()->prepare('SELECT * FROM ca_user WHERE id = :id');
         $statement->execute([
             self::COLUMN_USER_ID => $userId
         ]);
