@@ -6,7 +6,7 @@
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=hulkthedev_symfony-clean-architecture-example&metric=coverage)](https://sonarcloud.io/dashboard?id=hulkthedev_timetrackerservice)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-A simple REST based micro service to demonstrate usage of REST, clean architecture and behat testing.
+A simple REST based microservice to demonstrate usage of REST, clean architecture and behat testing.
 
 ##### build
 
