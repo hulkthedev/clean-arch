@@ -1,14 +1,21 @@
 {
-    "name": "symfony/website-skeleton",
+    "name": "sym5/clean-arch-example",
     "type": "project",
     "license": "MIT",
-    "description": "A skeleton to start a new Symfony website",
+    "description": "A simple REST based micro service to demonstrate usage of REST, clean architecture and behat testing",
+    "authors": [{
+        "name": "~albei",
+        "email": "fatal.error.27@gmail.com",
+        "role": "developer"
+    }],
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": ">=7.4",
+        "php": "^7.4",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "ext-json": "*",
+        "ext-pdo": "*",
         "composer/package-versions-deprecated": "1.11.99.4",
         "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.4",
@@ -43,7 +50,7 @@
         "symfony/web-link": "5.4.*",
         "symfony/yaml": "5.4.*",
         "twig/extra-bundle": "^2.12|^3.0",
-        "twig/twig": "^2.12|^3.0"
+        "twig/twig": "^2.12|^3.0",
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
