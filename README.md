@@ -28,25 +28,21 @@ A simple REST based micro service to demonstrate usage of REST, clean architectu
 
 ##### Examples
 
-> [GET](http://localhost:3699/ca-example/1) /ca-example/1
+> [GET](http://localhost:3699/ca-example/1234) /ca-example/1234
 ```json
 {
     "code": 1,
     "user": [{
         "id": 1,
+        "firstname": "Max",
+        "lastname": "Mustermann",
+        "age": 30,
         "gender": "m",
-        "firstName": "John",
-        "lastName": "Conner",
-        "birthdate": "01.01.1980",
-        "street": "Nachtigalplatz",
-        "houseNo": "34a",
-        "postcode": "13351",
-        "city": "Berlin",
-        "country": "Germany",
-        "sepa": [{
-            "iban": "DE02500105170137075030",
-            "bic": "INGDDEFF"
-        }]
+        "street": "Musterstrasse",
+        "houseNo": "1",
+        "postcode": "12345",
+        "city": "Musterstadt",
+        "country": "Musterland"
     }]
 }
 ```
