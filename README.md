@@ -28,7 +28,7 @@ A simple REST based micro service to demonstrate usage of REST, clean architectu
 
 ##### Examples
 
-> [GET](http://localhost:3699/ca-example/1234) /ca-example/1234
+> [GET](http://localhost:3699/ca-example/1) /ca-example/1
 ```json
 {
     "code": 1,
