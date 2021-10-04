@@ -8,11 +8,6 @@
 
 A simple REST based micro service to demonstrate usage of REST, clean architecture and behat testing.
 
-## Requirements
-
-* [Docker](https://docs.docker.com/engine/install/) - A software framework for building, running, and managing containers on servers and the cloud.
-* [Docker-Compose](https://docs.docker.com/compose/install/) - A tool for defining and running multi-container Docker applications.
-
 ##### build
 
 ```bash
