@@ -1,0 +1,38 @@
+version: "3.7"
+services:
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - config/infrastructure/env/dev/common.env
+      - config/infrastructure/env/dev/mariadb.env
+    volumes:
+      - .:/var/www/html
+    expose:
+      - "9000"
+    links:
+      - mariadb
+
+  mariadb:
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: ca
+      MYSQL_PASSWORD: ca1234
+      MYSQL_DATABASE: ca_example
+    volumes:
+      - ./config/infrastructure/mariadb/migrate:/docker-entrypoint-initdb.d
+      - ./config/infrastructure/mariadb/confd:/etc/mysql/conf.d
+    ports:
+      - "3306/tcp"
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "3699:80"
+    volumes:
+      - .:/var/www/html
+      - ./config/infrastructure/nginx/dev/default.conf:/etc/nginx/conf.d/default.conf
+    links:
+      - php

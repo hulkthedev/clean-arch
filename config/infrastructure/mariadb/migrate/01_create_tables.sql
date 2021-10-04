@@ -1,0 +1,14 @@
+CREATE TABLE ca_user (
+    id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    firstname VARCHAR(50) NOT NULL,
+    lastname VARCHAR(50) NOT NULL,
+    age TINYINT UNSIGNED NOT NULL,
+    gender VARCHAR(1) NOT NULL,
+    street VARCHAR(50) NOT NULL,
+    houseNumber VARCHAR(6) NOT NULL,
+    postcode VARCHAR(10) NOT NULL,
+    city VARCHAR(50) NOT NULL,
+    country VARCHAR(50) NOT NULL,
+
+    CONSTRAINT unique_employer UNIQUE (id)
+);

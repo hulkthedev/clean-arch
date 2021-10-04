@@ -7,7 +7,7 @@ class User
     public int $id;
     public string $firstname;
     public string $lastname;
-    public string $age;
+    public int $age;
     public string $gender;
     public string $street;
     public string $houseNumber;
