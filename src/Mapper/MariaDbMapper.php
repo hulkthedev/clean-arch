@@ -19,6 +19,7 @@ class MariaDbMapper
             $dto->firstname = $user['firstname'];
             $dto->lastname = $user['lastname'];
             $dto->age = $user['age'];
+            $dto->gender = $user['gender'];
             $dto->street = $user['street'];
             $dto->houseNumber = $user['houseNumber'];
             $dto->postcode = $user['postcode'];

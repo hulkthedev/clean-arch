@@ -5,7 +5,7 @@ set -eo pipefail
 BUILD_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 PROJECT_DIR="$(dirname "${BUILD_DIR}")";
 
-SERVICE=%SERVICE_NAME%
+SERVICE="symfony-clean-architecture-example_php_1"
 CONTAINER=$(docker ps -qf "name=${SERVICE}")
 
 if [[ $CONTAINER == '' ]]; then
@@ -16,9 +16,10 @@ fi
 
 echo "Starting PHPUnit Tests..."
 
-docker exec -i ${SERVICE} ./vendor/bin/phpunit \
-    --colors=always \
-    --configuration tests
+docker exec --user="$(id -u)":"$(id -g)" \
+    -i ${SERVICE} ./vendor/bin/phpunit \
+      --colors=always \
+      --configuration tests
 
 exit $?
 
