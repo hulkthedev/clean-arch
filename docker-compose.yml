@@ -24,6 +24,7 @@ services:
     volumes:
       - ./config/infrastructure/mariadb/migrate:/docker-entrypoint-initdb.d
       - ./config/infrastructure/mariadb/confd:/etc/mysql/conf.d
+      - ./var/lib/mysql:/var/lib/mysql
     ports:
       - "3306/tcp"
 
