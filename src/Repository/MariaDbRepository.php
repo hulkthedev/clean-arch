@@ -10,6 +10,8 @@ use App\Mapper\MariaDbMapper as Mapper;
 
 class MariaDbRepository implements RepositoryInterface
 {
+    use UserHelper;
+
     private const DATABASE_CONNECTION_TIMEOUT = 30;
 
     private ?PDO $pdo = null;
@@ -82,30 +84,17 @@ class MariaDbRepository implements RepositoryInterface
      */
     public function updateUserById(User $user): bool
     {
-//        $statement = $this->getPdoDriver()->prepare('UPDATE ca_user SET ... WHERE id=:id');
-//        $userId = $statement->execute([
-//            'id' => $user->id,
-//            'firstname' => $user->firstname,
-//            'lastname' => $user->lastname,
-//            'age' => $user->age,
-//            'gender' => $user->gender,
-//            'street' => $user->street,
-//            'houseNumber' => $user->houseNumber,
-//            'postcode' => $user->postcode,
-//            'city' => $user->city,
-//            'country' => $user->country,
-//        ]);
-//
-//        $statement = $this->getPdoDriver()->prepare('UPDATE');
-//        $result = $statement->execute([
-//            self::COLUMN_USER_ID => $userId,
-//        ]);
-//
-//        if (true !== $result) {
-//            throw new DatabaseException(ResultCodes::USER_CAN_NOT_BE_UPDATED);
-//        }
-//
-//        return true;
+        $changedData = $this->getChangedData($user);
+        $changedSql = $this->getChangedDataSQLStatement($changedData);
+
+        $statement = $this->getPdoDriver()->prepare("UPDATE ca_user SET $changedSql  WHERE id=:id");
+        $result = $statement->execute($changedData);
+
+        if (true !== $result) {
+            throw new DatabaseException(ResultCodes::USER_CAN_NOT_BE_UPDATED);
+        }
+
+        return true;
     }
 
     /**

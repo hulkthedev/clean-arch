@@ -41,7 +41,7 @@ class GetUserInteractor extends BaseInteractor
      * @throws UnsupportedMediaTypeHttpException
      * @throws InvalidArgumentException
      */
-    private function validateRequest(Request $request)
+    private function validateRequest(Request $request): void
     {
         if (null === $request->get('userId')) {
             throw new InvalidArgumentException('No userId transmitted!');

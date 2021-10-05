@@ -2,6 +2,7 @@
 
 namespace App\Usecase\UpdateUser;
 
+use App\Repository\Exception\DatabaseException;
 use App\Usecase\BaseInteractor;
 use App\Usecase\BaseResponse;
 use App\Usecase\ResultCodes;
@@ -29,6 +30,8 @@ class UpdateUserInteractor extends BaseInteractor
             $code = ResultCodes::INVALID_MEDIA_TYPE;
         } catch (InvalidArgumentException $exception) {
             $code = ResultCodes::INVALID_SYNTAX;
+        } catch(DatabaseException $exception) {
+            $code = ResultCodes::USER_CAN_NOT_BE_UPDATED;
         } catch (Throwable $throwable) {
             $code = ResultCodes::UNKNOWN_ERROR;
         }
@@ -39,14 +42,21 @@ class UpdateUserInteractor extends BaseInteractor
     /**
      * @param Request $request
      * @throws InvalidArgumentException
+     * @throws UnsupportedMediaTypeHttpException
      */
-    private function validateRequest(Request $request)
+    private function validateRequest(Request $request): void
     {
-        $this->validateContentType($request->getContentType());
-        $payload = $this->getUserFromRequest($request->getContent());
+        $this->validateContentType($request->getContentType() ?? 'not set');
 
-        if (!isset($payload['firstname'], $payload['lastname'], $payload['age'], $payload['gender'], $payload['street']) ||
-            !isset($payload['houseNumber'], $payload['postcode'], $payload['city'],$payload['country'])) {
+        if (null === $request->get('userId')) {
+            throw new InvalidArgumentException('No userId transmitted!');
+        }
+
+        if (!is_integer((int)$request->get('userId'))) {
+            throw new InvalidArgumentException('No valid userId transmitted!');
+        }
+
+        if (empty($this->getDataFromRequest($request->getContent()))) {
             throw new InvalidArgumentException('Missing user data!');
         }
     }

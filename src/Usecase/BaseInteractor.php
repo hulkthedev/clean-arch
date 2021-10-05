@@ -33,9 +33,9 @@ class BaseInteractor
      * @param string $payload
      * @return array
      */
-    protected function getUserFromRequest(string $payload): array
+    protected function getDataFromRequest(string $payload): array
     {
-        return json_decode($payload, true);
+        return json_decode($payload, true) ?? [];
     }
 
     /**
@@ -44,10 +44,10 @@ class BaseInteractor
      */
     protected function createUserFromRequest(Request $request): User
     {
-        $payload = $this->getUserFromRequest($request->getContent());
+        $payload = $this->getDataFromRequest($request->getContent());
 
         $user = new User();
-        $user->id = $payload['id'] ?? 0;
+        $user->id = $payload['id'] ?? $request->get('userId', 0);
         $user->firstname = $payload['firstname'] ?? '';
         $user->lastname = $payload['lastname'] ?? '';
         $user->age = $payload['age'] ?? 0;

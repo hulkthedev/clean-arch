@@ -50,11 +50,12 @@ class AddUserInteractor extends BaseInteractor
     /**
      * @param Request $request
      * @throws InvalidArgumentException
+     * @throws UnsupportedMediaTypeHttpException
      */
-    private function validateRequest(Request $request)
+    private function validateRequest(Request $request): void
     {
-        $this->validateContentType($request->getContentType());
-        $payload = $this->getUserFromRequest($request->getContent());
+        $this->validateContentType($request->getContentType() ?? 'not set');
+        $payload = $this->getDataFromRequest($request->getContent());
 
         if (!isset($payload['firstname'], $payload['lastname'], $payload['age'], $payload['gender'], $payload['street']) ||
             !isset($payload['houseNumber'], $payload['postcode'], $payload['city'],$payload['country'])) {
