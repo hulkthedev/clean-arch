@@ -2,6 +2,7 @@
 
 namespace App\Usecase\GetUser;
 
+use App\Repository\Exception\DatabaseException;
 use App\Usecase\BaseInteractor;
 use App\Usecase\BaseResponse;
 use App\Usecase\ResultCodes;
@@ -26,6 +27,8 @@ class GetUserInteractor extends BaseInteractor
             $user = $this->getRepository()->getUserById((int)$request->get('userId'));
         } catch (InvalidArgumentException $exception) {
             $code = ResultCodes::INVALID_SYNTAX;
+        } catch (DatabaseException $exception) {
+            $code = ResultCodes::USER_NOT_FOUND;
         } catch (Throwable $throwable) {
             $code = ResultCodes::UNKNOWN_ERROR;
         }

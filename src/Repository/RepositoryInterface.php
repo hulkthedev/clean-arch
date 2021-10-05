@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Repository\Exception\DatabaseException;
-use Exception;
 
 interface RepositoryInterface
 {
     /**
-     * @return bool
+     * @param User $user
+     * @return int
      * @throws DatabaseException
      */
-    public function addUser(): bool;
+    public function addUser(User $user): int;
 
     /**
      * @param int $userId
      * @return array
      * @throws DatabaseException
-     * @throws Exception
      */
     public function getUserById(int $userId): array;
 
@@ -29,9 +29,9 @@ interface RepositoryInterface
     public function deleteUserById(int $userId): bool;
 
     /**
-     * @param int $userId
+     * @param User $user
      * @return bool
      * @throws DatabaseException
      */
-    public function updateUserById(int $userId): bool;
+    public function updateUserById(User $user): bool;
 }

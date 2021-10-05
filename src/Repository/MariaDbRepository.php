@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Repository\Exception\DatabaseException;
 use App\Usecase\ResultCodes;
 use PDO;
@@ -10,8 +11,6 @@ use App\Mapper\MariaDbMapper as Mapper;
 class MariaDbRepository implements RepositoryInterface
 {
     private const DATABASE_CONNECTION_TIMEOUT = 30;
-
-    private const COLUMN_USER_ID = 'id';
 
     private ?PDO $pdo = null;
     private Mapper $mapper;
@@ -27,19 +26,26 @@ class MariaDbRepository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function addUser(): bool
+    public function addUser(User $user): int
     {
-//        $statement = $this->getPdoDriver()->prepare('ADD ...');
-//        $result = $statement->execute([
-//            self::COLUMN_USER_ID => $date,
-//
-//        ]);
-//
-//        if (true !== $result) {
-//            throw new DatabaseException(ResultCodes::USER_CAN_NOT_BE_SAVED);
-//        }
+        $statement = $this->getPdoDriver()->prepare('INSERT INTO ca_user (firstname, lastname, age, gender, street, houseNumber, postcode, city, country) VALUES (:firstname, :lastname, :age, :gender, :street, :houseNumber, :postcode, :city, :country); SELECT LAST_INSERT_ID();');
+        $statement->execute([
+            'firstname' => $user->firstname,
+            'lastname' => $user->lastname,
+            'age' => $user->age,
+            'gender' => $user->gender,
+            'street' => $user->street,
+            'houseNumber' => $user->houseNumber,
+            'postcode' => $user->postcode,
+            'city' => $user->city,
+            'country' => $user->country,
+        ]);
 
-        return true;
+        if (null === $userId = $this->getPdoDriver()->lastInsertId()) {
+            throw new DatabaseException(ResultCodes::USER_CAN_NOT_BE_SAVED);
+        }
+
+        return (int)$userId;
     }
 
     /**
@@ -47,17 +53,15 @@ class MariaDbRepository implements RepositoryInterface
      */
     public function getUserById(int $userId): array
     {
-        $statement = $this->getPdoDriver()->prepare('SELECT * FROM ca_user WHERE id = :id');
-        $statement->execute([
-            self::COLUMN_USER_ID => $userId
-        ]);
+        $statement = $this->getPdoDriver()->prepare('SELECT * FROM ca_user WHERE id=:id');
+        $statement->execute(['id' => $userId]);
+        $user = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-        $entity = $statement->fetchAll(PDO::FETCH_ASSOC);
-        if (empty($entity)) {
+        if (empty($user)) {
             throw new DatabaseException(ResultCodes::USER_NOT_FOUND);
         }
 
-        return $this->getMapper()->mapToList($entity);
+        return $this->getMapper()->mapToList($user);
     }
 
     /**
@@ -65,23 +69,33 @@ class MariaDbRepository implements RepositoryInterface
      */
     public function deleteUserById(int $userId): bool
     {
-//        $statement = $this->getPdoDriver()->prepare('DELETE ...');
-//        $result = $statement->execute([
-//            self::COLUMN_USER_ID => $userId
-//        ]);
-//
-//        if (true !== $result) {
-//            throw new DatabaseException(ResultCodes::USER_CAN_NOT_BE_DELETED);
-//        }
-//
+        $statement = $this->getPdoDriver()->prepare('DELETE FROM ca_user WHERE id=:id');
+        if (true !== $statement->execute(['id' => $userId])) {
+            throw new DatabaseException(ResultCodes::USER_CAN_NOT_BE_DELETED);
+        }
+
         return true;
     }
 
     /**
      * @inheritDoc
      */
-    public function updateUserById(int $userId): bool
+    public function updateUserById(User $user): bool
     {
+//        $statement = $this->getPdoDriver()->prepare('UPDATE ca_user SET ... WHERE id=:id');
+//        $userId = $statement->execute([
+//            'id' => $user->id,
+//            'firstname' => $user->firstname,
+//            'lastname' => $user->lastname,
+//            'age' => $user->age,
+//            'gender' => $user->gender,
+//            'street' => $user->street,
+//            'houseNumber' => $user->houseNumber,
+//            'postcode' => $user->postcode,
+//            'city' => $user->city,
+//            'country' => $user->country,
+//        ]);
+//
 //        $statement = $this->getPdoDriver()->prepare('UPDATE');
 //        $result = $statement->execute([
 //            self::COLUMN_USER_ID => $userId,
@@ -91,7 +105,7 @@ class MariaDbRepository implements RepositoryInterface
 //            throw new DatabaseException(ResultCodes::USER_CAN_NOT_BE_UPDATED);
 //        }
 //
-        return true;
+//        return true;
     }
 
     /**
