@@ -43,7 +43,8 @@ class MariaDbRepository implements RepositoryInterface
             'country' => $user->country,
         ]);
 
-        if (null === $userId = $this->getPdoDriver()->lastInsertId()) {
+        $userId = $this->getPdoDriver()->lastInsertId();
+        if (empty($userId)){
             throw new DatabaseException(ResultCodes::USER_CAN_NOT_BE_SAVED);
         }
 
@@ -106,6 +107,14 @@ class MariaDbRepository implements RepositoryInterface
     }
 
     /**
+     * @param PDO $pdo
+     */
+    public function setPdoDriver(PDO $pdo): void
+    {
+        $this->pdo = $pdo;
+    }
+
+    /**
      * @return PDO
      * @throws DatabaseException
      * @codeCoverageIgnore
@@ -123,9 +132,11 @@ class MariaDbRepository implements RepositoryInterface
                 throw new DatabaseException(ResultCodes::PDO_EXCEPTION_NO_LOGIN_DATA);
             }
 
-            $this->pdo = new PDO("mysql:dbname=$name;host=$host;port=$port;charset=utf8mb4", $user, $password, [
+            $pdo = new PDO("mysql:dbname=$name;host=$host;port=$port;charset=utf8mb4", $user, $password, [
                 PDO::ATTR_TIMEOUT => self::DATABASE_CONNECTION_TIMEOUT
             ]);
+
+            $this->setPdoDriver($pdo);
         }
 
         return $this->pdo;
