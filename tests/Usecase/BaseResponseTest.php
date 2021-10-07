@@ -53,7 +53,7 @@ class BaseResponseTest extends TestCase
         self::assertEquals($httpResponseCode, $response->getHttpStatus());
 
         $presentResponse = $response->presentResponse();
-        self::assertEquals($httpResponseCode, $presentResponse['code']);
+        self::assertEquals($resultCode, $presentResponse['code']);
         self::assertEquals([], $presentResponse['entities']);
     }
 }

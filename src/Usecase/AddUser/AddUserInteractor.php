@@ -2,7 +2,6 @@
 
 namespace App\Usecase\AddUser;
 
-use App\Entity\User;
 use App\Repository\Exception\DatabaseException;
 use App\Usecase\BaseInteractor;
 use App\Usecase\BaseResponse;
