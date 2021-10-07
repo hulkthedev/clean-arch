@@ -43,7 +43,7 @@ class DeleteUserInteractor extends BaseInteractor
             throw new InvalidArgumentException('No userId transmitted!');
         }
 
-        if (!is_integer((int)$request->get('userId'))) {
+        if ((int)$request->get('userId') === 0) {
             throw new InvalidArgumentException('No valid userId transmitted!');
         }
     }
