@@ -14,43 +14,37 @@ class AddUserInteractorTest extends TestCase
 {
     public function test_ExpectExceptionWhenWrongContentTypeIsGiven(): void
     {
-        $interactor = new AddUserInteractor(new MariaDbRepositoryStub());
-
         $request = $this->getHttpRequest(new UserStub(), 'text/html');
-        $response = $interactor->execute($request)->presentResponse();
+        $response = (new AddUserInteractor(new MariaDbRepositoryStub()))->execute($request)->presentResponse();
 
         self::assertEquals(ResultCodes::INVALID_MEDIA_TYPE, $response['code']);
     }
 
     public function test_ExpectExceptionWhenNoDataWasPosted(): void
     {
-        $interactor = new AddUserInteractor(new MariaDbRepositoryStub());
-
         $dto = new UserStub();
         unset($dto->firstname);
 
         $request = $this->getHttpRequest($dto);
-        $response = $interactor->execute($request)->presentResponse();
+        $response = (new AddUserInteractor(new MariaDbRepositoryStub()))->execute($request)->presentResponse();
 
         self::assertEquals(ResultCodes::INVALID_SYNTAX, $response['code']);
     }
 
     public function test_ExpectExceptionWhenDatabaseThrowsError(): void
     {
-        $interactor = new AddUserInteractor(new MariaDbRepositoryStub(true));
-
         $request = $this->getHttpRequest(new UserStub());
-        $response = $interactor->execute($request)->presentResponse();
+        $response = (new AddUserInteractor(new MariaDbRepositoryStub(true)))
+            ->execute($request)
+            ->presentResponse();
 
         self::assertEquals(ResultCodes::USER_CAN_NOT_BE_SAVED, $response['code']);
     }
 
     public function test_ExpectNoError(): void
     {
-        $interactor = new AddUserInteractor(new MariaDbRepositoryStub());
-
         $request = $this->getHttpRequest(new UserStub());
-        $response = $interactor->execute($request);
+        $response = (new AddUserInteractor(new MariaDbRepositoryStub()))->execute($request);
 
         self::assertEquals(ResultCodes::SUCCESS_CREATED, $response->presentResponse()['code']);
         self::assertEquals(['Location' => 'http://:/1000'], $response->getHeaders());
