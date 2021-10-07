@@ -57,8 +57,6 @@ class DeleteUserInteractorTest extends TestCase
      */
     private function getHttpRequest(array $query = ['userId' => 1000]): Request
     {
-        $request = new Request($query);
-
-        return $request;
+        return new Request($query);
     }
 }
