@@ -17,9 +17,13 @@ fi
 echo "Starting PHPUnit Tests..."
 
 docker exec --user="$(id -u)":"$(id -g)" \
-    -i ${SERVICE} ./vendor/bin/phpunit \
+      -i ${SERVICE} ./vendor/bin/phpunit \
       --colors=always \
-      --configuration tests
+      --configuration tests \
+      --coverage-clover var/reports/clover.xml \
+      --log-junit var/reports/junit.xml \
+      --cache-result-file var/reports/.phpunit.result.cache \
+      --testdox
 
 exit $?
 

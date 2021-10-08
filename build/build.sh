@@ -5,6 +5,16 @@ set -eo pipefail
 BUILD_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 PROJECT_DIR="$(dirname "${BUILD_DIR}")";
 
+# remove databases (root)
+if [ -d "var/lib" ]; then
+    sudo rm -R var/lib
+fi
+
+# remove test metrics
+if [ -d "var/reports" ]; then
+    rm -R var/lib
+fi
+
 # create directories
 mkdir -p var/log var/cache
 chmod 777 var/log var/cache

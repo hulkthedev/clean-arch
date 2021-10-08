@@ -28,7 +28,8 @@
 /web/uploads/
 
 # PHPUnit
-/app/phpunit.xml
+/test-reports/
+/var/reports
 /phpunit.xml
 
 # Composer PHAR
