@@ -18,8 +18,8 @@ addons:
 
 before_script:
   - travis_retry composer self-update
-  - travis_retry composer install --no-progress --no-interaction --prefer-dist --optimize-autoloader
+  - travis_retry composer install --prefer-dist --no-progress --no-interaction --optimize-autoloader
 
 script:
-  - phpunit -c tests --coverage-clover=clover.xml --log-junit junit.xml
+  - phpunit -c tests --coverage-clover var/reports/clover.xml --log-junit var/reports/junit.xml
   - sonar-scanner -X
