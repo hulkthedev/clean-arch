@@ -1,4 +1,4 @@
-openapi: 3.0.1
+openapi: 3.0.3
 
 info:
   title: clean arch demo
@@ -26,7 +26,7 @@ paths:
           content:
             'application/json':
               schema:
-                $ref: '#/components/schemas/SuccessEntityResponse'
+                $ref: '#/components/schemas/SuccessResponse'
         400:
           description: invalid parameter
           content:
@@ -46,118 +46,200 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServerErrorResponse'
 
-  /ca-example/{userId}:
-    get:
-      description: load user
-      parameters:
-        - name: userId
-          in: path
-          description: user id
-          required: true
-          schema:
-            type: integer
-      responses:
-        200:
-          description: successful
-          content:
-            'application/json':
-              schema:
-                $ref: '#/components/schemas/SuccessEntityResponse'
-        400:
-          description: invalid parameter
-          content:
-            'application/json':
-              schema:
-                $ref: '#/components/schemas/ClientErrorResponse'
-        415:
-          description: invalid media type
-          content:
-            'application/json':
-              schema:
-                $ref: '#/components/schemas/ClientErrorResponse'
-        500:
-          description: internal server error
-          content:
-            'application/json':
-              schema:
-                $ref: '#/components/schemas/ServerErrorResponse'
-    delete:
-      description: delete user
-      parameters:
-        - name: userId
-          in: path
-          description: user id
-          required: true
-          schema:
-            type: integer
-      responses:
-        200:
-          description: successful
-          content:
-            'application/json':
-              schema:
-                $ref: '#/components/schemas/SuccessEntityResponse'
-        400:
-          description: invalid parameter
-          content:
-            'application/json':
-              schema:
-                $ref: '#/components/schemas/ClientErrorResponse'
-        415:
-          description: invalid media type
-          content:
-            'application/json':
-              schema:
-                $ref: '#/components/schemas/ClientErrorResponse'
-        500:
-          description: internal server error
-          content:
-            'application/json':
-              schema:
-                $ref: '#/components/schemas/ServerErrorResponse'
-    patch:
-      description: update user
-      parameters:
-        - name: userId
-          in: path
-          description: user id
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        description: working mode
-        content:
-          'application/json':
-            schema:
-              type: string
-        required: false
-      responses:
-        200:
-          description: successful
-          content:
-            'application/json':
-              schema:
-                $ref: '#/components/schemas/SuccessEntityResponse'
-        400:
-          description: invalid parameter syntax
-          content:
-            'application/json':
-              schema:
-                $ref: '#/components/schemas/ClientErrorResponse'
-        415:
-          description: invalid media type
-          content:
-            'application/json':
-              schema:
-                $ref: '#/components/schemas/ClientErrorResponse'
-        500:
-          description: internal server error
-          content:
-            'application/json':
-              schema:
-                $ref: '#/components/schemas/ServerErrorResponse'
+#  /ca-example/{userId}:
+#    get:
+#      description: load user
+#      parameters:
+#        - name: userId
+#          in: path
+#          description: user id
+#          required: true
+#          schema:
+#            type: integer
+#      responses:
+#        200:
+#          description: successful
+#          content:
+#            'application/json':
+#              schema:
+#                $ref: '#/components/schemas/SuccessResponse'
+#        400:
+#          description: invalid parameter
+#          content:
+#            'application/json':
+#              schema:
+#                $ref: '#/components/schemas/ClientErrorResponse'
+#        415:
+#          description: invalid media type
+#          content:
+#            'application/json':
+#              schema:
+#                $ref: '#/components/schemas/ClientErrorResponse'
+#        500:
+#          description: internal server error
+#          content:
+#            'application/json':
+#              schema:
+#                $ref: '#/components/schemas/ServerErrorResponse'
+#    delete:
+#      description: delete user
+#      parameters:
+#        - name: userId
+#          in: path
+#          description: user id
+#          required: true
+#          schema:
+#            type: integer
+#      responses:
+#        200:
+#          description: successful
+#          content:
+#            'application/json':
+#              schema:
+#                $ref: '#/components/schemas/SuccessResponse'
+#        400:
+#          description: invalid parameter
+#          content:
+#            'application/json':
+#              schema:
+#                $ref: '#/components/schemas/ClientErrorResponse'
+#        415:
+#          description: invalid media type
+#          content:
+#            'application/json':
+#              schema:
+#                $ref: '#/components/schemas/ClientErrorResponse'
+#        500:
+#          description: internal server error
+#          content:
+#            'application/json':
+#              schema:
+#                $ref: '#/components/schemas/ServerErrorResponse'
+#    patch:
+#      description: update user
+#      parameters:
+#        - name: userId
+#          in: path
+#          description: user id
+#          required: true
+#          schema:
+#            type: integer
+#      requestBody:
+#        description: working mode
+#        content:
+#          'application/json':
+#            schema:
+#              type: string
+#        required: false
+#      responses:
+#        200:
+#          description: successful
+#          content:
+#            'application/json':
+#              schema:
+#                $ref: '#/components/schemas/SuccessResponse'
+#        400:
+#          description: invalid parameter syntax
+#          content:
+#            'application/json':
+#              schema:
+#                $ref: '#/components/schemas/ClientErrorResponse'
+#        415:
+#          description: invalid media type
+#          content:
+#            'application/json':
+#              schema:
+#                $ref: '#/components/schemas/ClientErrorResponse'
+#        500:
+#          description: internal server error
+#          content:
+#            'application/json':
+#              schema:
+#                $ref: '#/components/schemas/ServerErrorResponse'
 
 components:
+  parameters:
+    userId:
+      name: userId
+      in: path
+      description: user id
+      required: true
+      example: 1
+      schema:
+        type: integer
+    firstname:
+      name: firstname
+      in: raw
+      description: users firstname
+      required: true
+      example: Max
+      schema:
+        type: string
+    lastname:
+      name: lastname
+      in: raw
+      description: users lastname
+      required: true
+      example: Mustermann
+      schema:
+        type: string
+    age:
+      name: age
+      in: path
+      description: users age
+      required: true
+      example: 30
+      schema:
+        type: integer
+    gender:
+      name: gender
+      in: raw
+      description: users gender
+      required: true
+      example: m
+      schema:
+        type: string
+    street:
+      name: street
+      in: raw
+      description: users street
+      required: true
+      example: Musterstrasse
+      schema:
+        type: string
+    houseNumber:
+      name: houseNumber
+      in: raw
+      description: users house number
+      required: true
+      example: 11
+      schema:
+        type: string
+    postcode:
+      name: postcode
+      in: raw
+      description: users postcode
+      required: true
+      example: 12345
+      schema:
+        type: string
+    city:
+      name: city
+      in: raw
+      description: users city
+      required: true
+      example: Berlin
+      schema:
+        type: string
+    country:
+      name: country
+      in: raw
+      description: users country
+      required: true
+      example: Deutschland
+      schema:
+        type: string
+
   schemas:
     ClientErrorResponse:
       type: object
@@ -170,8 +252,12 @@ components:
             |  -1  | Invalid parameter
             |  -2  | Invalid media type
             |  -3  | Invalid json content
-        message:
-          type: string
+        entities:
+          type: array
+          items:
+            type: object
+            properties: {}
+            description: always empty on error
 
     ServerErrorResponse:
       type: object
@@ -182,21 +268,21 @@ components:
             | Code | Description
             +------+------------
             | -10  | PDO Exception
-            | -11  | PDO Exception no login data
+            | -11  | PDO Exception (no/wrong) login data
             | -12  | DB is empty
-            | -13  | Entity not found
-            | -14  | Entity can not be saved
-            | -15  | Entity can not be deleted
-            | -16  | Entity can not be updated
+            | -13  | User not found
+            | -14  | User can not be saved
+            | -15  | User can not be deleted
+            | -16  | User can not be updated
             | -99  | Unknown error
         entities:
           type: array
           items:
             type: object
             properties: {}
-            description: always empty array on error
+            description: always empty on error
 
-    SuccessEntityResponse:
+    SuccessResponse:
       type: object
       properties:
         code:
@@ -205,111 +291,76 @@ components:
             | Code | Description
             +------+------------
             |   1  | Success
+            |   2  | Succesful Created
+            |   3  | Succesful No Content
         entities:
           type: array
-          description: filled on get methods, else empty object
+          description: filled on "Code 1" only
           items:
             type: object
             properties:
-              weekDays:
-                type: array
-                items:
-                  type: object
-                  properties: {}
-              weekNo:
+              id:
                 type: integer
-              weekDelta:
+              firstname:
+                type: string
+              lastname:
+                type: string
+              age:
                 type: integer
-  parameters:
-    employerId:
-      name: employerId
-      in: path
-      description: employer id
-      required: true
-      example: 1
-      schema:
-        type: integer
-    employerWorkingTimeId:
-      name: employerWorkingTimeId
-      in: path
-      description: employer working time id
-      required: true
-      example: 1
-      schema:
-        type: integer
-    date:
-      name: date
-      in: path
-      description: date (YYYY-MM-DD)
-      required: true
-      example: 2020-01-01
-      schema:
-        type: string
-    toDate:
-      name: toDate
-      in: path
-      description: date (YYYY-MM-DD)
-      required: true
-      example: 2020-01-01
-      schema:
-        type: string
+              gender:
+                type: string
+              street:
+                type: string
+              houseNumber:
+                type: string
+              postcode:
+                type: string
+              city:
+                type: string
+              country:
+                type: string
 
   requestBodies:
-    AddEntityBody:
+    AddUserBody:
       required: true
-      description: required parameter for add
+      description: required parameter bag for add user
       content:
         'application/json':
           schema:
             type: object
             properties:
-              begin:
-                $ref: '#/components/requestBodies/begin'
-              mode:
-                $ref: '#/components/requestBodies/mode'
+              firstname:
+                $ref: '#/components/parameters/firstname'
+              lastname:
+                $ref: '#/components/parameters/lastname'
+              age:
+                $ref: '#/components/parameters/age'
+              gender:
+                $ref: '#/components/parameters/gender'
+              street:
+                $ref: '#/components/parameters/street'
+              houseNumber:
+                $ref: '#/components/parameters/houseNumber'
+              postcode:
+                $ref: '#/components/parameters/postcode'
+              city:
+                $ref: '#/components/parameters/city'
+              country:
+                $ref: '#/components/parameters/country'
 
-    UpdateEntityBody:
-      required: true
-      description: required parameter for update
-      content:
-        'application/json':
-          schema:
-            type: object
-            properties:
-              begin:
-                $ref: '#/components/requestBodies/begin'
-              end:
-                $ref: '#/components/requestBodies/end'
-              break:
-                $ref: '#/components/requestBodies/break'
-              mode:
-                $ref: '#/components/requestBodies/mode'
-
-    begin:
-      required: true
-      description: timestamp of beginning working
-      content:
-        'application/json':
-          schema:
-            type: integer
-    end:
-      required: true
-      description: timestamp of ending working
-      content:
-        'application/json':
-          schema:
-            type: integer
-    break:
-      required: true
-      description: break in minutes
-      content:
-        'application/json':
-          schema:
-            type: integer
-    mode:
-      required: true
-      description: working mode
-      content:
-        'application/json':
-          schema:
-            type: string
+#    UpdateEntityBody:
+#      required: true
+#      description: required parameter for update
+#      content:
+#        'application/json':
+#          schema:
+#            type: object
+#            properties:
+#              begin:
+#                $ref: '#/components/requestBodies/begin'
+#              end:
+#                $ref: '#/components/requestBodies/end'
+#              break:
+#                $ref: '#/components/requestBodies/break'
+#              mode:
+#                $ref: '#/components/requestBodies/mode'
