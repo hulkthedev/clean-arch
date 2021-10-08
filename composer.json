@@ -1,5 +1,5 @@
 {
-    "name": "sym5/clean-arch-example",
+    "name": "hulkthedev/symfony-clean-arch",
     "type": "project",
     "license": "MIT",
     "description": "A simple REST based micro service to demonstrate usage of REST, clean architecture and behat testing",
@@ -11,7 +11,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": ">=8",
+        "php": "^7.4",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-json": "*",
