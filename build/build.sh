@@ -6,13 +6,13 @@ BUILD_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 PROJECT_DIR="$(dirname "${BUILD_DIR}")";
 
 # remove databases (root)
-if [ -d "var/lib" ]; then
-    sudo rm -R var/lib
-fi
+#if [ -d "var/lib" ]; then
+#    sudo rm -R var/lib
+#fi
 
 # remove test metrics
 if [ -d "var/reports" ]; then
-    rm -R var/lib
+    rm -R var/reports
 fi
 
 # create directories
@@ -22,7 +22,7 @@ chmod 777 var/log var/cache
 # install composer
 COMPOSER_CACHE_VOLUME=composer-cache
 COMPOSER_IMAGE="composer"
-COMPOSER_TAG="2.1.8"
+COMPOSER_TAG="2.1.9"
 
 docker run --rm -i -t \
     -v ${CACHE_VOLUME}:/tmp \
