@@ -13,234 +13,182 @@ servers:
 paths:
   /ca-example/:
     put:
-      description: add user
+      summary: add user
       requestBody:
         required: true
         content:
-          'application/json':
+          application/json:
             schema:
-              $ref: '#/components/requestBodies/AddUserBody'
+              $ref: '#/components/schemas/AddUserJsonRequest'
       responses:
         201:
           description: successful
           content:
-            'application/json':
+            application/json:
               schema:
-                $ref: '#/components/schemas/SuccessResponse'
+                $ref: '#/components/schemas/SuccessEmptyResponse'
         400:
           description: invalid parameter
           content:
-            'application/json':
+            application/json:
               schema:
                 $ref: '#/components/schemas/ClientErrorResponse'
         415:
           description: invalid media type
           content:
-            'application/json':
+            application/json:
               schema:
                 $ref: '#/components/schemas/ClientErrorResponse'
         500:
           description: internal server error
           content:
-            'application/json':
+            application/json:
               schema:
                 $ref: '#/components/schemas/ServerErrorResponse'
 
-#  /ca-example/{userId}:
-#    get:
-#      description: load user
-#      parameters:
-#        - name: userId
-#          in: path
-#          description: user id
-#          required: true
-#          schema:
-#            type: integer
-#      responses:
-#        200:
-#          description: successful
-#          content:
-#            'application/json':
-#              schema:
-#                $ref: '#/components/schemas/SuccessResponse'
-#        400:
-#          description: invalid parameter
-#          content:
-#            'application/json':
-#              schema:
-#                $ref: '#/components/schemas/ClientErrorResponse'
-#        415:
-#          description: invalid media type
-#          content:
-#            'application/json':
-#              schema:
-#                $ref: '#/components/schemas/ClientErrorResponse'
-#        500:
-#          description: internal server error
-#          content:
-#            'application/json':
-#              schema:
-#                $ref: '#/components/schemas/ServerErrorResponse'
-#    delete:
-#      description: delete user
-#      parameters:
-#        - name: userId
-#          in: path
-#          description: user id
-#          required: true
-#          schema:
-#            type: integer
-#      responses:
-#        200:
-#          description: successful
-#          content:
-#            'application/json':
-#              schema:
-#                $ref: '#/components/schemas/SuccessResponse'
-#        400:
-#          description: invalid parameter
-#          content:
-#            'application/json':
-#              schema:
-#                $ref: '#/components/schemas/ClientErrorResponse'
-#        415:
-#          description: invalid media type
-#          content:
-#            'application/json':
-#              schema:
-#                $ref: '#/components/schemas/ClientErrorResponse'
-#        500:
-#          description: internal server error
-#          content:
-#            'application/json':
-#              schema:
-#                $ref: '#/components/schemas/ServerErrorResponse'
-#    patch:
-#      description: update user
-#      parameters:
-#        - name: userId
-#          in: path
-#          description: user id
-#          required: true
-#          schema:
-#            type: integer
-#      requestBody:
-#        description: working mode
-#        content:
-#          'application/json':
-#            schema:
-#              type: string
-#        required: false
-#      responses:
-#        200:
-#          description: successful
-#          content:
-#            'application/json':
-#              schema:
-#                $ref: '#/components/schemas/SuccessResponse'
-#        400:
-#          description: invalid parameter syntax
-#          content:
-#            'application/json':
-#              schema:
-#                $ref: '#/components/schemas/ClientErrorResponse'
-#        415:
-#          description: invalid media type
-#          content:
-#            'application/json':
-#              schema:
-#                $ref: '#/components/schemas/ClientErrorResponse'
-#        500:
-#          description: internal server error
-#          content:
-#            'application/json':
-#              schema:
-#                $ref: '#/components/schemas/ServerErrorResponse'
-
+  /ca-example/{userId}:
+    get:
+      description: load user
+      parameters:
+        - name: userId
+          in: path
+          description: user id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessUserResponse'
+        400:
+          description: invalid parameter
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        415:
+          description: invalid media type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        500:
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+    delete:
+      description: delete user
+      parameters:
+        - name: userId
+          in: path
+          description: user id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessEmptyResponse'
+        400:
+          description: invalid parameter
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        415:
+          description: invalid media type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        500:
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+    patch:
+      description: update user
+      parameters:
+        - name: userId
+          in: path
+          description: user id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddUserJsonRequest'
+      responses:
+        200:
+          description: successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessEmptyResponse'
+        400:
+          description: invalid parameter syntax
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        415:
+          description: invalid media type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        500:
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
 components:
-  parameters:
-    userId:
-      name: userId
-      in: path
-      description: user id
-      required: true
-      example: 1
-      schema:
-        type: integer
-    firstname:
-      name: firstname
-      in: raw
-      description: users firstname
-      required: true
-      example: Max
-      schema:
-        type: string
-    lastname:
-      name: lastname
-      in: raw
-      description: users lastname
-      required: true
-      example: Mustermann
-      schema:
-        type: string
-    age:
-      name: age
-      in: path
-      description: users age
-      required: true
-      example: 30
-      schema:
-        type: integer
-    gender:
-      name: gender
-      in: raw
-      description: users gender
-      required: true
-      example: m
-      schema:
-        type: string
-    street:
-      name: street
-      in: raw
-      description: users street
-      required: true
-      example: Musterstrasse
-      schema:
-        type: string
-    houseNumber:
-      name: houseNumber
-      in: raw
-      description: users house number
-      required: true
-      example: 11
-      schema:
-        type: string
-    postcode:
-      name: postcode
-      in: raw
-      description: users postcode
-      required: true
-      example: 12345
-      schema:
-        type: string
-    city:
-      name: city
-      in: raw
-      description: users city
-      required: true
-      example: Berlin
-      schema:
-        type: string
-    country:
-      name: country
-      in: raw
-      description: users country
-      required: true
-      example: Deutschland
-      schema:
-        type: string
-
   schemas:
+    AddUserJsonRequest:
+      type: object
+      properties:
+        firstname:
+          $ref: '#/components/parameters/firstname'
+        lastname:
+          $ref: '#/components/parameters/lastname'
+        age:
+          $ref: '#/components/parameters/age'
+        gender:
+          $ref: '#/components/parameters/gender'
+        street:
+          $ref: '#/components/parameters/street'
+        houseNumber:
+          $ref: '#/components/parameters/houseNumber'
+        postcode:
+          $ref: '#/components/parameters/postcode'
+        city:
+          $ref: '#/components/parameters/city'
+        country:
+          $ref: '#/components/parameters/country'
+      required:
+        - firstname
+        - lastname
+        - age
+        - gender
+        - street
+        - houseNumber
+        - postcode
+        - city
+        - country
+
     ClientErrorResponse:
       type: object
       properties:
@@ -282,7 +230,7 @@ components:
             properties: {}
             description: always empty on error
 
-    SuccessResponse:
+    SuccessUserResponse:
       type: object
       properties:
         code:
@@ -291,44 +239,14 @@ components:
             | Code | Description
             +------+------------
             |   1  | Success
-            |   2  | Succesful Created
-            |   3  | Succesful No Content
         entities:
           type: array
-          description: filled on "Code 1" only
+          description: user dto
           items:
             type: object
             properties:
               id:
-                type: integer
-              firstname:
-                type: string
-              lastname:
-                type: string
-              age:
-                type: integer
-              gender:
-                type: string
-              street:
-                type: string
-              houseNumber:
-                type: string
-              postcode:
-                type: string
-              city:
-                type: string
-              country:
-                type: string
-
-  requestBodies:
-    AddUserBody:
-      required: true
-      description: required parameter bag for add user
-      content:
-        'application/json':
-          schema:
-            type: object
-            properties:
+                $ref: '#/components/parameters/userId'
               firstname:
                 $ref: '#/components/parameters/firstname'
               lastname:
@@ -348,19 +266,100 @@ components:
               country:
                 $ref: '#/components/parameters/country'
 
-#    UpdateEntityBody:
-#      required: true
-#      description: required parameter for update
-#      content:
-#        'application/json':
-#          schema:
-#            type: object
-#            properties:
-#              begin:
-#                $ref: '#/components/requestBodies/begin'
-#              end:
-#                $ref: '#/components/requestBodies/end'
-#              break:
-#                $ref: '#/components/requestBodies/break'
-#              mode:
-#                $ref: '#/components/requestBodies/mode'
+    SuccessEmptyResponse:
+      type: object
+      properties:
+        code:
+          type: number
+          description: |
+            | Code | Description
+            +------+------------
+            |   2  | Succesful Created
+            |   3  | Succesful No Content
+        entities:
+          type: array
+          items:
+            type: object
+            properties: {}
+
+  parameters:
+    userId:
+      name: userId
+      in: path
+      description: user id
+      required: true
+      example: 1
+      schema:
+        type: integer
+    firstname:
+      name: firstname
+      in: query
+      description: users firstname
+      required: true
+      example: Max
+      schema:
+        type: string
+    lastname:
+      name: lastname
+      in: query
+      description: users lastname
+      required: true
+      example: Mustermann
+      schema:
+        type: string
+    age:
+      name: age
+      in: query
+      description: users age
+      required: true
+      example: 30
+      schema:
+        type: integer
+    gender:
+      name: gender
+      in: query
+      description: users gender
+      required: true
+      example: m
+      schema:
+        type: string
+    street:
+      name: street
+      in: query
+      description: users street
+      required: true
+      example: Musterstrasse
+      schema:
+        type: string
+    houseNumber:
+      name: houseNumber
+      in: query
+      description: users house number
+      required: true
+      example: 11
+      schema:
+        type: string
+    postcode:
+      name: postcode
+      in: query
+      description: users postcode
+      required: true
+      example: 12345
+      schema:
+        type: string
+    city:
+      name: city
+      in: query
+      description: users city
+      required: true
+      example: Berlin
+      schema:
+        type: string
+    country:
+      name: country
+      in: query
+      description: users country
+      required: true
+      example: Deutschland
+      schema:
+        type: string
