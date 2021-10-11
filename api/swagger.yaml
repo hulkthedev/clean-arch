@@ -3,12 +3,12 @@ openapi: 3.0.3
 info:
   title: clean arch demo
   contact:
-    url: https://www.%placeholder%.de
+    url: 127.0.0.1:3666
     email: fatal.error.27@gmail.com
   version: "1.0"
 
 servers:
-  - url: https://www.PLACEHOLDER.de/ca-example/
+  - url: 127.0.0.1:3666
 
 paths:
   /ca-example/:
@@ -48,7 +48,7 @@ paths:
 
   /ca-example/{userId}:
     get:
-      description: load user
+      summary: load user
       parameters:
         - name: userId
           in: path
@@ -82,7 +82,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServerErrorResponse'
     delete:
-      description: delete user
+      summary: delete user
       parameters:
         - name: userId
           in: path
@@ -116,7 +116,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServerErrorResponse'
     patch:
-      description: update user
+      summary: update user
       parameters:
         - name: userId
           in: path
