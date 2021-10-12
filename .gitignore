@@ -7,9 +7,6 @@
 # Email spool folder
 /app/spool/*
 
-# Cache, session files and logs (Symfony3)
-# Logs (Symfony4)
-/var
 
 # Parameters
 /app/config/parameters.yml
@@ -31,6 +28,7 @@
 /test-reports/
 /var/reports
 /phpunit.xml
+.phpunit.result.cache
 
 # Composer PHAR
 /composer.phar
@@ -40,3 +38,15 @@
 
 # Embedded web-server pid file
 /.web-server-pid
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+###< symfony/framework-bundle ###
+###> friends-of-behat/symfony-extension ###
+/behat.yml
+###< friends-of-behat/symfony-extension ###

@@ -11,13 +11,13 @@ PROJECT_DIR="$(dirname "${BUILD_DIR}")";
 #fi
 
 # remove test metrics
-if [ -d "var/reports" ]; then
-    rm -R var/reports
-fi
+#if [ -d "var/reports" ]; then
+#    rm -R var/reports
+#fi
 
 # create directories
-mkdir -p var/log var/cache
-chmod 777 var/log var/cache
+#mkdir -p var/log var/cache
+#chmod 777 var/log var/cache
 
 # install composer
 COMPOSER_CACHE_VOLUME=composer-cache
@@ -34,12 +34,15 @@ docker run --rm -i -t \
     -c "composer global require hirak/prestissimo &> /dev/null; composer install --prefer-dist --no-progress --no-interaction --optimize-autoloader"
 
 # build images
-cd "${PROJECT_DIR}" || exit
-docker-compose -f docker-compose.yml build
+#cd "${PROJECT_DIR}" || exit
+#docker-compose -f docker-compose.yml build
 
 # docker exec php container
 # .env MySQL aktivieren
 # php bin/console doctrine:database:create
+
+# behat
+# composer recipes:install friends-of-behat/symfony-extension --force -v
 
 # run container
 #cd "${PROJECT_DIR}" || exit

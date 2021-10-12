@@ -7,5 +7,20 @@
     },
     "behat/transliterator": {
         "version": "v1.3.0"
+    },
+    "friends-of-behat/symfony-extension": {
+        "version": "2.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "2.0",
+            "ref": "1e012e04f573524ca83795cd19df9ea690adb604"
+        },
+        "files": [
+            "behat.yml.dist",
+            "config/services_test.yaml",
+            "features/demo.feature",
+            "tests/Behat/DemoContext.php"
+        ]
     }
 }

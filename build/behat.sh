@@ -16,7 +16,7 @@ fi
 
 echo "Starting Behat Tests..."
 
-docker exec -i ${SERVICE} ./vendor/bin/behat $@
+docker exec -i ${SERVICE} ./vendor/bin/behat --colors $@
 
 exit $?
 

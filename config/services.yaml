@@ -38,3 +38,6 @@ services:
 
     App\Mapper\:
         resource: '../src/Mapper/*'
+
+    App\Tests\Behat\:
+        resource: '../tests/Behat/*'
