@@ -6,7 +6,7 @@ use App\Repository\Exception\DatabaseException;
 use App\Usecase\BaseInteractor;
 use App\Usecase\BaseResponse;
 use App\Usecase\ResultCodes;
-use Symfony\Component\HttpClient\Exception\InvalidArgumentException;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\UnsupportedMediaTypeHttpException;
 use Throwable;
@@ -25,7 +25,7 @@ class GetUserInteractor extends BaseInteractor
         try {
             $this->validateRequest($request);
             $user = $this->getRepository()->getUserById((int)$request->get('userId'));
-        } catch (InvalidArgumentException $exception) {
+        } catch (BadRequestException $exception) {
             $code = ResultCodes::INVALID_SYNTAX;
         } catch (DatabaseException $exception) {
             $code = ResultCodes::USER_NOT_FOUND;
@@ -39,16 +39,16 @@ class GetUserInteractor extends BaseInteractor
     /**
      * @param Request $request
      * @throws UnsupportedMediaTypeHttpException
-     * @throws InvalidArgumentException
+     * @throws BadRequestException
      */
     private function validateRequest(Request $request): void
     {
         if (null === $request->get('userId')) {
-            throw new InvalidArgumentException('No userId transmitted!');
+            throw new BadRequestException('No userId transmitted!');
         }
 
         if ((int)$request->get('userId') === 0) {
-            throw new InvalidArgumentException('No valid userId transmitted!');
+            throw new BadRequestException('No valid userId transmitted!');
         }
     }
 }

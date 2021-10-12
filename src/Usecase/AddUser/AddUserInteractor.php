@@ -6,7 +6,7 @@ use App\Repository\Exception\DatabaseException;
 use App\Usecase\BaseInteractor;
 use App\Usecase\BaseResponse;
 use App\Usecase\ResultCodes;
-use Symfony\Component\HttpClient\Exception\InvalidArgumentException;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\UnsupportedMediaTypeHttpException;
 use Throwable;
@@ -32,7 +32,7 @@ class AddUserInteractor extends BaseInteractor
             $header = ['Location' => "{$uri}{$userId}"];
         } catch (UnsupportedMediaTypeHttpException $exception) {
             $code = ResultCodes::INVALID_MEDIA_TYPE;
-        } catch (InvalidArgumentException $exception) {
+        } catch (BadRequestException $exception) {
             $code = ResultCodes::INVALID_SYNTAX;
         } catch (DatabaseException $exception) {
             $code = ResultCodes::USER_CAN_NOT_BE_SAVED;
@@ -48,7 +48,7 @@ class AddUserInteractor extends BaseInteractor
 
     /**
      * @param Request $request
-     * @throws InvalidArgumentException
+     * @throws BadRequestException
      * @throws UnsupportedMediaTypeHttpException
      */
     private function validateRequest(Request $request): void
@@ -58,7 +58,7 @@ class AddUserInteractor extends BaseInteractor
 
         if (!isset($payload['firstname'], $payload['lastname'], $payload['age'], $payload['gender'], $payload['street']) ||
             !isset($payload['houseNumber'], $payload['postcode'], $payload['city'],$payload['country'])) {
-            throw new InvalidArgumentException('Missing user data!');
+            throw new BadRequestException('Missing user data!');
         }
     }
 }

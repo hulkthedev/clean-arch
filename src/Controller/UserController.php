@@ -16,13 +16,13 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class UserController
 {
-    private SerializerInterface $serializer;
-
-    public function __construct()
-    {
-        $serializer = new Serializer([new ObjectNormalizer(), new DateTimeNormalizer()], [new JsonEncoder()]);
-        $this->serializer =  $serializer;
-    }
+//    private SerializerInterface $serializer;
+//
+//    public function __construct()
+//    {
+//        $serializer = new Serializer([new ObjectNormalizer(), new DateTimeNormalizer()], [new JsonEncoder()]);
+//        $this->serializer =  $serializer;
+//    }
 
     /**
      * @param Request $request
@@ -76,7 +76,6 @@ class UserController
      */
     protected function createResponse($content, int $status = Response::HTTP_OK, array $header = []): Response
     {
-        $json = $this->serializer->serialize($content, 'json');
-        return new Response($json, $status, array_merge(['Content-Type' => 'application/json'], $header));
+        return new Response(json_encode($content), $status, array_merge(['Content-Type' => 'application/json'], $header));
     }
 }
