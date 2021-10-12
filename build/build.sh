@@ -20,12 +20,10 @@ PROJECT_DIR="$(dirname "${BUILD_DIR}")";
 #chmod 777 var/log var/cache
 
 # install composer
-COMPOSER_CACHE_VOLUME=composer-cache
 COMPOSER_IMAGE="composer"
 COMPOSER_TAG="2.1.9"
 
 docker run --rm -i -t \
-    -v ${CACHE_VOLUME}:/tmp \
     -v "${PROJECT_DIR}":/app \
     --user "$(id -u)":"$(id -g)" \
     -w="/app" \

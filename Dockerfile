@@ -8,7 +8,6 @@ RUN apk update && \
         $PHPIZE_DEPS \
         php8-dev \
         php8-pdo \
-        php8-mysqli \
         php8-pdo_mysql \
         bash
 
@@ -16,7 +15,6 @@ RUN pecl install \
     xdebug-3.1.0
 
 RUN docker-php-ext-install \
-    mysqli \
     pdo \
     pdo_mysql
 
