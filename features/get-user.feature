@@ -1,5 +1,6 @@
 Feature:
-  /GET
+  valid userId
+  valid response
 
   Scenario: I want to see a Json Response
     When I set userId to "1"
