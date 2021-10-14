@@ -56,12 +56,15 @@ class DemoContext implements Context
     }
 
     /**
-     * @Then /^I should see a json response:$/
+     * @Then I should see a json response with http status :httpStatus
+     * @param int $httpStatus
      * @param string $expectedResponseContent
      * @throws Exception
      */
-    public function iShouldSeeAJsonResponse(string $expectedResponseContent): void
+    public function iShouldSeeAJsonResponse(int $httpStatus, string $expectedResponseContent): void
     {
+        $this->validateHttpStatus($httpStatus);
+
         $responseAsArray = json_decode($this->response->getContent(), true);
         $expectedResponseAsArray = json_decode($expectedResponseContent, true);
 
@@ -80,6 +83,17 @@ class DemoContext implements Context
             );
 
             throw new Exception($exceptionMessage);
+        }
+    }
+
+    /**
+     * @param int $httpStatus
+     * @throws Exception
+     */
+    private function validateHttpStatus(int $httpStatus): void
+    {
+        if ($this->response->getStatusCode() !== $httpStatus) {
+            throw new Exception('HttpStatus does not match');
         }
     }
 }
