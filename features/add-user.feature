@@ -1,5 +1,5 @@
 Feature:
-  valid userId
+  valid user data
   valid response
 
   Scenario: I want to see a Json Response
