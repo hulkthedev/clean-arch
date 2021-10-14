@@ -26,10 +26,10 @@ class DemoContext implements Context
     private string $user;
     private string $userId = '';
     private string $path = '/ca-example/';
+    private string $contentType = 'application/json';
 
     public function __construct(KernelInterface $kernel)
     {
-
 //        ini_set('display_errors', '0');
 //        error_reporting(E_ALL & ~E_STRICT);
 //        define('BEHAT_ERROR_REPORTING', E_ERROR);
@@ -47,23 +47,31 @@ class DemoContext implements Context
     }
 
     /**
-     * @When I create an new User with Name :name, :age years old, living in :address
-     * @param string $name
+     * @When set content type to :contentType
+     * @param string $contentType
+     */
+    public function iSetContentType(string $contentType): void
+    {
+        $this->contentType = $contentType;
+    }
+
+    /**
+     * @When I create an new User with Name :fistname, :lastname, :age years old, living in :address
+     * @param string $fistname
+     * @param string $lastname
      * @param int $age
      * @param string $address
      * @throws Exception
      */
-    public function iCreateANewUser(string $name, int $age, string $address): void
+    public function iCreateANewUser(string $fistname, string $lastname, int $age, string $address): void
     {
-        $splitName = explode(' ', $name);
         $splitAddress = explode(', ', $address);
-
         $streetAndHouseNumber = explode(' ', $splitAddress[0]);
         $postcodeAndCity = explode(' ', $splitAddress[1]);
 
         $this->user = json_encode([
-            'firstname' => $splitName[0],
-            'lastname' => $splitName[1],
+            'firstname' => ($fistname === 'null') ? null : $fistname,
+            'lastname' => ($lastname === 'null') ? null : $lastname,
             'age' => $age,
             'gender' => 'm',
             'street' => $streetAndHouseNumber[0],
@@ -75,7 +83,7 @@ class DemoContext implements Context
     }
 
     /**
-     * @When a send a request via :value
+     * @When I send a request via :value
      * @param string $method
      * @throws Exception
      */
@@ -89,7 +97,7 @@ class DemoContext implements Context
             $this->path . $this->userId,
             $method,
             [], [], [],
-            ['CONTENT_TYPE' => 'application/json'],
+            ['CONTENT_TYPE' => $this->contentType],
             $user
         ));
     }

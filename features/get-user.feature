@@ -4,7 +4,7 @@ Feature:
 
   Scenario: I want to see a Json Response
     When I set userId to "1"
-    And a send a request via "GET"
+    And I send a request via "GET"
     Then I should see a json response with http status "200"
       """
         {"code":1,

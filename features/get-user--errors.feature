@@ -4,7 +4,7 @@ Feature:
 
   Scenario Outline: I want to see a Json Response
     When I set userId to "<userId>"
-    And a send a request via "GET"
+    And I send a request via "GET"
     Then I should see a json response with http status "<httpStatus>"
       """
         {"code":<resultCode>,"entities":[]}
