@@ -23,6 +23,7 @@ class DemoContext implements Context
     /** @var Response */
     private Response $response;
 
+    private string $user;
     private string $userId = '';
     private string $path = '/ca-example/';
 
@@ -46,13 +47,51 @@ class DemoContext implements Context
     }
 
     /**
+     * @When I create an new User with Name :name, :age years old, living in :address
+     * @param string $name
+     * @param int $age
+     * @param string $address
+     * @throws Exception
+     */
+    public function iCreateANewUser(string $name, int $age, string $address): void
+    {
+        $splitName = explode(' ', $name);
+        $splitAddress = explode(', ', $address);
+
+        $streetAndHouseNumber = explode(' ', $splitAddress[0]);
+        $postcodeAndCity = explode(' ', $splitAddress[1]);
+
+        $this->user = json_encode([
+            'firstname' => $splitName[0],
+            'lastname' => $splitName[1],
+            'age' => $age,
+            'gender' => 'm',
+            'street' => $streetAndHouseNumber[0],
+            'houseNumber' => $streetAndHouseNumber[1],
+            'postcode' => $postcodeAndCity[0],
+            'city' => $postcodeAndCity[1],
+            'country' => $splitAddress[2],
+        ]);
+    }
+
+    /**
      * @When a send a request via :value
      * @param string $method
      * @throws Exception
      */
     public function iSetRequestMethod(string $method): void
     {
-        $this->response = $this->kernel->handle(Request::create($this->path . $this->userId, $method));
+        $user = $method === Request::METHOD_PUT
+            ? $this->user
+            : null;
+
+        $this->response = $this->kernel->handle(Request::create(
+            $this->path . $this->userId,
+            $method,
+            [], [], [],
+            ['CONTENT_TYPE' => 'application/json'],
+            $user
+        ));
     }
 
     /**
@@ -87,13 +126,13 @@ class DemoContext implements Context
     }
 
     /**
-     * @param int $httpStatus
+     * @param int $expectedHttpStatus
      * @throws Exception
      */
-    private function validateHttpStatus(int $httpStatus): void
+    private function validateHttpStatus(int $expectedHttpStatus): void
     {
-        if ($this->response->getStatusCode() !== $httpStatus) {
-            throw new Exception('HttpStatus does not match');
+        if ($expectedHttpStatus !== $httpStatus = $this->response->getStatusCode()) {
+            throw new Exception("Expected http status $expectedHttpStatus does not match with response $httpStatus");
         }
     }
 }
