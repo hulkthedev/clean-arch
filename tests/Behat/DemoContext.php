@@ -3,6 +3,8 @@
 namespace App\Tests\Behat;
 
 use Behat\Behat\Context\Context;
+use Exception;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -16,10 +18,13 @@ use Symfony\Component\HttpKernel\KernelInterface;
 class DemoContext implements Context
 {
     /** @var KernelInterface */
-    private $kernel;
+    private KernelInterface $kernel;
 
-    /** @var Response|null */
-    private $response;
+    /** @var Response */
+    private Response $response;
+
+    private string $userId = '';
+    private string $path = '/ca-example/';
 
     public function __construct(KernelInterface $kernel)
     {
@@ -32,20 +37,49 @@ class DemoContext implements Context
     }
 
     /**
-     * @When a demo scenario sends a request to :path
+     * @When I set userId to :value
+     * @param string $userId
      */
-    public function aDemoScenarioSendsARequestTo(string $path): void
+    public function iSetUserId(string $userId): void
     {
-        $this->response = $this->kernel->handle(Request::create($path, 'GET'));
+        $this->userId = $userId;
     }
 
     /**
-     * @Then the response should be received
+     * @When a send a request via :value
+     * @param string $method
+     * @throws Exception
      */
-    public function theResponseShouldBeReceived(): void
+    public function iSetRequestMethod(string $method): void
     {
-        if ($this->response === null) {
-            throw new \RuntimeException('No response received');
+        $this->response = $this->kernel->handle(Request::create($this->path . $this->userId, $method));
+    }
+
+    /**
+     * @Then /^I should see a json response:$/
+     * @param string $expectedResponseContent
+     * @throws Exception
+     */
+    public function iShouldSeeAJsonResponse(string $expectedResponseContent): void
+    {
+        $responseAsArray = json_decode($this->response->getContent(), true);
+        $expectedResponseAsArray = json_decode($expectedResponseContent, true);
+
+        if ($responseAsArray === null || $expectedResponseAsArray === null) {
+            throw new Exception('Input is no json');
+        }
+
+        if ($responseAsArray != $expectedResponseAsArray) {
+            $exceptionMessage = sprintf('Expected:%s%s%sActual:%s%s%s',
+                PHP_EOL,
+                print_r($expectedResponseAsArray, true),
+                PHP_EOL,
+                PHP_EOL,
+                print_r($responseAsArray, true),
+                PHP_EOL
+            );
+
+            throw new Exception($exceptionMessage);
         }
     }
 }
