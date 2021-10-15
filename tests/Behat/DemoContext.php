@@ -56,21 +56,32 @@ class DemoContext implements Context
     }
 
     /**
-     * @When I create an new User with Name :fistname, :lastname, :age years old, living in :address
-     * @param string $fistname
+     * @When want change firstname to :firstname
+     * @param string $firstname
+     */
+    public function iChangeFirstnameTo(string $firstname): void
+    {
+        $this->user = $firstname !== 'null'
+            ? json_encode(['firstname' => $firstname])
+            : '';
+    }
+
+    /**
+     * @When I create an new User with Name :firstname, :lastname, :age years old, living in :address
+     * @param string $firstname
      * @param string $lastname
      * @param int $age
      * @param string $address
      * @throws Exception
      */
-    public function iCreateANewUser(string $fistname, string $lastname, int $age, string $address): void
+    public function iCreateANewUser(string $firstname, string $lastname, int $age, string $address): void
     {
         $splitAddress = explode(', ', $address);
         $streetAndHouseNumber = explode(' ', $splitAddress[0]);
         $postcodeAndCity = explode(' ', $splitAddress[1]);
 
         $this->user = json_encode([
-            'firstname' => ($fistname === 'null') ? null : $fistname,
+            'firstname' => ($firstname === 'null') ? null : $firstname,
             'lastname' => ($lastname === 'null') ? null : $lastname,
             'age' => $age,
             'gender' => 'm',
@@ -89,9 +100,10 @@ class DemoContext implements Context
      */
     public function iSetRequestMethod(string $method): void
     {
-        $user = $method === Request::METHOD_PUT
-            ? $this->user
-            : null;
+        $user = null;
+        if ($method === Request::METHOD_PUT || $method === Request::METHOD_PATCH) {
+            $user = $this->user;
+        }
 
         $this->response = $this->kernel->handle(Request::create(
             $this->path . $this->userId,
@@ -112,24 +124,26 @@ class DemoContext implements Context
     {
         $this->validateHttpStatus($httpStatus);
 
-        $responseAsArray = json_decode($this->response->getContent(), true);
-        $expectedResponseAsArray = json_decode($expectedResponseContent, true);
+        if ($this->response->getStatusCode() !== Response::HTTP_NO_CONTENT) {
+            $responseAsArray = json_decode($this->response->getContent(), true);
+            $expectedResponseAsArray = json_decode($expectedResponseContent, true);
 
-        if ($responseAsArray === null || $expectedResponseAsArray === null) {
-            throw new Exception('Input is no json');
-        }
+            if ($responseAsArray === null || $expectedResponseAsArray === null) {
+                throw new Exception('Input is no json');
+            }
 
-        if ($responseAsArray != $expectedResponseAsArray) {
-            $exceptionMessage = sprintf('Expected:%s%s%sActual:%s%s%s',
-                PHP_EOL,
-                print_r($expectedResponseAsArray, true),
-                PHP_EOL,
-                PHP_EOL,
-                print_r($responseAsArray, true),
-                PHP_EOL
-            );
+            if ($responseAsArray != $expectedResponseAsArray) {
+                $exceptionMessage = sprintf('Expected:%s%s%sActual:%s%s%s',
+                    PHP_EOL,
+                    print_r($expectedResponseAsArray, true),
+                    PHP_EOL,
+                    PHP_EOL,
+                    print_r($responseAsArray, true),
+                    PHP_EOL
+                );
 
-            throw new Exception($exceptionMessage);
+                throw new Exception($exceptionMessage);
+            }
         }
     }
 

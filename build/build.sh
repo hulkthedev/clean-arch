@@ -16,8 +16,8 @@ PROJECT_DIR="$(dirname "${BUILD_DIR}")";
 #fi
 
 # create directories
-#mkdir -p var/log var/cache
-#chmod 777 var/log var/cache
+mkdir -p var/log var/cache
+chmod 777 var/log var/cache
 
 # install composer
 COMPOSER_IMAGE="composer"
