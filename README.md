@@ -12,6 +12,12 @@ A simple REST based microservice to demonstrate usage of REST, clean architectur
 
 Unfortunately, Travis CI does not yet support PHP 8.x
 
+##### Open tasks
+
+- suppress notices @ behat
+- start behat in test env
+- change ngnix to bridge network
+
 ##### build
 
 ```bash
