@@ -1,8 +1,10 @@
 default:
     suites:
         default:
+            paths:
+                - tests/Behat/features
             contexts:
-                - App\Tests\Behat\DemoContext
+                - App\Tests\Behat\CleanArchContext
 
     extensions:
         FriendsOfBehat\SymfonyExtension:

@@ -4,7 +4,6 @@ namespace App\Tests\Behat;
 
 use Behat\Behat\Context\Context;
 use Exception;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -15,7 +14,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
  *
  * @see http://behat.org/en/latest/quick_start.html
  */
-class DemoContext implements Context
+class CleanArchContext implements Context
 {
     /** @var KernelInterface */
     private KernelInterface $kernel;
