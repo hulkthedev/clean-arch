@@ -18,6 +18,9 @@ echo "Starting Behat Tests..."
 
 docker exec -i ${SERVICE} ./vendor/bin/behat --colors $@
 
+# get config
+# --config-reference
+
 exit $?
 
 RESULT=$?

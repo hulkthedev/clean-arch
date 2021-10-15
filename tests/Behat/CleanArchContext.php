@@ -29,10 +29,6 @@ class CleanArchContext implements Context
 
     public function __construct(KernelInterface $kernel)
     {
-//        ini_set('display_errors', '0');
-//        error_reporting(E_ALL & ~E_STRICT);
-//        define('BEHAT_ERROR_REPORTING', E_ERROR);
-
         $this->kernel = $kernel;
     }
 
