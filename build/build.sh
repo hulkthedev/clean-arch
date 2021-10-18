@@ -29,7 +29,7 @@ docker run --rm -i -t \
     -w="/app" \
     --entrypoint="/bin/bash" \
     "${COMPOSER_IMAGE}:${COMPOSER_TAG}" \
-    -c "composer global require hirak/prestissimo &> /dev/null; composer install --prefer-dist --no-progress --no-interaction --optimize-autoloader"
+    -c "composer install --prefer-dist --no-progress --no-interaction --optimize-autoloader"
 
 # build images
 #cd "${PROJECT_DIR}" || exit
