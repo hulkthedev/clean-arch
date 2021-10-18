@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Usecase\GetUser;
+namespace App\Usecase\GetContract;
 
 use App\Repository\Exception\DatabaseException;
 use App\Usecase\BaseInteractor;
@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\UnsupportedMediaTypeHttpException;
 use Throwable;
 
-class GetUserInteractor extends BaseInteractor
+class GetContractInteractor extends BaseInteractor
 {
     /**
      * @param Request $request
@@ -24,7 +24,7 @@ class GetUserInteractor extends BaseInteractor
 
         try {
             $this->validateRequest($request);
-            $user = $this->getRepository()->getUserById((int)$request->get('userId'));
+            $contract = $this->getRepository()->getContractById((int)$request->get('contractId'));
         } catch (BadRequestException $exception) {
             $code = ResultCodes::INVALID_SYNTAX;
         } catch (DatabaseException $exception) {
@@ -43,12 +43,12 @@ class GetUserInteractor extends BaseInteractor
      */
     private function validateRequest(Request $request): void
     {
-        if (null === $request->get('userId')) {
-            throw new BadRequestException('No userId transmitted!');
+        if (null === $request->get('contractId')) {
+            throw new BadRequestException('No contractId transmitted!');
         }
 
-        if ((int)$request->get('userId') === 0) {
-            throw new BadRequestException('No valid userId transmitted!');
+        if ((int)$request->get('contractId') === 0) {
+            throw new BadRequestException('No valid contractId transmitted!');
         }
     }
 }

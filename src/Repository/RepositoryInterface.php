@@ -15,11 +15,11 @@ interface RepositoryInterface
     public function addUser(User $user): int;
 
     /**
-     * @param int $userId
+     * @param int $contractId
      * @return array
      * @throws DatabaseException
      */
-    public function getUserById(int $userId): array;
+    public function getContractById(int $contractId): array;
 
     /**
      * @param int $userId

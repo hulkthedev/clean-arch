@@ -2,22 +2,22 @@
 #    path: /
 #    controller: App\Controller\DefaultController::index
 
-get_user:
-  path: /ca-example/{userId}
-  controller: App\Controller\UserController::getUser
+get_contract:
+  path: /clean-arch/{contractId}
+  controller: App\Controller\ContractController::getContract
   methods: [GET]
 
-add_user:
-  path: /ca-example/
-  controller: App\Controller\UserController::addUser
-  methods: [PUT]
-
-change_user:
-  path: /ca-example/{userId}
-  controller: App\Controller\UserController::updateUser
-  methods: [PATCH]
-
-delete_user:
-  path: /ca-example/{userId}
-  controller: App\Controller\UserController::deleteUser
-  methods: [DELETE]
+#add_user:
+#  path: /ca-example/
+#  controller: App\Controller\UserController::addUser
+#  methods: [PUT]
+#
+#change_user:
+#  path: /ca-example/{userId}
+#  controller: App\Controller\UserController::updateUser
+#  methods: [PATCH]
+#
+#delete_user:
+#  path: /ca-example/{userId}
+#  controller: App\Controller\UserController::deleteUser
+#  methods: [DELETE]

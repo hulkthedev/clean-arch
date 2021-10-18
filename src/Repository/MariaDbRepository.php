@@ -30,34 +30,35 @@ class MariaDbRepository implements RepositoryInterface
      */
     public function addUser(User $user): int
     {
-        $statement = $this->getPdoDriver()->prepare('INSERT INTO ca_user (firstname, lastname, age, gender, street, houseNumber, postcode, city, country) VALUES (:firstname, :lastname, :age, :gender, :street, :houseNumber, :postcode, :city, :country); SELECT LAST_INSERT_ID();');
-        $statement->execute([
-            'firstname' => $user->firstname,
-            'lastname' => $user->lastname,
-            'age' => $user->age,
-            'gender' => $user->gender,
-            'street' => $user->street,
-            'houseNumber' => $user->houseNumber,
-            'postcode' => $user->postcode,
-            'city' => $user->city,
-            'country' => $user->country,
-        ]);
-
-        $userId = $this->getPdoDriver()->lastInsertId();
-        if (empty($userId)){
-            throw new DatabaseException(ResultCodes::USER_CAN_NOT_BE_SAVED);
-        }
-
-        return (int)$userId;
+//        $statement = $this->getPdoDriver()->prepare('INSERT INTO ca_user (firstname, lastname, age, gender, street, houseNumber, postcode, city, country) VALUES (:firstname, :lastname, :age, :gender, :street, :houseNumber, :postcode, :city, :country); SELECT LAST_INSERT_ID();');
+//        $statement->execute([
+//            'firstname' => $user->firstname,
+//            'lastname' => $user->lastname,
+//            'age' => $user->age,
+//            'gender' => $user->gender,
+//            'street' => $user->street,
+//            'houseNumber' => $user->houseNumber,
+//            'postcode' => $user->postcode,
+//            'city' => $user->city,
+//            'country' => $user->country,
+//        ]);
+//
+//        $userId = $this->getPdoDriver()->lastInsertId();
+//        if (empty($userId)){
+//            throw new DatabaseException(ResultCodes::USER_CAN_NOT_BE_SAVED);
+//        }
+//
+//        return (int)$userId;
+        return 0;
     }
 
     /**
      * @inheritDoc
      */
-    public function getUserById(int $userId): array
+    public function getContractById(int $contractId): array
     {
         $statement = $this->getPdoDriver()->prepare('SELECT * FROM ca_user WHERE id=:id');
-        $statement->execute(['id' => $userId]);
+        $statement->execute(['id' => $contractId]);
         $user = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         if (empty($user)) {
@@ -72,10 +73,10 @@ class MariaDbRepository implements RepositoryInterface
      */
     public function deleteUserById(int $userId): bool
     {
-        $statement = $this->getPdoDriver()->prepare('DELETE FROM ca_user WHERE id=:id');
-        if (true !== $statement->execute(['id' => $userId])) {
-            throw new DatabaseException(ResultCodes::USER_CAN_NOT_BE_DELETED);
-        }
+//        $statement = $this->getPdoDriver()->prepare('DELETE FROM ca_user WHERE id=:id');
+//        if (true !== $statement->execute(['id' => $userId])) {
+//            throw new DatabaseException(ResultCodes::USER_CAN_NOT_BE_DELETED);
+//        }
 
         return true;
     }
@@ -85,15 +86,15 @@ class MariaDbRepository implements RepositoryInterface
      */
     public function updateUserById(User $user): bool
     {
-        $changedData = $this->getChangedData($user);
-        $changedSql = $this->getChangedDataSQLStatement($changedData);
-
-        $statement = $this->getPdoDriver()->prepare("UPDATE ca_user SET $changedSql  WHERE id=:id");
-        $result = $statement->execute($changedData);
-
-        if (true !== $result) {
-            throw new DatabaseException(ResultCodes::USER_CAN_NOT_BE_UPDATED);
-        }
+//        $changedData = $this->getChangedData($user);
+//        $changedSql = $this->getChangedDataSQLStatement($changedData);
+//
+//        $statement = $this->getPdoDriver()->prepare("UPDATE ca_user SET $changedSql  WHERE id=:id");
+//        $result = $statement->execute($changedData);
+//
+//        if (true !== $result) {
+//            throw new DatabaseException(ResultCodes::USER_CAN_NOT_BE_UPDATED);
+//        }
 
         return true;
     }

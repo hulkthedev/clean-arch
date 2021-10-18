@@ -31,29 +31,21 @@ VALUES
     ('Place de la République', '23a', '75000', 'Paris', 'France'),
     ('Hildesheimerstrasse', '144', '30179', 'Hannover', 'Germany');
 
-INSERT INTO contract
-    (number, request_date, start_date, end_date, termination_date, payment_interval, payment_account_id, dunning_level)
-VALUES
-    (1000, '2021-01-13', '2021-02-01',  NULL,         NULL,        30, 1, 0),
-    (1001, '2021-04-05', '2021-04-15', '2022-05-15', '2021-10-12', 15, 2, 0),
-    (1002, '2021-05-20', '2021-06-01', '2021-12-01', '2021-07-01', 30, 3, 3),
-    (1003, '2021-10-03',  NULL,         NULL,         NULL,        40, 4, 0);
-
-INSERT INTO police
-    (contract_id, type, description)
-VALUES
-    (1, 'THEFT_PROTECTION_2021', 'Theft protection only'),
-    (2, 'FULL_SERVICE_2020', 'Full service 2020'),
-    (3, 'FULL_SERVICE_2020', 'Full service 2020'),
-    (4, 'FULL_SERVICE_2020', 'Full service 2020');
-
 INSERT INTO customer
-    (firstname, lastname, age, gender, address_id, police_id)
+(firstname, lastname, age, gender, address_id)
 VALUES
-    ('Bill', 'Gates', 72, 'm', 1, 1),
-    ('Elon', 'Musk', 45, 'm', 2, 2),
-    ('Tom', 'Hardy', 37, 'm', 3, 3),
-    ('Henry', 'Ford', 94, 'm', 4, 4);
+    ('Bill', 'Gates', 72, 'm', 1),
+    ('Elon', 'Musk', 45, 'm', 2),
+    ('Tom', 'Hardy', 37, 'm', 3),
+    ('Henry', 'Ford', 94, 'm', 4);
+
+INSERT INTO contract
+    (number, customer_id, request_date, start_date, end_date, termination_date, payment_interval, payment_account_id, dunning_level)
+VALUES
+    (1000, 1, '2021-01-13', '2021-02-01',  NULL,         NULL,        30, 1, 0),
+    (1001, 2, '2021-04-05', '2021-04-15', '2022-05-15', '2021-10-12', 15, 2, 0),
+    (1002, 3, '2021-05-20', '2021-06-01', '2021-12-01', '2021-07-01', 30, 3, 3),
+    (1003, 4, '2021-10-03',  NULL,         NULL,         NULL,        40, 4, 0);
 
 INSERT INTO object
     (contract_id, objects_id, serial_number, price, currency, description, buying_date, start_date, end_date, termination_date)

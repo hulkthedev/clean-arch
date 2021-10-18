@@ -31,9 +31,23 @@ CREATE TABLE address (
     country VARCHAR(50) NOT NULL
 );
 
+CREATE TABLE customer (
+    id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    firstname VARCHAR(25) NOT NULL,
+    lastname VARCHAR(25) NOT NULL,
+    age SMALLINT NOT NULL,
+    gender VARCHAR(1) NOT NULL,
+    address_id SMALLINT UNSIGNED NOT NULL,
+
+    CONSTRAINT unique_customer UNIQUE (firstname, lastname),
+    CONSTRAINT fk_address_id FOREIGN KEY (address_id) REFERENCES address (id)
+);
+
 CREATE TABLE contract (
     id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     number INT UNSIGNED NOT NULL,
+
+    customer_id SMALLINT UNSIGNED NOT NULL,
 
     request_date DATE NOT NULL,
     start_date DATE NULL,
@@ -45,7 +59,8 @@ CREATE TABLE contract (
     dunning_level SMALLINT NOT NULL,
 
     CONSTRAINT unique_contract UNIQUE (number),
-    CONSTRAINT fk_payment_account_id FOREIGN KEY (payment_account_id) REFERENCES conf_payment_account (id)
+    CONSTRAINT fk_payment_account_id FOREIGN KEY (payment_account_id) REFERENCES conf_payment_account (id),
+    CONSTRAINT fk_customer_id FOREIGN KEY (customer_id) REFERENCES customer (id)
 );
 
 CREATE TABLE object (
@@ -63,32 +78,7 @@ CREATE TABLE object (
     end_date DATE NULL,
     termination_date DATE NULL,
 
-    CONSTRAINT fk1_contract_id FOREIGN KEY (contract_id) REFERENCES contract (id),
+    CONSTRAINT fk_contract_id FOREIGN KEY (contract_id) REFERENCES contract (id),
     CONSTRAINT fk_objects_id FOREIGN KEY (objects_id) REFERENCES conf_objects (id)
 );
 
-CREATE TABLE police (
-    id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    contract_id SMALLINT UNSIGNED NOT NULL,
-
-    type VARCHAR(25) NOT NULL,
-    description VARCHAR(50) NOT NULL,
-
-    CONSTRAINT fk2_contract_id FOREIGN KEY (contract_id) REFERENCES contract (id)
-);
-
-CREATE TABLE customer (
-    id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-
-    firstname VARCHAR(25) NOT NULL,
-    lastname VARCHAR(25) NOT NULL,
-    age SMALLINT NOT NULL,
-    gender VARCHAR(1) NOT NULL,
-
-    address_id SMALLINT UNSIGNED NOT NULL,
-    police_id SMALLINT UNSIGNED NOT NULL,
-
-    CONSTRAINT unique_customer UNIQUE (firstname, lastname),
-    CONSTRAINT fk_address_id FOREIGN KEY (address_id) REFERENCES address (id),
-    CONSTRAINT fk_police_id FOREIGN KEY (police_id) REFERENCES police (id)
-);
