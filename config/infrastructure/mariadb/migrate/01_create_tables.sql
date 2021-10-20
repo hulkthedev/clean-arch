@@ -22,6 +22,14 @@ CREATE TABLE conf_payment_account (
     CONSTRAINT fk_payment_id FOREIGN KEY (payment_id) REFERENCES conf_payment (id)
 );
 
+CREATE TABLE conf_risks (
+    id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    description VARCHAR(50) NOT NULL,
+
+    CONSTRAINT unique_contract1 UNIQUE (name)
+);
+
 CREATE TABLE address (
     id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     street VARCHAR(50) NOT NULL,
@@ -58,14 +66,14 @@ CREATE TABLE contract (
     payment_account_id SMALLINT UNSIGNED NOT NULL,
     dunning_level SMALLINT NOT NULL,
 
-    CONSTRAINT unique_contract UNIQUE (number),
+    CONSTRAINT unique_contract2 UNIQUE (number),
     CONSTRAINT fk_payment_account_id FOREIGN KEY (payment_account_id) REFERENCES conf_payment_account (id),
     CONSTRAINT fk_customer_id FOREIGN KEY (customer_id) REFERENCES customer (id)
 );
 
 CREATE TABLE object (
     id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    objects_id SMALLINT UNSIGNED NOT NULL,
+    object_id SMALLINT UNSIGNED NOT NULL,
     contract_id SMALLINT UNSIGNED NOT NULL,
 
     serial_number VARCHAR(50) NOT NULL,
@@ -79,6 +87,14 @@ CREATE TABLE object (
     termination_date DATE NULL,
 
     CONSTRAINT fk_contract_id FOREIGN KEY (contract_id) REFERENCES contract (id),
-    CONSTRAINT fk_objects_id FOREIGN KEY (objects_id) REFERENCES conf_objects (id)
+    CONSTRAINT fk1_object_id FOREIGN KEY (object_id) REFERENCES conf_objects (id)
 );
 
+CREATE TABLE risk_mapping (
+    id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    object_id SMALLINT UNSIGNED NOT NULL,
+    risk_id SMALLINT UNSIGNED NOT NULL,
+
+    CONSTRAINT fk_risk_id FOREIGN KEY (risk_id) REFERENCES conf_risks (id),
+    CONSTRAINT fk_2object_id FOREIGN KEY (object_id) REFERENCES object (id)
+);

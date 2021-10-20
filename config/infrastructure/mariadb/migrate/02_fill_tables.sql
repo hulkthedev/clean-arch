@@ -23,6 +23,17 @@ VALUES
     (3, 'Tom Hardy', NULL, NULL),
     (3, 'Henry Ford', NULL, NULL);
 
+INSERT INTO conf_risks
+    (name, description)
+VALUES
+    ('THEFT_PROTECTIONS_SMARTPHONE', 'Theft Protection for Smartphones'),
+    ('THEFT_PROTECTIONS_TV', 'Theft Protection for TVs'),
+    ('THEFT_PROTECTIONS_OTHER', 'General theft Protection'),
+    ('DAMAGE_PROTECTION_SMARTPHONE', 'Damage Protection for Smartphones'),
+    ('DAMAGE_PROTECTION_TV', 'Damage Protection for TVs'),
+    ('DAMAGE_PROTECTION_PC', 'Damage Protection for Computer'),
+    ('DAMAGE_PROTECTION_OTHER', 'General Damage Protection');
+
 INSERT INTO address
     (street, house_number, postcode, city, country)
 VALUES
@@ -32,7 +43,7 @@ VALUES
     ('Hildesheimerstrasse', '144', '30179', 'Hannover', 'Germany');
 
 INSERT INTO customer
-(firstname, lastname, age, gender, address_id)
+    (firstname, lastname, age, gender, address_id)
 VALUES
     ('Bill', 'Gates', 72, 'm', 1),
     ('Elon', 'Musk', 45, 'm', 2),
@@ -48,7 +59,7 @@ VALUES
     (1003, 4, '2021-10-03',  NULL,         NULL,         NULL,        40, 4, 0);
 
 INSERT INTO object
-    (contract_id, objects_id, serial_number, price, currency, description, buying_date, start_date, end_date, termination_date)
+    (contract_id, object_id, serial_number, price, currency, description, buying_date, start_date, end_date, termination_date)
 VALUES
     (1, 1, '24235435436547456', '999.99', 'USD', 'Apple iPhone 11', '2021-01-01', '2021-02-01', NULL, NULL),
     (1, 2, '47687987964564667', '1599.79', 'USD', 'Samsung QLED 42 Zoll', '2021-05-13', '2021-06-01', NULL, NULL),
@@ -63,3 +74,14 @@ VALUES
     (4, 2, '45654633454445455', '1299.99', 'EUR', 'Samsung LCD 72 Zoll', '2020-01-15', NULL, NULL, NULL),
     (4, 3, '23543656768798787', '1570.00', 'USD', 'Dell Game Station X', '2021-01-07', NULL, NULL, NULL),
     (4, 4, '34554688797877886', '399.99', 'EUR', 'JURA C44-F', '2021-07-10', NULL, NULL, NULL);
+
+INSERT INTO risk_mapping
+    (object_id, risk_id)
+VALUES
+    (1, 1),
+    (1, 4),
+    (2, 2),
+    (2, 5),
+    (3, 6),
+    (4, 3),
+    (4, 7);
