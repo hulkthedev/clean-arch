@@ -24,7 +24,10 @@ class GetContractInteractor extends BaseInteractor
 
         try {
             $this->validateRequest($request);
-            $contract = $this->getRepository()->getContractById((int)$request->get('contractId'));
+            $contract = $this->getRepository()->getContractByNumber((int)$request->get('contractNumber'));
+
+            var_dump($contract);die();
+
         } catch (BadRequestException $exception) {
             $code = ResultCodes::INVALID_SYNTAX;
         } catch (DatabaseException $exception) {

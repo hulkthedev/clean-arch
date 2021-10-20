@@ -22,6 +22,16 @@ class ContractController
         return $this->createResponse($response->presentResponse(), $response->getHttpStatus());
     }
 
+//    /**
+//     * @param Request $request
+//     * @param GetContractInteractor $interactor
+//     * @return Response
+//     */
+//    public function getObject(Request $request, GetContractInteractor $interactor): Response
+//    {
+//
+//    }
+
     /**
      * @param Request $request
      * @param AddUserInteractor $interactor

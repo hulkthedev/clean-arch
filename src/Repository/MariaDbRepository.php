@@ -55,17 +55,23 @@ class MariaDbRepository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function getContractById(int $contractId): array
+    public function getContractByNumber(int $contractNumber): array
     {
-        $statement = $this->getPdoDriver()->prepare('SELECT * FROM ca_user WHERE id=:id');
-        $statement->execute(['id' => $contractId]);
-        $user = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $statement = $this->getPdoDriver()->prepare('CALL GetContractByNumber(:contractNumber)');
+        $statement->execute(['contractNumber' => $contractNumber]);
+        $rawContractData = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-        if (empty($user)) {
-            throw new DatabaseException(ResultCodes::USER_NOT_FOUND);
-        }
 
-        return $this->getMapper()->mapToList($user);
+        var_dump($rawContractData);
+        exit;
+
+        $this->enrichContractWithObjects($contractNumber, $rawContractData);
+
+//        if (empty($user)) {
+//            throw new DatabaseException(ResultCodes::USER_NOT_FOUND);
+//        }
+//
+//        return $this->getMapper()->mapToList($user);
     }
 
     /**
@@ -105,6 +111,25 @@ class MariaDbRepository implements RepositoryInterface
     private function getMapper(): Mapper
     {
         return $this->mapper;
+    }
+
+    /**
+     * @param int $contractNumber
+     * @param array $rawContractData
+     */
+    private function enrichContractWithObjects(int $contractNumber, array &$rawContractData): void
+    {
+        // CALL GetObjectsByContractNumber
+        // foreach objects
+        // $this->enrichObjectsWithRisks($object);
+    }
+
+    /**
+     * @param array $object
+     */
+    private function enrichObjectsWithRisks(array &$object): void
+    {
+        // CALL GetRisksByObjectId
     }
 
     /**
