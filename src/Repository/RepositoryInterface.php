@@ -2,36 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\User;
-use App\Repository\Exception\DatabaseException;
+use App\Entity\Contract;
+use App\Repository\Exception\ContractNotFoundException;
+use App\Repository\Exception\DatabaseUnreachableException;
+use App\Repository\Exception\ObjectNotFoundException;
+use App\Repository\Exception\RisksNotFoundException;
 
 interface RepositoryInterface
 {
     /**
-     * @param User $user
-     * @return int
-     * @throws DatabaseException
-     */
-    public function addUser(User $user): int;
-
-    /**
      * @param int $contractNumber
-     * @return array
-     * @throws DatabaseException
+     * @return Contract
+     * @throws DatabaseUnreachableException
+     * @throws ContractNotFoundException
+     * @throws ObjectNotFoundException
+     * @throws RisksNotFoundException
      */
-    public function getContractByNumber(int $contractNumber): array;
+    public function getContractByNumber(int $contractNumber): Contract;
 
-    /**
-     * @param int $userId
-     * @return bool
-     * @throws DatabaseException
-     */
-    public function deleteUserById(int $userId): bool;
-
-    /**
-     * @param User $user
-     * @return bool
-     * @throws DatabaseException
-     */
-    public function updateUserById(User $user): bool;
 }

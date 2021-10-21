@@ -2,7 +2,7 @@
 
 namespace App\Usecase\GetContract;
 
-use App\Repository\Exception\DatabaseException;
+use App\Repository\Exception\DatabaseUnreachableException;
 use App\Usecase\BaseInteractor;
 use App\Usecase\BaseResponse;
 use App\Usecase\ResultCodes;
@@ -20,23 +20,20 @@ class GetContractInteractor extends BaseInteractor
     public function execute(Request $request): BaseResponse
     {
         $code = ResultCodes::SUCCESS;
-        $user = [];
+        $contract = [];
 
         try {
             $this->validateRequest($request);
             $contract = $this->getRepository()->getContractByNumber((int)$request->get('contractNumber'));
-
-            var_dump($contract);die();
-
         } catch (BadRequestException $exception) {
             $code = ResultCodes::INVALID_SYNTAX;
-        } catch (DatabaseException $exception) {
-            $code = ResultCodes::USER_NOT_FOUND;
+        } catch (DatabaseUnreachableException $exception) {
+            $code = ResultCodes::CONTRACT_NOT_FOUND;
         } catch (Throwable $throwable) {
             $code = ResultCodes::UNKNOWN_ERROR;
         }
 
-        return new BaseResponse($code, $user);
+        return new BaseResponse($code, [$contract]);
     }
 
     /**
@@ -46,11 +43,11 @@ class GetContractInteractor extends BaseInteractor
      */
     private function validateRequest(Request $request): void
     {
-        if (null === $request->get('contractId')) {
+        if (null === $request->get('contractNumber')) {
             throw new BadRequestException('No contractId transmitted!');
         }
 
-        if ((int)$request->get('contractId') === 0) {
+        if ((int)$request->get('contractNumber') === 0) {
             throw new BadRequestException('No valid contractId transmitted!');
         }
     }

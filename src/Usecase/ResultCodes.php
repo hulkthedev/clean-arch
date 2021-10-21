@@ -8,9 +8,9 @@ class ResultCodes
 
     /** exceptions */
     public const USER_CAN_NOT_BE_UPDATED = -16;
-    public const USER_CAN_NOT_BE_DELETED = -15;
-    public const USER_CAN_NOT_BE_SAVED = -14;
-    public const USER_NOT_FOUND = -13;
+    public const RISKS_NOT_FOUND = -15;
+    public const OBJECT_NOT_FOUND = -14;
+    public const CONTRACT_NOT_FOUND = -13;
     public const DATABASE_IS_EMPTY = -12;
 
     /** database exceptions */

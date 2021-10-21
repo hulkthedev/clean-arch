@@ -62,9 +62,10 @@ CREATE TABLE contract (
     end_date DATE NULL,
     termination_date DATE NULL,
 
+    dunning_level SMALLINT NOT NULL,
+
     payment_interval SMALLINT UNSIGNED NULL,
     payment_account_id SMALLINT UNSIGNED NOT NULL,
-    dunning_level SMALLINT NOT NULL,
 
     CONSTRAINT unique_contract2 UNIQUE (number),
     CONSTRAINT fk_payment_account_id FOREIGN KEY (payment_account_id) REFERENCES conf_payment_account (id),

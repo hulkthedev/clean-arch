@@ -7,17 +7,17 @@ use Symfony\Component\HttpFoundation\Response;
 class BaseResponse
 {
     private int $code = ResultCodes::SUCCESS;
-    private array $entities;
+    private array $contracts;
     private array $headers = [];
 
     /**
      * @param int $code
-     * @param array $entities
+     * @param array $contracts
      */
-    public function __construct(int $code, array $entities = [])
+    public function __construct(int $code, array $contracts = [])
     {
         $this->code = $code;
-        $this->entities = $entities;
+        $this->contracts = $contracts;
     }
 
     /**
@@ -27,7 +27,7 @@ class BaseResponse
     {
         switch ($this->code) {
             case ResultCodes::SUCCESS:
-            case ResultCodes::USER_NOT_FOUND:
+            case ResultCodes::CONTRACT_NOT_FOUND:
             case ResultCodes::DATABASE_IS_EMPTY:
                 return Response::HTTP_OK;
             case ResultCodes::SUCCESS_CREATED;
@@ -37,8 +37,6 @@ class BaseResponse
             case ResultCodes::INVALID_JSON_CONTENT:
             case ResultCodes::INVALID_SYNTAX:
             case ResultCodes::USER_CAN_NOT_BE_UPDATED:
-            case ResultCodes::USER_CAN_NOT_BE_DELETED:
-            case ResultCodes::USER_CAN_NOT_BE_SAVED:
                 return Response::HTTP_BAD_REQUEST;
             case ResultCodes::INVALID_MEDIA_TYPE:
                 return Response::HTTP_UNSUPPORTED_MEDIA_TYPE;
@@ -73,7 +71,7 @@ class BaseResponse
     {
         return [
             'code' => $this->code,
-            'entities' => $this->entities
+            'contracts' => $this->contracts
         ];
     }
 }

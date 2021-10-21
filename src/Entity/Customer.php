@@ -2,9 +2,8 @@
 
 namespace App\Entity;
 
-class User
+class Customer
 {
-    public int $id;
     public string $firstname;
     public string $lastname;
     public int $age;

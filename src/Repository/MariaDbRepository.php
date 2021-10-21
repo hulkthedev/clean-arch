@@ -2,9 +2,11 @@
 
 namespace App\Repository;
 
-use App\Entity\User;
-use App\Repository\Exception\DatabaseException;
-use App\Usecase\ResultCodes;
+use App\Entity\Contract;
+use App\Repository\Exception\ContractNotFoundException;
+use App\Repository\Exception\DatabaseUnreachableException;
+use App\Repository\Exception\ObjectNotFoundException;
+use App\Repository\Exception\RisksNotFoundException;
 use PDO;
 use App\Mapper\MariaDbMapper as Mapper;
 
@@ -28,81 +30,69 @@ class MariaDbRepository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function addUser(User $user): int
-    {
-//        $statement = $this->getPdoDriver()->prepare('INSERT INTO ca_user (firstname, lastname, age, gender, street, houseNumber, postcode, city, country) VALUES (:firstname, :lastname, :age, :gender, :street, :houseNumber, :postcode, :city, :country); SELECT LAST_INSERT_ID();');
-//        $statement->execute([
-//            'firstname' => $user->firstname,
-//            'lastname' => $user->lastname,
-//            'age' => $user->age,
-//            'gender' => $user->gender,
-//            'street' => $user->street,
-//            'houseNumber' => $user->houseNumber,
-//            'postcode' => $user->postcode,
-//            'city' => $user->city,
-//            'country' => $user->country,
-//        ]);
-//
-//        $userId = $this->getPdoDriver()->lastInsertId();
-//        if (empty($userId)){
-//            throw new DatabaseException(ResultCodes::USER_CAN_NOT_BE_SAVED);
-//        }
-//
-//        return (int)$userId;
-        return 0;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getContractByNumber(int $contractNumber): array
+    public function getContractByNumber(int $contractNumber): Contract
     {
         $statement = $this->getPdoDriver()->prepare('CALL GetContractByNumber(:contractNumber)');
         $statement->execute(['contractNumber' => $contractNumber]);
+
         $rawContractData = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
+
+        if (empty($rawContractData)) {
+            throw new ContractNotFoundException();
+        }
+
+        $contractData = reset($rawContractData);
+        $this->enrichContractWithObjects($contractNumber, $contractData);
+
+        return $this->getMapper()->createContract($contractData);
+    }
 
 
-        var_dump($rawContractData);
-        exit;
+    /**
+     * @param int $contractNumber
+     * @param array $rawContractData
+     * @throws DatabaseUnreachableException
+     * @throws ObjectNotFoundException
+     * @throws RisksNotFoundException
+     */
+    private function enrichContractWithObjects(int $contractNumber, array &$rawContractData): void
+    {
+        $statement = $this->getPdoDriver()->prepare('CALL GetObjectsByContractNumber(:contractNumber)');
+        $statement->execute(['contractNumber' => $contractNumber]);
 
-        $this->enrichContractWithObjects($contractNumber, $rawContractData);
+        $rawObjectData = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
 
-//        if (empty($user)) {
-//            throw new DatabaseException(ResultCodes::USER_NOT_FOUND);
-//        }
-//
-//        return $this->getMapper()->mapToList($user);
+        if (empty($rawContractData)) {
+            throw new ObjectNotFoundException();
+        }
+
+        foreach ($rawObjectData as &$rawObject) {
+            $this->enrichObjectWithRisks($rawObject);
+        }
+
+        $rawContractData['objects'] = $rawObjectData;
     }
 
     /**
-     * @inheritDoc
+     * @param array $object
+     * @throws DatabaseUnreachableException
+     * @throws RisksNotFoundException
      */
-    public function deleteUserById(int $userId): bool
+    private function enrichObjectWithRisks(array &$object): void
     {
-//        $statement = $this->getPdoDriver()->prepare('DELETE FROM ca_user WHERE id=:id');
-//        if (true !== $statement->execute(['id' => $userId])) {
-//            throw new DatabaseException(ResultCodes::USER_CAN_NOT_BE_DELETED);
-//        }
+        $statement = $this->getPdoDriver()->prepare('CALL GetRisksByObjectId(:objectId)');
+        $statement->execute(['objectId' => $object['object_id']]);
 
-        return true;
-    }
+        $rawRiskData = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
 
-    /**
-     * @inheritDoc
-     */
-    public function updateUserById(User $user): bool
-    {
-//        $changedData = $this->getChangedData($user);
-//        $changedSql = $this->getChangedDataSQLStatement($changedData);
-//
-//        $statement = $this->getPdoDriver()->prepare("UPDATE ca_user SET $changedSql  WHERE id=:id");
-//        $result = $statement->execute($changedData);
-//
-//        if (true !== $result) {
-//            throw new DatabaseException(ResultCodes::USER_CAN_NOT_BE_UPDATED);
-//        }
+        if (empty($rawRiskData)) {
+            throw new RisksNotFoundException();
+        }
 
-        return true;
+        $object['risks'] = $rawRiskData;
     }
 
     /**
@@ -111,25 +101,6 @@ class MariaDbRepository implements RepositoryInterface
     private function getMapper(): Mapper
     {
         return $this->mapper;
-    }
-
-    /**
-     * @param int $contractNumber
-     * @param array $rawContractData
-     */
-    private function enrichContractWithObjects(int $contractNumber, array &$rawContractData): void
-    {
-        // CALL GetObjectsByContractNumber
-        // foreach objects
-        // $this->enrichObjectsWithRisks($object);
-    }
-
-    /**
-     * @param array $object
-     */
-    private function enrichObjectsWithRisks(array &$object): void
-    {
-        // CALL GetRisksByObjectId
     }
 
     /**
@@ -142,7 +113,7 @@ class MariaDbRepository implements RepositoryInterface
 
     /**
      * @return PDO
-     * @throws DatabaseException
+     * @throws DatabaseUnreachableException
      * @codeCoverageIgnore
      */
     private function getPdoDriver(): PDO
@@ -155,7 +126,7 @@ class MariaDbRepository implements RepositoryInterface
             $port = getenv('MARIADB_PORT');
 
             if (empty($host) || empty($user) || empty($password) || empty($name) || empty($port)) {
-                throw new DatabaseException(ResultCodes::PDO_EXCEPTION_NO_LOGIN_DATA);
+                throw new DatabaseUnreachableException();
             }
 
             $pdo = new PDO("mysql:dbname=$name;host=$host;port=$port;charset=utf8mb4", $user, $password, [
