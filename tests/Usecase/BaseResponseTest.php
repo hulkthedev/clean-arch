@@ -35,7 +35,7 @@ class BaseResponseTest extends TestCase
             [ResultCodes::USER_CAN_NOT_BE_DELETED, Response::HTTP_BAD_REQUEST],
             [ResultCodes::USER_CAN_NOT_BE_SAVED, Response::HTTP_BAD_REQUEST],
             [ResultCodes::INVALID_MEDIA_TYPE, Response::HTTP_UNSUPPORTED_MEDIA_TYPE],
-            [ResultCodes::PDO_EXCEPTION_NO_LOGIN_DATA, Response::HTTP_INTERNAL_SERVER_ERROR],
+            [ResultCodes::DATABASE_UNREACHABLE, Response::HTTP_INTERNAL_SERVER_ERROR],
             [ResultCodes::PDO_EXCEPTION, Response::HTTP_INTERNAL_SERVER_ERROR],
             [ResultCodes::UNKNOWN_ERROR, Response::HTTP_INTERNAL_SERVER_ERROR],
             [112233, Response::HTTP_INTERNAL_SERVER_ERROR]

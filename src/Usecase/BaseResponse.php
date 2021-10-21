@@ -40,7 +40,7 @@ class BaseResponse
                 return Response::HTTP_BAD_REQUEST;
             case ResultCodes::INVALID_MEDIA_TYPE:
                 return Response::HTTP_UNSUPPORTED_MEDIA_TYPE;
-            case ResultCodes::PDO_EXCEPTION_NO_LOGIN_DATA:
+            case ResultCodes::DATABASE_UNREACHABLE:
             case ResultCodes::PDO_EXCEPTION:
             case ResultCodes::UNKNOWN_ERROR:
             default:

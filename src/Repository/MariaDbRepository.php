@@ -12,8 +12,6 @@ use App\Mapper\MariaDbMapper as Mapper;
 
 class MariaDbRepository implements RepositoryInterface
 {
-    use UserHelper;
-
     private const DATABASE_CONNECTION_TIMEOUT = 30;
 
     private ?PDO $pdo = null;

@@ -7,10 +7,10 @@ get_contract:
   controller: App\Controller\ContractController::getContract
   methods: [GET]
 
-#get_object:
-#  path: /clean-arch/contract/{contractNumber}/{objectId}
-#  controller: App\Controller\ContractController::getObject
-#  methods: [GET]
+get_object:
+  path: /clean-arch/contract/{contractNumber}/{objectId}
+  controller: App\Controller\ContractController::getObject
+  methods: [GET]
 
 #add_user:
 #  path: /ca-example/

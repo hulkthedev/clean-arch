@@ -15,6 +15,6 @@ class DatabaseUnreachableException extends Exception
      */
     public function __construct()
     {
-        parent::__construct('', ResultCodes::PDO_EXCEPTION_NO_LOGIN_DATA);
+        parent::__construct('', ResultCodes::DATABASE_UNREACHABLE);
     }
 }

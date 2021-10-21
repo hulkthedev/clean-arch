@@ -2,7 +2,10 @@
 
 namespace App\Usecase\GetContract;
 
+use App\Repository\Exception\ContractNotFoundException;
 use App\Repository\Exception\DatabaseUnreachableException;
+use App\Repository\Exception\ObjectNotFoundException;
+use App\Repository\Exception\RisksNotFoundException;
 use App\Usecase\BaseInteractor;
 use App\Usecase\BaseResponse;
 use App\Usecase\ResultCodes;
@@ -28,7 +31,13 @@ class GetContractInteractor extends BaseInteractor
         } catch (BadRequestException $exception) {
             $code = ResultCodes::INVALID_SYNTAX;
         } catch (DatabaseUnreachableException $exception) {
+            $code = ResultCodes::DATABASE_UNREACHABLE;
+        } catch (ContractNotFoundException $exception) {
             $code = ResultCodes::CONTRACT_NOT_FOUND;
+        } catch (ObjectNotFoundException $exception) {
+            $code = ResultCodes::OBJECT_NOT_FOUND;
+        } catch (RisksNotFoundException $exception) {
+            $code = ResultCodes::RISKS_NOT_FOUND;
         } catch (Throwable $throwable) {
             $code = ResultCodes::UNKNOWN_ERROR;
         }
