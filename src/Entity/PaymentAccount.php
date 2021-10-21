@@ -4,8 +4,8 @@ namespace App\Entity;
 
 class PaymentAccount
 {
-    private const PAYMENT_PROVIDER_PAYPAL = 'PayPal';
-    private const PAYMENT_PROVIDER_SEPA = 'Sepa';
+    public const PAYMENT_TYPE_PAYPAL = 'PayPal';
+    public const PAYMENT_TYPE_SEPA = 'SEPA';
 
     public string $name;
     public string $holder;
@@ -18,7 +18,7 @@ class PaymentAccount
      */
     public function isPayPal(): bool
     {
-        return $this->name === self::PAYMENT_PROVIDER_PAYPAL;
+        return $this->name === self::PAYMENT_TYPE_PAYPAL;
     }
 
     /**
@@ -26,6 +26,6 @@ class PaymentAccount
      */
     public function isSepa(): bool
     {
-        return $this->name === self::PAYMENT_PROVIDER_SEPA;
+        return $this->name === self::PAYMENT_TYPE_SEPA;
     }
 }

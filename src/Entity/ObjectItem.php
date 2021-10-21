@@ -6,6 +6,9 @@ use DateTimeImmutable;
 
 class ObjectItem
 {
+    public const CURRENCY_USD = 'USD';
+    public const CURRENCY_EUR = 'EUR';
+
     public int $id;
     public string $serialNumber;
     public float $price;
@@ -18,14 +21,14 @@ class ObjectItem
     public ?DateTimeImmutable $terminationDate;
 
     /** @var Risk[] */
-    public array $risks;
+    public array $risks = [];
 
     /**
      * @return bool
      */
     public function isTerminated(): bool
     {
-        return $this->terminationDate === null;
+        return $this->terminationDate !== null;
     }
 
     /**
@@ -33,7 +36,7 @@ class ObjectItem
      */
     public function isFinished(): bool
     {
-        return $this->endDate === null;
+        return $this->endDate !== null;
     }
 
     /**

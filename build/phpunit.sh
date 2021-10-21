@@ -5,7 +5,7 @@ set -eo pipefail
 BUILD_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 PROJECT_DIR="$(dirname "${BUILD_DIR}")";
 
-SERVICE="symfony-clean-architecture-example_php_1"
+SERVICE="clean-arch_php_1"
 CONTAINER=$(docker ps -qf "name=${SERVICE}")
 
 if [[ $CONTAINER == '' ]]; then

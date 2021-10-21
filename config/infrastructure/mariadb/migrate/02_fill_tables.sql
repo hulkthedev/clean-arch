@@ -26,9 +26,9 @@ VALUES
 INSERT INTO conf_risks
     (name, description)
 VALUES
-    ('THEFT_PROTECTIONS_SMARTPHONE', 'Theft Protection for Smartphones'),
-    ('THEFT_PROTECTIONS_TV', 'Theft Protection for TVs'),
-    ('THEFT_PROTECTIONS_OTHER', 'General theft Protection'),
+    ('THEFT_PROTECTION_SMARTPHONE', 'Theft Protection for Smartphones'),
+    ('THEFT_PROTECTION_TV', 'Theft Protection for TVs'),
+    ('THEFT_PROTECTION_OTHER', 'General theft Protection'),
     ('DAMAGE_PROTECTION_SMARTPHONE', 'Damage Protection for Smartphones'),
     ('DAMAGE_PROTECTION_TV', 'Damage Protection for TVs'),
     ('DAMAGE_PROTECTION_PC', 'Damage Protection for Computer'),

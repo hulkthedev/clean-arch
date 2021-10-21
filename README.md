@@ -93,7 +93,7 @@ Unfortunately, Travis CI does not yet support PHP 8.x
           "terminationDate": null,
           "risks": [
             {
-              "name": "THEFT_PROTECTIONS_SMARTPHONE"
+              "name": "THEFT_PROTECTION_SMARTPHONE"
             },
             {
               "name": "DAMAGE_PROTECTION_SMARTPHONE"
@@ -120,7 +120,7 @@ Unfortunately, Travis CI does not yet support PHP 8.x
           "terminationDate": null,
           "risks": [
             {
-              "name": "THEFT_PROTECTIONS_TV"
+              "name": "THEFT_PROTECTION_TV"
             },
             {
               "name": "DAMAGE_PROTECTION_TV"
@@ -147,7 +147,7 @@ Unfortunately, Travis CI does not yet support PHP 8.x
           "terminationDate": null,
           "risks": [
             {
-              "name": "THEFT_PROTECTIONS_TV"
+              "name": "THEFT_PROTECTION_TV"
             },
             {
               "name": "DAMAGE_PROTECTION_TV"
