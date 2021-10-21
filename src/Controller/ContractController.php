@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Usecase\GetContract\GetContractInteractor;
+use App\Usecase\TerminateContract\TerminateContractInteractor;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -13,7 +14,7 @@ class ContractController
      * @param GetContractInteractor $interactor
      * @return Response
      */
-    public function getContract(Request $request, GetContractInteractor $interactor): Response
+    public function get(Request $request, GetContractInteractor $interactor): Response
     {
         $response = $interactor->execute($request);
         return $this->createResponse($response->presentResponse(), $response->getHttpStatus());
@@ -21,10 +22,10 @@ class ContractController
 
     /**
      * @param Request $request
-     * @param GetContractInteractor $interactor
+     * @param TerminateContractInteractor $interactor
      * @return Response
      */
-    public function getObject(Request $request, GetContractInteractor $interactor): Response
+    public function terminate(Request $request, TerminateContractInteractor $interactor): Response
     {
 
     }

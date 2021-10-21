@@ -4,25 +4,10 @@
 
 get_contract:
   path: /clean-arch/contract/{contractNumber}
-  controller: App\Controller\ContractController::getContract
+  controller: App\Controller\ContractController::get
   methods: [GET]
 
-get_object:
-  path: /clean-arch/contract/{contractNumber}/{objectId}
-  controller: App\Controller\ContractController::getObject
-  methods: [GET]
-
-#add_user:
-#  path: /ca-example/
-#  controller: App\Controller\UserController::addUser
-#  methods: [PUT]
-#
-#change_user:
-#  path: /ca-example/{userId}
-#  controller: App\Controller\UserController::updateUser
-#  methods: [PATCH]
-#
-#delete_user:
-#  path: /ca-example/{userId}
-#  controller: App\Controller\UserController::deleteUser
-#  methods: [DELETE]
+terminate_contract:
+  path: /clean-arch/contract/{contractNumber}/terminate/{date}
+  controller: App\Controller\ContractController::terminate
+  methods: [PUT]
