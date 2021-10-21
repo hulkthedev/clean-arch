@@ -64,4 +64,36 @@ class Contract
     {
         return $this->startDate !== null;
     }
+
+    /**
+     * @return bool
+     */
+    public function hasObjects(): bool
+    {
+        return count($this->objects) > 0;
+    }
+
+    /**
+     * @return array
+     */
+    public function getObjects(): array
+    {
+        return $this->objects;
+    }
+
+    /**
+     * @return PaymentAccount
+     */
+    public function getPaymentAccount(): PaymentAccount
+    {
+        return $this->paymentAccount;
+    }
+    /**
+     * @return Customer
+     */
+    public function getCustomer(): Customer
+    {
+        return $this->customer;
+    }
+
 }

@@ -7,8 +7,6 @@ use PHPUnit\Framework\TestCase;
 
 class ObjectItemTest extends TestCase
 {
-    private const DB_DATE_FORMAT = 'Y-m-d';
-
     public function test_ObjectItem(): void
     {
         $objectItem = new ObjectItemStub();
@@ -21,9 +19,9 @@ class ObjectItemTest extends TestCase
         self::assertEquals('1000 USD', $objectItem->getFormattedPrice());
 
         self::assertEquals('Apple iPhone 11', $objectItem->description);
-        self::assertEquals('2021-01-01', $objectItem->buyingDate->format(self::DB_DATE_FORMAT));
+        self::assertEquals('2021-01-01', $objectItem->buyingDate->format(ContractTest::DB_DATE_FORMAT));
 
-        self::assertEquals('2021-02-01', $objectItem->startDate->format(self::DB_DATE_FORMAT));
+        self::assertEquals('2021-02-01', $objectItem->startDate->format(ContractTest::DB_DATE_FORMAT));
         self::assertTrue($objectItem->hasStarted());
 
         self::assertNull($objectItem->endDate);
