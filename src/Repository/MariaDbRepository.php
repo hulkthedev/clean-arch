@@ -28,7 +28,7 @@ class MariaDbRepository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function getContractByNumber(int $contractNumber): Contract
+    public function getContractByNumber(int $contractNumber, bool $ignoreObjects = false): Contract
     {
         $statement = $this->getPdoDriver()->prepare('CALL GetContractByNumber(:contractNumber)');
         $statement->execute(['contractNumber' => $contractNumber]);
@@ -41,11 +41,30 @@ class MariaDbRepository implements RepositoryInterface
         }
 
         $contractData = reset($rawContractData);
-        $this->enrichContractWithObjects($contractNumber, $contractData);
+        if (!$ignoreObjects) {
+            $this->enrichContractWithObjects($contractNumber, $contractData);
+        }
 
         return $this->getMapper()->createContract($contractData);
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function terminateContractByNumber(int $contractNumber): bool
+    {
+        $statement = $this->getPdoDriver()->prepare('CALL UpdateContract(:contractNumber)');
+        $statement->execute(['contractNumber' => $contractNumber]);
+
+        $rawContractData = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
+
+        if (empty($rawContractData)) {
+            throw new ContractNotFoundException();
+        }
+
+        return true;
+    }
 
     /**
      * @param int $contractNumber

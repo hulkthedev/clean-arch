@@ -27,7 +27,8 @@ class ContractController
      */
     public function terminate(Request $request, TerminateContractInteractor $interactor): Response
     {
-
+        $response = $interactor->execute($request);
+        return $this->createResponse($response->presentResponse(), $response->getHttpStatus());
     }
 
     /**

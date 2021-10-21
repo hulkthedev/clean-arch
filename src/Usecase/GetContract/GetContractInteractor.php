@@ -11,7 +11,6 @@ use App\Usecase\BaseResponse;
 use App\Usecase\ResultCodes;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\UnsupportedMediaTypeHttpException;
 use Throwable;
 
 class GetContractInteractor extends BaseInteractor
@@ -46,18 +45,10 @@ class GetContractInteractor extends BaseInteractor
     }
 
     /**
-     * @param Request $request
-     * @throws UnsupportedMediaTypeHttpException
-     * @throws BadRequestException
+     * @inheritDoc
      */
-    private function validateRequest(Request $request): void
+    protected function validateRequest(Request $request): void
     {
-        if (null === $request->get('contractNumber')) {
-            throw new BadRequestException('No contractId transmitted!');
-        }
-
-        if ((int)$request->get('contractNumber') === 0) {
-            throw new BadRequestException('No valid contractId transmitted!');
-        }
+        $this->validateContractNumber($request);
     }
 }

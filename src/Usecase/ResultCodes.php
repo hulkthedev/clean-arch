@@ -7,6 +7,9 @@ class ResultCodes
     public const UNKNOWN_ERROR = -99;
 
     /** logic */
+    public const CONTRACT_TERMINATED = -25;
+    public const CONTRACT_FINISHED = -24;
+    public const CONTRACT_INACTIVE = -23;
     public const RISKS_NOT_FOUND = -22;
     public const OBJECT_NOT_FOUND = -21;
     public const CONTRACT_NOT_FOUND = -20;

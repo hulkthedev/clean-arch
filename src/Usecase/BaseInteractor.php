@@ -3,9 +3,11 @@
 namespace App\Usecase;
 
 use App\Repository\RepositoryInterface as Repository;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\UnsupportedMediaTypeHttpException;
 
-class BaseInteractor
+abstract class BaseInteractor
 {
     protected const SUPPORTED_MEDIA_TYPE = 'json';
 
@@ -18,6 +20,13 @@ class BaseInteractor
     {
         $this->repository = $repository;
     }
+
+    /**
+     * @param Request $request
+     * @throws UnsupportedMediaTypeHttpException
+     * @throws BadRequestException
+     */
+    abstract protected function validateRequest(Request $request): void;
 
     /**
      * @return Repository
@@ -35,6 +44,36 @@ class BaseInteractor
     {
         if (self::SUPPORTED_MEDIA_TYPE !== strtolower($contentType)) {
             throw new UnsupportedMediaTypeHttpException('Unsupported media type was transmitted!');
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @throws UnsupportedMediaTypeHttpException
+     * @throws BadRequestException
+     */
+    protected function validateContractNumber(Request $request): void
+    {
+        if (null === $request->get('contractNumber')) {
+            throw new BadRequestException('No contractId transmitted!');
+        }
+
+        if ((int)$request->get('contractNumber') === 0) {
+            throw new BadRequestException('No valid contractId transmitted!');
+        }
+    }
+
+    /**
+     * @param Request $request
+     */
+    protected function validateDate(Request $request): void
+    {
+        if (null === $request->get('date')) {
+            throw new BadRequestException('No date transmitted!');
+        }
+
+        if ('' === $request->get('date')) {
+            throw new BadRequestException('No valid date transmitted!');
         }
     }
 }

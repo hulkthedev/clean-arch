@@ -46,7 +46,7 @@ class Contract
      */
     public function isTerminated(): bool
     {
-        return $this->terminationDate === null;
+        return $this->terminationDate !== null;
     }
 
     /**
@@ -54,7 +54,7 @@ class Contract
      */
     public function isFinished(): bool
     {
-        return $this->endDate === null;
+        return $this->endDate !== null;
     }
 
     /**
