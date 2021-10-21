@@ -6,7 +6,12 @@
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=hulkthedev_symfony-clean-architecture-example&metric=coverage)](https://sonarcloud.io/dashboard?id=hulkthedev_symfony-clean-architecture-example)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-A simple microservice to demonstrate clean architecture
+A simple microservice to demonstrate clean architecture. A contract object is used as an example.
+The following operations are planned:
+- Show contract
+- Terminate contract (wip)
+- Risk booking (wip)
+- Changing contract data (wip)
 
 ##### CI Error
 
