@@ -10,7 +10,6 @@ use App\Usecase\BaseInteractor;
 use App\Usecase\BaseResponse;
 use App\Usecase\ResultCodes;
 use App\Usecase\TerminateContract\Exceptions\ContractCanNotBeTerminated;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Request;
 use Throwable;
 
@@ -31,16 +30,8 @@ class TerminateContractInteractor extends BaseInteractor
             $this->validateContract($contractNumber);
 
             $this->getRepository()->terminateContractByNumber($contractNumber);
-        } catch (BadRequestException $exception) {
-            $code = ResultCodes::INVALID_SYNTAX;
-        } catch (DatabaseUnreachableException $exception) {
-            $code = ResultCodes::DATABASE_UNREACHABLE;
-        } catch (ContractNotFoundException $exception) {
-            $code = ResultCodes::CONTRACT_NOT_FOUND;
-        } catch (ContractCanNotBeTerminated $exception) {
+        } catch (Throwable $exception) {
             $code = $exception->getCode();
-        } catch (Throwable $throwable) {
-            $code = ResultCodes::UNKNOWN_ERROR;
         }
 
         return new BaseResponse($code);

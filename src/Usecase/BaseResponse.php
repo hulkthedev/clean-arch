@@ -26,22 +26,18 @@ class BaseResponse
     public function getHttpStatus(): int
     {
         switch ($this->code) {
-            case ResultCodes::SUCCESS:
             case ResultCodes::CONTRACT_NOT_FOUND:
-            case ResultCodes::DATABASE_IS_EMPTY:
-                return Response::HTTP_OK;
-            case ResultCodes::SUCCESS_CREATED;
-                return Response::HTTP_CREATED;
-            case ResultCodes::SUCCESS_NO_CONTENT:
-                return Response::HTTP_NO_CONTENT;
+            case ResultCodes::RISKS_NOT_FOUND:
+            case ResultCodes::OBJECT_NOT_FOUND:
             case ResultCodes::INVALID_JSON_CONTENT:
             case ResultCodes::INVALID_SYNTAX:
-            case ResultCodes::USER_CAN_NOT_BE_UPDATED:
+            case ResultCodes::MISSING_PARAMETER:
                 return Response::HTTP_BAD_REQUEST;
             case ResultCodes::INVALID_MEDIA_TYPE:
                 return Response::HTTP_UNSUPPORTED_MEDIA_TYPE;
+            case ResultCodes::SUCCESS:
+                return Response::HTTP_OK;
             case ResultCodes::DATABASE_UNREACHABLE:
-            case ResultCodes::PDO_EXCEPTION:
             case ResultCodes::UNKNOWN_ERROR:
             default:
                 return Response::HTTP_INTERNAL_SERVER_ERROR;

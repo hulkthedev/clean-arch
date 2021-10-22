@@ -3,7 +3,8 @@
 namespace App\Usecase;
 
 use App\Repository\RepositoryInterface as Repository;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
+use App\Usecase\Exceptions\BadRequestException;
+use App\Usecase\Exceptions\MissingParameterException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\UnsupportedMediaTypeHttpException;
 
@@ -25,6 +26,7 @@ abstract class BaseInteractor
      * @param Request $request
      * @throws UnsupportedMediaTypeHttpException
      * @throws BadRequestException
+     * @throws MissingParameterException
      */
     abstract protected function validateRequest(Request $request): void;
 
@@ -51,29 +53,32 @@ abstract class BaseInteractor
      * @param Request $request
      * @throws UnsupportedMediaTypeHttpException
      * @throws BadRequestException
+     * @throws MissingParameterException
      */
     protected function validateContractNumber(Request $request): void
     {
         if (null === $request->get('contractNumber')) {
-            throw new BadRequestException('No contractId transmitted!');
+            throw new BadRequestException('No contractId transmitted!', );
         }
 
         if ((int)$request->get('contractNumber') === 0) {
-            throw new BadRequestException('No valid contractId transmitted!');
+            throw new MissingParameterException();
         }
     }
 
     /**
      * @param Request $request
+     * @throws BadRequestException
+     * @throws MissingParameterException
      */
     protected function validateDate(Request $request): void
     {
         if (null === $request->get('date')) {
-            throw new BadRequestException('No date transmitted!');
+            throw new BadRequestException();
         }
 
         if ('' === $request->get('date')) {
-            throw new BadRequestException('No valid date transmitted!');
+            throw new MissingParameterException();
         }
     }
 }
