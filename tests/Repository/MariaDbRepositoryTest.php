@@ -3,14 +3,17 @@
 namespace App\Tests\Repository;
 
 use App\Mapper\MariaDbMapper;
+use App\Repository\Exception\ContractNotFoundException;
 use App\Repository\MariaDbRepository;
 use App\Repository\RepositoryInterface;
+use App\Tests\Entity\ContractTest;
+use App\Tests\TestCaseHelper;
 use PDO;
 use PDOStatement;
 use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
+use Throwable;
 
-class MariaDbRepositoryTest extends TestCase
+class MariaDbRepositoryTest extends TestCaseHelper
 {
     private const CONTRACT_NUMBER = 1000;
 
@@ -19,22 +22,27 @@ class MariaDbRepositoryTest extends TestCase
         $repo = $this->getPreparedRepository();
         $contract = $repo->getContractByNumber(self::CONTRACT_NUMBER);
 
-
-        var_dump($contract);;exit;
+        $this->assertContract($contract);
+        $this->assertPaymentAccount($contract->getPaymentAccount());
+        $this->assertCustomer($contract->getCustomer());
+        $this->assertObjects($contract->getObjects());
     }
 
-//    public function test_GetContractByNumber_ExpectContractNotFoundException(): void
-//    {
-//        $this->expectException(ContractNotFoundException::class);
-//
-//        $repo = $this->getPreparedRepository();
-//        $repo->getContractByNumber(123);
-//    }
+    public function test_GetContractByNumber_ExpectContractNotFoundException(): void
+    {
+        $this->expectException(ContractNotFoundException::class);
+
+        $repo = $this->getPreparedRepository(true);
+        $repo->getContractByNumber(self::CONTRACT_NUMBER);
+    }
+
+
 
     /**
+     * @param bool $emptyResult
      * @return RepositoryInterface
      */
-    private function getPreparedRepository(): RepositoryInterface
+    private function getPreparedRepository(bool $emptyResult = false): RepositoryInterface
     {
         $pdoMock = $this->getMockBuilder(PDO::class)
             ->disableOriginalConstructor()
@@ -43,10 +51,10 @@ class MariaDbRepositoryTest extends TestCase
 
         $pdoMock->expects($this->any())
             ->method('prepare')
-            ->will($this->returnCallback(function ($id) {
+            ->will($this->returnCallback(function ($id) use ($emptyResult) {
                 switch ($id) {
                     case 'CALL GetContractByNumber(:contractNumber)':
-                        return $this->getPdoStatementStub([[
+                        return $this->getPdoStatementStub($emptyResult ? [] : [[
                             'id' => 1,
                             'number' => 1000,
                             'customer_id' => 1,
@@ -71,7 +79,7 @@ class MariaDbRepositoryTest extends TestCase
                             'payment_name' => 'SEPA',
                         ]]);
                     case 'CALL GetObjectsByContractNumber(:contractNumber)':
-                        return $this->getPdoStatementStub([[
+                        return $this->getPdoStatementStub($emptyResult ? [] : [[
                             'object_id' => 1,
                             'contract_id' => 1,
                             'serial_number' => '24235435436547456',
@@ -84,12 +92,12 @@ class MariaDbRepositoryTest extends TestCase
                             'termination_date' => null,
                         ]]);
                     case 'CALL GetRisksByObjectId(:objectId)':
-                        return $this->getPdoStatementStub([[
+                        return $this->getPdoStatementStub($emptyResult ? [] : [[
                             'object_id' => 1,
                             'name' => 'THEFT_PROTECTION_SMARTPHONE',
                         ]]);
                     default:
-                        return null;
+                        return [];
                 }
             }));
 
