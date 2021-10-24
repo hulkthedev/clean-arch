@@ -19,11 +19,18 @@ class MariaDbMapperTest extends TestCaseHelper
     }
 
     /**
-     * @todo auslagern und wiederverwenden
      * @return array
      */
     private function getRawData(): array
     {
+        $contract = $this->getRawContractData();
+        $contract['objects'] = [];
+        $contract['objects'][] = $this->getRawObjectData();
+//        $contract['objects'][0]['risks'] = $this->getRawRiskData();
+
+        return reset($contract);
+
+
         return [
             'id' => 1,
             'number' => 1000,

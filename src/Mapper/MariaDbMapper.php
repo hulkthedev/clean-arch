@@ -14,6 +14,9 @@ class MariaDbMapper
 
     public function createContract(array $data): Contract
     {
+
+        var_dump($data);exit;
+
         $contract = new Contract();
         $contract->id = $data['id'];
         $contract->number = $data['number'];
