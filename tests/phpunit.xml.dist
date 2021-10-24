@@ -18,7 +18,7 @@
     </php>
 
     <testsuites>
-        <testsuite name="ca-example">
+        <testsuite name="clean-arch">
             <directory>.</directory>
         </testsuite>
     </testsuites>

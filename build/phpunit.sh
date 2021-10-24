@@ -23,7 +23,8 @@ docker exec --user="$(id -u)":"$(id -g)" \
       --coverage-clover var/reports/clover.xml \
       --log-junit var/reports/junit.xml \
       --cache-result-file var/reports/.phpunit.result.cache \
-      --testdox
+      --testdox \
+      $*
 
 exit $?
 
