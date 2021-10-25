@@ -6,10 +6,17 @@ class ResultCodes
 {
     public const UNKNOWN_ERROR = -99;
 
-    /** logic */
-    public const CONTRACT_TERMINATED = -25;
-    public const CONTRACT_FINISHED = -24;
-    public const CONTRACT_INACTIVE = -23;
+    /** book risks logic */
+
+
+    /** termination logic */
+    public const CONTRACT_TERMINATION_ERROR = -34;
+    public const CONTRACT_TERMINATION_IN_THE_PAST = -33;
+    public const CONTRACT_ALREADY_TERMINATED = -32;
+    public const CONTRACT_ALREADY_FINISHED = -31;
+    public const CONTRACT_ALREADY_INACTIVE = -30;
+
+    /** not found */
     public const RISKS_NOT_FOUND = -22;
     public const OBJECT_NOT_FOUND = -21;
     public const CONTRACT_NOT_FOUND = -20;

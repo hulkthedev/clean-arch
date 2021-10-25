@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Contract;
+use App\Repository\Exception\ContractCanNotBeTerminatedException;
 use App\Repository\Exception\ContractNotFoundException;
 use App\Repository\Exception\DatabaseUnreachableException;
 use App\Repository\Exception\ObjectNotFoundException;
@@ -51,16 +52,18 @@ class MariaDbRepository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function terminateContractByNumber(int $contractNumber): bool
+    public function terminateContractByNumber(int $contractNumber, string $date): bool
     {
-        $statement = $this->getPdoDriver()->prepare('CALL UpdateContract(:contractNumber)');
-        $statement->execute(['contractNumber' => $contractNumber]);
+        $statement = $this->getPdoDriver()->prepare('CALL TerminateContractByNumber(:contractNumber, :date)');
+        $result = $statement->execute([
+            'contractNumber' => $contractNumber,
+            'date' => $date,
+        ]);
 
-        $rawContractData = $statement->fetchAll(PDO::FETCH_ASSOC);
         $statement->closeCursor();
 
-        if (empty($rawContractData)) {
-            throw new ContractNotFoundException();
+        if (true !== $result) {
+            throw new ContractCanNotBeTerminatedException();
         }
 
         return true;

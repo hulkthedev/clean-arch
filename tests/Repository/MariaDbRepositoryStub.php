@@ -28,7 +28,10 @@ class MariaDbRepositoryStub implements RepositoryInterface
         return new ContractStub();
     }
 
-    public function terminateContractByNumber(int $contractNumber): bool
+    /**
+     * @inheritDoc
+     */
+    public function terminateContractByNumber(int $contractNumber, string $date): bool
     {
         if ($this->throwException) {
             throw new ContractNotFoundException();

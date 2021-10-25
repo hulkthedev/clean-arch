@@ -31,8 +31,10 @@ class MariaDbMapper
         $contract->customer = $this->createCustomer($data);
         $contract->paymentAccount = $this->createPaymentAccount($data);
 
-        foreach ($data['objects'] as $object) {
-            $contract->objects[] = $this->createObject($object);
+        if (isset($data['objects'])) {
+            foreach ($data['objects'] as $object) {
+                $contract->objects[] = $this->createObject($object);
+            }
         }
 
         return $contract;

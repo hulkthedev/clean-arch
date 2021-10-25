@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Contract;
+use App\Repository\Exception\ContractCanNotBeTerminatedException;
 use App\Repository\Exception\ContractNotFoundException;
 use App\Repository\Exception\DatabaseUnreachableException;
 use App\Repository\Exception\ObjectNotFoundException;
@@ -23,9 +24,10 @@ interface RepositoryInterface
 
     /**
      * @param int $contractNumber
+     * @param string $date
      * @return bool
      * @throws DatabaseUnreachableException
-     * @throws ContractNotFoundException
+     * @throws ContractCanNotBeTerminatedException
      */
-    public function terminateContractByNumber(int $contractNumber): bool;
+    public function terminateContractByNumber(int $contractNumber, string $date): bool;
 }

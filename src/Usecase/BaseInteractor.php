@@ -68,16 +68,17 @@ abstract class BaseInteractor
 
     /**
      * @param Request $request
+     * @param string $paramName
      * @throws BadRequestException
      * @throws MissingParameterException
      */
-    protected function validateDate(Request $request): void
+    protected function validateDate(Request $request, string $paramName): void
     {
-        if (null === $request->get('date')) {
+        if (null === $request->get($paramName)) {
             throw new BadRequestException();
         }
 
-        if ('' === $request->get('date')) {
+        if ('' === $request->get($paramName)) {
             throw new MissingParameterException();
         }
     }

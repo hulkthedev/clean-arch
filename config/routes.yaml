@@ -8,6 +8,6 @@ get_contract:
   methods: [GET]
 
 terminate_contract:
-  path: /clean-arch/contract/{contractNumber}/terminate/{date}
+  path: /clean-arch/contract/{contractNumber}/terminate/{toDate}
   controller: App\Controller\ContractController::terminate
-  methods: [PUT]
+  methods: [GET]
