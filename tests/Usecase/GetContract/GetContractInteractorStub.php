@@ -10,8 +10,14 @@ use Symfony\Component\HttpFoundation\Request;
 
 class GetContractInteractorStub extends GetContractInteractor
 {
-    public function __construct()
+    private bool $validResponse;
+
+    /**
+     * @param bool $validResponse
+     */
+    public function __construct(bool $validResponse = true)
     {
+        $this->validResponse = $validResponse;
     }
 
     /**
@@ -19,6 +25,8 @@ class GetContractInteractorStub extends GetContractInteractor
      */
     public function execute(Request $request): BaseResponse
     {
-        return new BaseResponse(ResultCodes::SUCCESS, [new ContractStub()]);
+        return $this->validResponse
+            ? new BaseResponse(ResultCodes::SUCCESS, [new ContractStub()])
+            : new BaseResponse(ResultCodes::CONTRACT_NOT_FOUND);
     }
 }
