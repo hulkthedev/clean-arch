@@ -21,7 +21,7 @@ class Contract
     public PaymentAccount $paymentAccount;
 
     /** @var ObjectItem[]  */
-    public array $objects;
+    public array $objects = [];
 
     /**
      * @return bool

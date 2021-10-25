@@ -6,12 +6,10 @@ use App\Mapper\MariaDbMapper;
 use App\Repository\Exception\ContractNotFoundException;
 use App\Repository\MariaDbRepository;
 use App\Repository\RepositoryInterface;
-use App\Tests\Entity\ContractTest;
 use App\Tests\TestCaseHelper;
 use PDO;
 use PDOStatement;
 use PHPUnit\Framework\MockObject\MockObject;
-use Throwable;
 
 class MariaDbRepositoryTest extends TestCaseHelper
 {

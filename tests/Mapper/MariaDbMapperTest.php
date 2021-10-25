@@ -26,54 +26,8 @@ class MariaDbMapperTest extends TestCaseHelper
         $contract = $this->getRawContractData();
         $contract['objects'] = [];
         $contract['objects'][] = $this->getRawObjectData();
-//        $contract['objects'][0]['risks'] = $this->getRawRiskData();
+        $contract['objects'][0]['risks'] = $this->getRawRiskData();
 
         return reset($contract);
-
-
-        return [
-            'id' => 1,
-            'number' => 1000,
-            'customer_id' => 1,
-            'request_date' => '2021-01-13',
-            'start_date' => '2021-02-01',
-            'end_date' => null,
-            'termination_date' => null,
-            'dunning_level' => 0,
-            'payment_interval' => 30,
-            'firstname' => 'Bill',
-            'lastname' => 'Gates',
-            'age' => 72,
-            'gender' => 'm',
-            'street' => 'Windows Ave.',
-            'house_number' => '3422',
-            'postcode' => '12F000',
-            'city' => 'Los Angeles',
-            'country' => 'USA',
-            'payment_account_holder' => 'Bill Gates',
-            'payment_account_iban' => 'DE02500105170137075030',
-            'payment_account_bic' => 'INGDDEFF',
-            'payment_name' => 'SEPA',
-            'objects' => [
-                [
-                    'object_id' => 1,
-                    'contract_id' => 1,
-                    'serial_number' => '24235435436547456',
-                    'price' => 1000,
-                    'currency' => 'USD',
-                    'description' => 'Apple iPhone 11',
-                    'buying_date' => '2021-01-01',
-                    'start_date' => '2021-02-01',
-                    'end_date' => null,
-                    'termination_date' => null,
-                    'risks' => [
-                        [
-                            'object_id' => 1,
-                            'name' => 'THEFT_PROTECTION_SMARTPHONE'
-                        ]
-                    ]
-                ]
-            ]
-        ];
     }
 }
