@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Tests\Usecase\GetContract;
 
 use App\Tests\Entity\ContractStub;

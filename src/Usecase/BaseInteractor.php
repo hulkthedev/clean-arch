@@ -58,7 +58,7 @@ abstract class BaseInteractor
     protected function validateContractNumber(Request $request): void
     {
         if (null === $request->get('contractNumber')) {
-            throw new BadRequestException('No contractId transmitted!', );
+            throw new BadRequestException();
         }
 
         if ((int)$request->get('contractNumber') === 0) {
