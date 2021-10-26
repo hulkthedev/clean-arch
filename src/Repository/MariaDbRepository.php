@@ -29,11 +29,7 @@ class MariaDbRepository implements RepositoryInterface
     }
 
     /**
-     * @param int $objectId
-     * @param int $riskType
-     * @return bool
-     * @throws DatabaseUnreachableException
-     * @throws RiskCanNotBeBookedException
+     * @inheritDoc
      */
     public function bookRisk(int $objectId, int $riskType): bool
     {
