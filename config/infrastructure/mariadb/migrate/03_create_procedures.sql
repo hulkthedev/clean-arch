@@ -88,3 +88,17 @@ END //
 DELIMITER ;
 
 /**********************************************************************************************************************/
+
+DELIMITER //
+CREATE PROCEDURE TerminateContractByNumber (
+    IN _contractNumber SMALLINT UNSIGNED,
+    IN _terminationDate DATE
+)
+BEGIN
+    UPDATE contract
+    SET termination_date = _terminationDate
+    WHERE number = _contractNumber;
+END //
+DELIMITER ;
+
+/**********************************************************************************************************************/
