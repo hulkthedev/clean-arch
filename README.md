@@ -9,9 +9,9 @@
 A simple stateless microservice to demonstrate clean architecture. A contract object is used as an example.
 The following operations are planned:
 - Show contract
-- Terminate contract (wip)
+- Terminate contract
 - Risk booking (wip)
-- Changing contract data (wip)
+- Changing customer data (wip)
 
 ##### CI Error
 

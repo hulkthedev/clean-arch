@@ -65,21 +65,4 @@ abstract class BaseInteractor
             throw new MissingParameterException();
         }
     }
-
-    /**
-     * @param Request $request
-     * @param string $paramName
-     * @throws BadRequestException
-     * @throws MissingParameterException
-     */
-    protected function validateDate(Request $request, string $paramName): void
-    {
-        if (null === $request->get($paramName)) {
-            throw new BadRequestException();
-        }
-
-        if ('' === $request->get($paramName)) {
-            throw new MissingParameterException();
-        }
-    }
 }

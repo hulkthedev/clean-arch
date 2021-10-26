@@ -10,4 +10,9 @@ get_contract:
 terminate_contract:
   path: /clean-arch/contract/{contractNumber}/terminate/{toDate}
   controller: App\Controller\ContractController::terminate
-  methods: [GET]
+  methods: [PUT]
+
+book_risk:
+  path: /clean-arch/contract/{contractNumber}/{objectId}/book-risk/{riskType}
+  controller: App\Controller\ObjectController::bookRisk
+  methods: [PUT]

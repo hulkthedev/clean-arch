@@ -8,6 +8,8 @@ use App\Repository\Exception\ObjectNotFoundException;
 use App\Repository\Exception\RisksNotFoundException;
 use App\Usecase\BaseInteractor;
 use App\Usecase\BaseResponse;
+use App\Usecase\Exceptions\BadRequestException;
+use App\Usecase\Exceptions\MissingParameterException;
 use App\Usecase\ResultCodes;
 use App\Usecase\TerminateContract\Exceptions\ContractCanNotBeTerminated;
 use DateTimeImmutable;
@@ -16,8 +18,6 @@ use Throwable;
 
 class TerminateContractInteractor extends BaseInteractor
 {
-    private const PARAM_NAME_DATE = 'toDate';
-
     /**
      * @param Request $request
      * @return BaseResponse
@@ -32,7 +32,7 @@ class TerminateContractInteractor extends BaseInteractor
             $contractNumber = (int)$request->get('contractNumber');
             $this->validateContract($contractNumber);
 
-            $terminationDate = $request->get(self::PARAM_NAME_DATE);
+            $terminationDate = $request->get('toDate');
             $this->validateTerminationDate($terminationDate);
 
             $this->getRepository()->terminateContractByNumber($contractNumber, $terminationDate);
@@ -49,7 +49,14 @@ class TerminateContractInteractor extends BaseInteractor
     protected function validateRequest(Request $request): void
     {
         $this->validateContractNumber($request);
-        $this->validateDate($request, self::PARAM_NAME_DATE);
+
+        if (null === $request->get('toDate')) {
+            throw new BadRequestException();
+        }
+
+        if ('' === $request->get('toDate')) {
+            throw new MissingParameterException();
+        }
     }
 
     /**
