@@ -173,7 +173,7 @@ Unfortunately, Travis CI does not yet support PHP 8.x
 }
 ```
 
-> [PUT](http://localhost:3699/clean-arch/contract/1000/object/1/book-risk/THEFT_PROTECTION) /clean-arch/contract/1000/object/1/book-risk/THEFT_PROTECTION
+> [PUT](http://localhost:3699/clean-arch/contract/1000/object/1/book-risk/3) /clean-arch/contract/1000/object/1/book-risk/3
 ```json
 {
   "code": 1,
