@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Tests;
 
 use App\Entity\Contract;
@@ -14,9 +13,19 @@ use App\Tests\Entity\ObjectItemStub;
 use App\Tests\Entity\PaymentAccountStub;
 use App\Tests\Entity\RiskStub;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\Request;
 
 class TestCaseHelper extends TestCase
 {
+    /**
+     * @param array $query
+     * @return Request
+     */
+    protected function getHttpRequest(array $query = ['contractNumber' => 1000]): Request
+    {
+        return new Request($query);
+    }
+
     /**
      * @return array
      */

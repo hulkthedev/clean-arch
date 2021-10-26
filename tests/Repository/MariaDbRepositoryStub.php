@@ -10,9 +10,12 @@ use App\Tests\Entity\ContractStub;
 
 class MariaDbRepositoryStub implements RepositoryInterface
 {
-    private bool $throwException;
+    private array $throwException;
 
-    public function __construct(bool $throwException = false)
+    /**
+     * @param array $throwException
+     */
+    public function __construct(array $throwException = [])
     {
         $this->throwException = $throwException;
     }
@@ -22,7 +25,7 @@ class MariaDbRepositoryStub implements RepositoryInterface
      */
     public function getContractByNumber(int $contractNumber, bool $ignoreObjects = false): Contract
     {
-        if ($this->throwException) {
+        if ($this->throwException[__FUNCTION__]) {
             throw new ContractNotFoundException();
         }
 
@@ -34,7 +37,7 @@ class MariaDbRepositoryStub implements RepositoryInterface
      */
     public function terminateContractByNumber(int $contractNumber, string $date): bool
     {
-        if ($this->throwException) {
+        if ($this->throwException[__FUNCTION__]) {
             throw new ContractCanNotBeTerminatedException();
         }
 
