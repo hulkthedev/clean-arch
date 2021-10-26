@@ -2,8 +2,6 @@
 
 namespace App\Usecase\BookRisk;
 
-use App\Entity\Contract;
-use App\Entity\ObjectItem;
 use App\Entity\Risk;
 use App\Repository\Exception\ContractNotFoundException;
 use App\Repository\Exception\DatabaseUnreachableException;
@@ -14,6 +12,7 @@ use App\Usecase\BaseResponse;
 use App\Usecase\BookRisk\Exception\RiskCanNotBeBookedException;
 use App\Usecase\BookRisk\Exception\RiskTypeNotFoundException;
 use App\Usecase\Exception\BadRequestException;
+use App\Usecase\Exception\DeclineByContractException;
 use App\Usecase\Exception\MissingParameterException;
 use App\Usecase\ResultCodes;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,9 +20,6 @@ use Throwable;
 
 class BookRiskInteractor extends BaseInteractor
 {
-    /** @var Contract */
-    private Contract $contract;
-
     /**
      * @param Request $request
      * @return BaseResponse
@@ -50,9 +46,9 @@ class BookRiskInteractor extends BaseInteractor
      * @throws DatabaseUnreachableException
      * @throws MissingParameterException
      * @throws ObjectNotFoundException
-     * @throws RiskCanNotBeBookedException
      * @throws RiskTypeNotFoundException
      * @throws RisksNotFoundException
+     * @throws DeclineByContractException
      */
     protected function validateRequest(Request $request): void
     {
@@ -69,37 +65,8 @@ class BookRiskInteractor extends BaseInteractor
     }
 
     /**
-     * @param int $contractNumber
-     * @throws ContractNotFoundException
-     * @throws DatabaseUnreachableException
-     * @throws ObjectNotFoundException
-     * @throws RiskCanNotBeBookedException
-     * @throws RisksNotFoundException
-     */
-    private function validateContract(int $contractNumber): void
-    {
-        /**
-         * @note this is a stateless example.
-         * $contracts should be read from the session or other cache layer, not from the database.
-         */
-        $this->contract = $this->getRepository()->getContractByNumber($contractNumber);
-
-        if ($this->contract->isInactive()) {
-            throw new RiskCanNotBeBookedException(ResultCodes::CONTRACT_ALREADY_INACTIVE);
-        }
-
-        if ($this->contract->isTerminated()) {
-            throw new RiskCanNotBeBookedException(ResultCodes::CONTRACT_ALREADY_TERMINATED);
-        }
-
-        if ($this->contract->isFinished()) {
-            throw new RiskCanNotBeBookedException(ResultCodes::CONTRACT_ALREADY_FINISHED);
-        }
-    }
-
-    /**
      * @param int $objectId
-     * @throws RiskCanNotBeBookedException
+     * @throws DeclineByContractException
      * @throws ObjectNotFoundException
      */
     private function validateObject(int $objectId): void
@@ -109,11 +76,11 @@ class BookRiskInteractor extends BaseInteractor
         }
 
         if ($object->isTerminated()) {
-            throw new RiskCanNotBeBookedException(ResultCodes::OBJECT_ALREADY_TERMINATED);
+            throw new DeclineByContractException(ResultCodes::OBJECT_ALREADY_TERMINATED);
         }
 
         if ($object->isFinished()) {
-            throw new RiskCanNotBeBookedException(ResultCodes::OBJECT_ALREADY_FINISHED);
+            throw new DeclineByContractException(ResultCodes::OBJECT_ALREADY_FINISHED);
         }
     }
 

@@ -1,14 +1,14 @@
 <?php
 
 
-namespace App\Usecase\TerminateContract\Exception;
+namespace App\Usecase\Exception;
 
 use Exception;
 
 /**
  * @codeCoverageIgnore
  */
-class ContractCanNotBeTerminatedException extends Exception
+class DeclineByContractException extends Exception
 {
     /**
      * @param int $resultCode
