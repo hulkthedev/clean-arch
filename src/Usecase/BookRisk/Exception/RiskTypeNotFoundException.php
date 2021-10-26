@@ -3,6 +3,7 @@
 
 namespace App\Usecase\BookRisk\Exception;
 
+use App\Usecase\ResultCodes;
 use Exception;
 
 /**
@@ -11,10 +12,10 @@ use Exception;
 class RiskTypeNotFoundException extends Exception
 {
     /**
-     * @param int $resultCode
+     * @inheritDoc
      */
-    public function __construct(int $resultCode)
+    public function __construct()
     {
-        parent::__construct('', $resultCode);
+        parent::__construct('', ResultCodes::RISK_TYPE_NOT_FOUND);
     }
 }

@@ -6,8 +6,11 @@ class ResultCodes
 {
     public const UNKNOWN_ERROR = -99;
 
-    /** book risks logic */
 
+    /** book risks logic */
+    public const RISK_TYPE_NOT_FOUND = -43;
+    public const OBJECT_ALREADY_TERMINATED = -42;
+    public const OBJECT_ALREADY_FINISHED = -41;
 
     /** termination logic */
     public const CONTRACT_TERMINATION_ERROR = -34;
@@ -25,7 +28,6 @@ class ResultCodes
     public const DATABASE_UNREACHABLE = -10;
 
     /** validation */
-    public const INVALID_MEDIA_TYPE = -3;
     public const MISSING_PARAMETER = -2;
     public const INVALID_SYNTAX = -1;
 

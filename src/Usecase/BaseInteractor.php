@@ -6,12 +6,9 @@ use App\Repository\RepositoryInterface as Repository;
 use App\Usecase\Exception\BadRequestException;
 use App\Usecase\Exception\MissingParameterException;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\UnsupportedMediaTypeHttpException;
 
 abstract class BaseInteractor
 {
-    protected const SUPPORTED_MEDIA_TYPE = 'json';
-
     private Repository $repository;
 
     /**
@@ -24,9 +21,6 @@ abstract class BaseInteractor
 
     /**
      * @param Request $request
-     * @throws UnsupportedMediaTypeHttpException
-     * @throws BadRequestException
-     * @throws MissingParameterException
      */
     abstract protected function validateRequest(Request $request): void;
 

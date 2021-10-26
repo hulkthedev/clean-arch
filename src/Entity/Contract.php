@@ -82,6 +82,20 @@ class Contract
     }
 
     /**
+     * @param int $id
+     * @return ObjectItem|null
+     */
+    public function getObjectById(int $id): ?ObjectItem
+    {
+        foreach ($this->getObjects() as $object) {
+            if ($object->id === $id) {
+                return $object;
+            }
+        }
+        return null;
+    }
+
+    /**
      * @return PaymentAccount
      */
     public function getPaymentAccount(): PaymentAccount

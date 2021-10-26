@@ -4,6 +4,8 @@ namespace App\Usecase\GetContract;
 
 use App\Usecase\BaseInteractor;
 use App\Usecase\BaseResponse;
+use App\Usecase\Exception\BadRequestException;
+use App\Usecase\Exception\MissingParameterException;
 use App\Usecase\ResultCodes;
 use Symfony\Component\HttpFoundation\Request;
 use Throwable;
@@ -30,7 +32,9 @@ class GetContractInteractor extends BaseInteractor
     }
 
     /**
-     * @inheritDoc
+     * @param Request $request
+     * @throws BadRequestException
+     * @throws MissingParameterException
      */
     protected function validateRequest(Request $request): void
     {

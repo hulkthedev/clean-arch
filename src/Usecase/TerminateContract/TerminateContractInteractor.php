@@ -8,6 +8,8 @@ use App\Repository\Exception\ObjectNotFoundException;
 use App\Repository\Exception\RisksNotFoundException;
 use App\Usecase\BaseInteractor;
 use App\Usecase\BaseResponse;
+use App\Usecase\Exception\BadRequestException;
+use App\Usecase\Exception\MissingParameterException;
 use App\Usecase\ResultCodes;
 use App\Usecase\TerminateContract\Exception\ContractCanNotBeTerminatedException;
 use DateTimeImmutable;
@@ -26,14 +28,7 @@ class TerminateContractInteractor extends BaseInteractor
 
         try {
             $this->validateRequest($request);
-
-            $contractNumber = (int)$request->get('contractNumber');
-            $this->validateContract($contractNumber);
-
-            $terminationDate = $request->get('toDate');
-            $this->validateTerminationDate($terminationDate);
-
-            $this->getRepository()->terminateContractByNumber($contractNumber, $terminationDate);
+            $this->getRepository()->terminateContractByNumber((int)$request->get('contractNumber'), $request->get('toDate'));
         } catch (Throwable $exception) {
             $code = $exception->getCode();
         }
@@ -42,11 +37,24 @@ class TerminateContractInteractor extends BaseInteractor
     }
 
     /**
-     * @inheritDoc
+     * @param Request $request
+     * @throws ContractCanNotBeTerminatedException
+     * @throws ContractNotFoundException
+     * @throws DatabaseUnreachableException
+     * @throws ObjectNotFoundException
+     * @throws RisksNotFoundException
+     * @throws BadRequestException
+     * @throws MissingParameterException
      */
     protected function validateRequest(Request $request): void
     {
         $this->validateParameter($request, ['contractNumber', 'toDate']);
+
+        $contractNumber = (int)$request->get('contractNumber');
+        $this->validateContract($contractNumber);
+
+        $terminationDate = $request->get('toDate');
+        $this->validateTerminationDate($terminationDate);
     }
 
     /**

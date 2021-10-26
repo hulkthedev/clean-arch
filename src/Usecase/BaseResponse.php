@@ -32,8 +32,6 @@ class BaseResponse
             case ResultCodes::INVALID_SYNTAX:
             case ResultCodes::MISSING_PARAMETER:
                 return Response::HTTP_BAD_REQUEST;
-            case ResultCodes::INVALID_MEDIA_TYPE:
-                return Response::HTTP_UNSUPPORTED_MEDIA_TYPE;
             case ResultCodes::SUCCESS:
                 return Response::HTTP_OK;
             case ResultCodes::DATABASE_UNREACHABLE:
