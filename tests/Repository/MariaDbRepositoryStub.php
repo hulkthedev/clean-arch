@@ -7,6 +7,8 @@ use App\Repository\Exception\ContractCanNotBeTerminatedException;
 use App\Repository\Exception\ContractNotFoundException;
 use App\Repository\RepositoryInterface;
 use App\Tests\Entity\ContractStub;
+use App\Usecase\BookRisk\Exception\RiskCanNotBeBookedException;
+use App\Usecase\ResultCodes;
 
 class MariaDbRepositoryStub implements RepositoryInterface
 {
@@ -39,6 +41,18 @@ class MariaDbRepositoryStub implements RepositoryInterface
     {
         if ($this->throwException[__FUNCTION__]) {
             throw new ContractCanNotBeTerminatedException();
+        }
+
+        return true;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function bookRisk(int $contractNumber, int $objectId, int $riskType): bool
+    {
+        if ($this->throwException[__FUNCTION__]) {
+            throw new RiskCanNotBeBookedException(ResultCodes::RISK_TYPE_ERROR);
         }
 
         return true;

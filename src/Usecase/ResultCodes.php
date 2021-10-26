@@ -8,6 +8,7 @@ class ResultCodes
 
 
     /** book risks logic */
+    public const RISK_TYPE_ERROR = -44;
     public const RISK_TYPE_NOT_FOUND = -43;
     public const OBJECT_ALREADY_TERMINATED = -42;
     public const OBJECT_ALREADY_FINISHED = -41;

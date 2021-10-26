@@ -8,6 +8,8 @@ use App\Repository\Exception\ContractNotFoundException;
 use App\Repository\Exception\DatabaseUnreachableException;
 use App\Repository\Exception\ObjectNotFoundException;
 use App\Repository\Exception\RisksNotFoundException;
+use App\Usecase\BookRisk\Exception\RiskCanNotBeBookedException;
+use App\Usecase\ResultCodes;
 use PDO;
 use App\Mapper\MariaDbMapper as Mapper;
 
@@ -24,6 +26,32 @@ class MariaDbRepository implements RepositoryInterface
     public function __construct(Mapper $mapper)
     {
         $this->mapper = $mapper;
+    }
+
+    /**
+     * @param int $contractNumber
+     * @param int $objectId
+     * @param int $riskType
+     * @return bool
+     * @throws DatabaseUnreachableException
+     * @throws RiskCanNotBeBookedException
+     */
+    public function bookRisk(int $contractNumber, int $objectId, int $riskType): bool
+    {
+        $statement = $this->getPdoDriver()->prepare('CALL BookRisk(:contractNumber, :objectId, :riskType)');
+        $result = $statement->execute([
+            'contractNumber' => $contractNumber,
+            'objectId' => $objectId,
+            'riskType' => $riskType,
+        ]);
+
+        $statement->closeCursor();
+
+        if (true !== $result) {
+            throw new RiskCanNotBeBookedException(ResultCodes::RISK_TYPE_ERROR);
+        }
+
+        return true;
     }
 
     /**

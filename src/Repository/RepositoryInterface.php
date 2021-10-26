@@ -8,6 +8,7 @@ use App\Repository\Exception\ContractNotFoundException;
 use App\Repository\Exception\DatabaseUnreachableException;
 use App\Repository\Exception\ObjectNotFoundException;
 use App\Repository\Exception\RisksNotFoundException;
+use App\Usecase\BookRisk\Exception\RiskCanNotBeBookedException;
 
 interface RepositoryInterface
 {
@@ -30,4 +31,14 @@ interface RepositoryInterface
      * @throws ContractCanNotBeTerminatedException
      */
     public function terminateContractByNumber(int $contractNumber, string $date): bool;
+
+    /**
+     * @param int $contractNumber
+     * @param int $objectId
+     * @param int $riskType
+     * @return bool
+     * @throws DatabaseUnreachableException
+     * @throws RiskCanNotBeBookedException
+     */
+    public function bookRisk(int $contractNumber, int $objectId, int $riskType): bool;
 }
