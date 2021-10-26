@@ -32,7 +32,6 @@ class BookRiskInteractor extends BaseInteractor
             $this->validateRequest($request);
             $this->getRepository()->bookRisk((int)$request->get('objectId'), (int)$request->get('riskType'));
         } catch (Throwable $throwable) {
-            var_dump($throwable->getMessage());
             $code = $throwable->getCode();
         }
 

@@ -29,8 +29,8 @@ class TerminateContractInteractor extends BaseInteractor
         try {
             $this->validateRequest($request);
             $this->getRepository()->terminateContractByNumber((int)$request->get('contractNumber'), $request->get('toDate'));
-        } catch (Throwable $exception) {
-            $code = $exception->getCode();
+        } catch (Throwable $throwable) {
+            $code = $throwable->getCode();
         }
 
         return new BaseResponse($code);

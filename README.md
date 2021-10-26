@@ -7,11 +7,10 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 A simple stateless microservice to demonstrate clean architecture. A contract object is used as an example.
-The following operations are planned:
-- Show contract
-- Terminate contract
-- Risk booking (wip)
-- Changing customer data (wip)
+The following operations are integrated:
+- Show contract (GET)
+- Terminate contract (PUT)
+- Risk booking (PUT)
 
 ##### CI Error
 
@@ -173,7 +172,7 @@ Unfortunately, Travis CI does not yet support PHP 8.x
 }
 ```
 
-> [PUT](http://localhost:3699/clean-arch/contract/1000/object/1/book-risk/3) /clean-arch/contract/1000/object/1/book-risk/3
+> [PUT](http://localhost:3699/clean-arch/contract/1000/object/1/book-risk/4) /clean-arch/contract/1000/object/1/book-risk/3
 ```json
 {
   "code": 1,
