@@ -3,6 +3,7 @@
 namespace App\Tests\Repository;
 
 use App\Entity\Contract;
+use App\Repository\Exception\ContractCanNotBeTerminatedException;
 use App\Repository\Exception\ContractNotFoundException;
 use App\Repository\RepositoryInterface;
 use App\Tests\Entity\ContractStub;
@@ -34,7 +35,7 @@ class MariaDbRepositoryStub implements RepositoryInterface
     public function terminateContractByNumber(int $contractNumber, string $date): bool
     {
         if ($this->throwException) {
-            throw new ContractNotFoundException();
+            throw new ContractCanNotBeTerminatedException();
         }
 
         return true;

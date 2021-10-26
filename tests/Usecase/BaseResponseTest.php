@@ -35,6 +35,12 @@ class BaseResponseTest extends TestCase
             [ResultCodes::OBJECT_NOT_FOUND, Response::HTTP_BAD_REQUEST],
             [ResultCodes::CONTRACT_NOT_FOUND, Response::HTTP_BAD_REQUEST],
 
+            [ResultCodes::CONTRACT_ALREADY_FINISHED, Response::HTTP_INTERNAL_SERVER_ERROR],
+            [ResultCodes::CONTRACT_ALREADY_INACTIVE, Response::HTTP_INTERNAL_SERVER_ERROR],
+            [ResultCodes::CONTRACT_ALREADY_TERMINATED, Response::HTTP_INTERNAL_SERVER_ERROR],
+            [ResultCodes::CONTRACT_TERMINATION_IN_THE_PAST, Response::HTTP_INTERNAL_SERVER_ERROR],
+            [ResultCodes::CONTRACT_TERMINATION_ERROR, Response::HTTP_INTERNAL_SERVER_ERROR],
+
             [ResultCodes::DATABASE_UNREACHABLE, Response::HTTP_INTERNAL_SERVER_ERROR],
             [ResultCodes::UNKNOWN_ERROR, Response::HTTP_INTERNAL_SERVER_ERROR],
             [112233, Response::HTTP_INTERNAL_SERVER_ERROR]
