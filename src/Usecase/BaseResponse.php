@@ -29,7 +29,6 @@ class BaseResponse
             case ResultCodes::CONTRACT_NOT_FOUND:
             case ResultCodes::RISKS_NOT_FOUND:
             case ResultCodes::OBJECT_NOT_FOUND:
-            case ResultCodes::INVALID_JSON_CONTENT:
             case ResultCodes::INVALID_SYNTAX:
             case ResultCodes::MISSING_PARAMETER:
                 return Response::HTTP_BAD_REQUEST;

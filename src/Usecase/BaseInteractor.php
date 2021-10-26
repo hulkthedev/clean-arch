@@ -39,30 +39,21 @@ abstract class BaseInteractor
     }
 
     /**
-     * @param string $contentType
-     * @throws UnsupportedMediaTypeHttpException
-     */
-    protected function validateContentType(string $contentType): void
-    {
-        if (self::SUPPORTED_MEDIA_TYPE !== strtolower($contentType)) {
-            throw new UnsupportedMediaTypeHttpException('Unsupported media type was transmitted!');
-        }
-    }
-
-    /**
      * @param Request $request
-     * @throws UnsupportedMediaTypeHttpException
+     * @param array $params
      * @throws BadRequestException
      * @throws MissingParameterException
      */
-    protected function validateContractNumber(Request $request): void
+    protected function validateParameter(Request $request, array $params): void
     {
-        if (null === $request->get('contractNumber')) {
-            throw new BadRequestException();
-        }
+        foreach ($params as $param) {
+            if (null === $request->get($param)) {
+                throw new BadRequestException();
+            }
 
-        if ((int)$request->get('contractNumber') === 0) {
-            throw new MissingParameterException();
+            if ((int)$request->get($param) === 0) {
+                throw new MissingParameterException();
+            }
         }
     }
 }

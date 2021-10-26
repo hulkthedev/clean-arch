@@ -8,8 +8,6 @@ use App\Repository\Exception\ObjectNotFoundException;
 use App\Repository\Exception\RisksNotFoundException;
 use App\Usecase\BaseInteractor;
 use App\Usecase\BaseResponse;
-use App\Usecase\Exceptions\BadRequestException;
-use App\Usecase\Exceptions\MissingParameterException;
 use App\Usecase\ResultCodes;
 use App\Usecase\TerminateContract\Exceptions\ContractCanNotBeTerminated;
 use DateTimeImmutable;
@@ -48,15 +46,7 @@ class TerminateContractInteractor extends BaseInteractor
      */
     protected function validateRequest(Request $request): void
     {
-        $this->validateContractNumber($request);
-
-        if (null === $request->get('toDate')) {
-            throw new BadRequestException();
-        }
-
-        if ('' === $request->get('toDate')) {
-            throw new MissingParameterException();
-        }
+        $this->validateParameter($request, ['contractNumber', 'toDate']);
     }
 
     /**

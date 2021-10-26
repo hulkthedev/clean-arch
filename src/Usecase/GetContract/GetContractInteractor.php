@@ -34,6 +34,6 @@ class GetContractInteractor extends BaseInteractor
      */
     protected function validateRequest(Request $request): void
     {
-        $this->validateContractNumber($request);
+        $this->validateParameter($request, ['contractNumber']);
     }
 }

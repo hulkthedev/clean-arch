@@ -41,14 +41,6 @@ class BookRiskInteractor extends BaseInteractor
      */
     protected function validateRequest(Request $request): void
     {
-        $this->validateContractNumber($request);
-
-        if (null === $request->get('objectId') || null === $request->get('riskType') ) {
-            throw new BadRequestException();
-        }
-
-        if ('' === $request->get('objectId') || '' === $request->get('riskType') ) {
-            throw new MissingParameterException();
-        }
+        $this->validateParameter($request, ['contractNumber', 'objectId', 'riskType']);
     }
 }

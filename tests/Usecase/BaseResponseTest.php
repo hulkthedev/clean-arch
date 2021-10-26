@@ -27,7 +27,6 @@ class BaseResponseTest extends TestCase
             [ResultCodes::SUCCESS, Response::HTTP_OK],
             [ResultCodes::INVALID_MEDIA_TYPE, Response::HTTP_UNSUPPORTED_MEDIA_TYPE],
 
-            [ResultCodes::INVALID_JSON_CONTENT, Response::HTTP_BAD_REQUEST],
             [ResultCodes::INVALID_SYNTAX, Response::HTTP_BAD_REQUEST],
             [ResultCodes::MISSING_PARAMETER, Response::HTTP_BAD_REQUEST],
 

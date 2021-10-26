@@ -25,7 +25,6 @@ class ResultCodes
     public const DATABASE_UNREACHABLE = -10;
 
     /** validation */
-    public const INVALID_JSON_CONTENT = -4;
     public const INVALID_MEDIA_TYPE = -3;
     public const MISSING_PARAMETER = -2;
     public const INVALID_SYNTAX = -1;
