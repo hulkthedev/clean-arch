@@ -9,7 +9,7 @@ use App\Repository\Exception\RisksNotFoundException;
 use App\Usecase\BaseInteractor;
 use App\Usecase\BaseResponse;
 use App\Usecase\ResultCodes;
-use App\Usecase\TerminateContract\Exceptions\ContractCanNotBeTerminated;
+use App\Usecase\TerminateContract\Exception\ContractCanNotBeTerminatedException;
 use DateTimeImmutable;
 use Symfony\Component\HttpFoundation\Request;
 use Throwable;
@@ -51,7 +51,7 @@ class TerminateContractInteractor extends BaseInteractor
 
     /**
      * @param int $contractNumber
-     * @throws ContractCanNotBeTerminated
+     * @throws ContractCanNotBeTerminatedException
      * @throws ContractNotFoundException
      * @throws DatabaseUnreachableException
      * @throws ObjectNotFoundException
@@ -66,21 +66,21 @@ class TerminateContractInteractor extends BaseInteractor
         $contract = $this->getRepository()->getContractByNumber($contractNumber, true);
 
         if ($contract->isInactive()) {
-            throw new ContractCanNotBeTerminated(ResultCodes::CONTRACT_ALREADY_INACTIVE);
+            throw new ContractCanNotBeTerminatedException(ResultCodes::CONTRACT_ALREADY_INACTIVE);
         }
 
         if ($contract->isTerminated()) {
-            throw new ContractCanNotBeTerminated(ResultCodes::CONTRACT_ALREADY_TERMINATED);
+            throw new ContractCanNotBeTerminatedException(ResultCodes::CONTRACT_ALREADY_TERMINATED);
         }
 
         if ($contract->isFinished()) {
-            throw new ContractCanNotBeTerminated(ResultCodes::CONTRACT_ALREADY_FINISHED);
+            throw new ContractCanNotBeTerminatedException(ResultCodes::CONTRACT_ALREADY_FINISHED);
         }
     }
 
     /**
      * @param string $date
-     * @throws ContractCanNotBeTerminated
+     * @throws ContractCanNotBeTerminatedException
      */
     private function validateTerminationDate(string $date): void
     {
@@ -88,7 +88,7 @@ class TerminateContractInteractor extends BaseInteractor
         $nowDate = new DateTimeImmutable();
 
         if ($nowDate->diff($toDate)->invert !== 0) {
-            throw new ContractCanNotBeTerminated(ResultCodes::CONTRACT_TERMINATION_IN_THE_PAST);
+            throw new ContractCanNotBeTerminatedException(ResultCodes::CONTRACT_TERMINATION_IN_THE_PAST);
         }
     }
 }

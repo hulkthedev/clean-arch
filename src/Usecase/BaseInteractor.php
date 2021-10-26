@@ -3,8 +3,8 @@
 namespace App\Usecase;
 
 use App\Repository\RepositoryInterface as Repository;
-use App\Usecase\Exceptions\BadRequestException;
-use App\Usecase\Exceptions\MissingParameterException;
+use App\Usecase\Exception\BadRequestException;
+use App\Usecase\Exception\MissingParameterException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\UnsupportedMediaTypeHttpException;
 

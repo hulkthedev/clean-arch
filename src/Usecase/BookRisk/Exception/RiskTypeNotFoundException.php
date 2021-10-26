@@ -1,14 +1,14 @@
 <?php
 
 
-namespace App\Usecase\TerminateContract\Exceptions;
+namespace App\Usecase\BookRisk\Exception;
 
 use Exception;
 
 /**
  * @codeCoverageIgnore
  */
-class ContractCanNotBeTerminated extends Exception
+class RiskTypeNotFoundException extends Exception
 {
     /**
      * @param int $resultCode

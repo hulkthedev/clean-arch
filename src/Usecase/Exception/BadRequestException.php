@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Usecase\Exceptions;
+namespace App\Usecase\Exception;
 
 use App\Usecase\ResultCodes;
 use Exception;
@@ -9,13 +9,13 @@ use Exception;
 /**
  * @codeCoverageIgnore
  */
-class MissingParameterException extends Exception
+class BadRequestException extends Exception
 {
     /**
      * @inheritDoc
      */
     public function __construct()
     {
-        parent::__construct('', ResultCodes::MISSING_PARAMETER);
+        parent::__construct('', ResultCodes::INVALID_SYNTAX);
     }
 }
