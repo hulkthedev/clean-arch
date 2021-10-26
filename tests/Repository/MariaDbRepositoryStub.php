@@ -49,7 +49,7 @@ class MariaDbRepositoryStub implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function bookRisk(int $contractNumber, int $objectId, int $riskType): bool
+    public function bookRisk(int $objectId, int $riskType): bool
     {
         if ($this->throwException[__FUNCTION__]) {
             throw new RiskCanNotBeBookedException(ResultCodes::RISK_TYPE_ERROR);

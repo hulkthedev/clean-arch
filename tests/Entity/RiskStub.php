@@ -9,5 +9,6 @@ class RiskStub extends Risk
     public function __construct()
     {
         $this->name = 'THEFT_PROTECTION_SMARTPHONE';
+        $this->type = Risk::THEFT_PROTECTION_SMARTPHONE;
     }
 }

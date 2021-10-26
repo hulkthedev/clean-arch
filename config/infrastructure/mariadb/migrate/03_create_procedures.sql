@@ -102,3 +102,22 @@ END //
 DELIMITER ;
 
 /**********************************************************************************************************************/
+
+DELIMITER //
+CREATE PROCEDURE BookRisk (
+    IN _objectId SMALLINT UNSIGNED,
+    IN _riskType SMALLINT UNSIGNED
+)
+BEGIN
+    INSERT INTO risk_mapping (
+         object_id
+        ,risk_id
+    )
+    VALUES (
+        _objectId
+       ,_riskType
+    );
+END //
+DELIMITER ;
+
+/**********************************************************************************************************************/

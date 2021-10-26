@@ -56,7 +56,7 @@ VALUES
     (1000, 1, '2021-01-13', '2021-02-01',  NULL,         NULL,        30, 1, 0),
     (1001, 2, '2021-04-05', '2021-04-15', '2022-05-15', '2021-10-12', 15, 2, 0),
     (1002, 3, '2021-05-20', '2021-06-01', '2021-12-01', '2021-07-01', 30, 3, 3),
-    (1003, 4, '2021-10-03',  NULL,         NULL,         NULL,        40, 4, 0);
+    (1003, 4, '2021-10-03',  NULL,         NULL,         NULL,        30, 4, 0);
 
 INSERT INTO object
     (contract_id, object_id, serial_number, price, currency, description, buying_date, start_date, end_date, termination_date)
@@ -79,7 +79,6 @@ INSERT INTO risk_mapping
     (object_id, risk_id)
 VALUES
     (1, 1),
-    (1, 4),
     (2, 2),
     (2, 5),
     (3, 6),

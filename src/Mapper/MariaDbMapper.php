@@ -97,6 +97,7 @@ class MariaDbMapper
         foreach ($data['risks'] as $riskData) {
             $risk = new Risk();
             $risk->name = $riskData['name'];
+            $risk->type = Risk::getTypeByName($riskData['name']);
 
             $object->risks[] = $risk;
         }

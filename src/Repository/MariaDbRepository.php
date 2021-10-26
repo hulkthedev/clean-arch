@@ -29,18 +29,16 @@ class MariaDbRepository implements RepositoryInterface
     }
 
     /**
-     * @param int $contractNumber
      * @param int $objectId
      * @param int $riskType
      * @return bool
      * @throws DatabaseUnreachableException
      * @throws RiskCanNotBeBookedException
      */
-    public function bookRisk(int $contractNumber, int $objectId, int $riskType): bool
+    public function bookRisk(int $objectId, int $riskType): bool
     {
-        $statement = $this->getPdoDriver()->prepare('CALL BookRisk(:contractNumber, :objectId, :riskType)');
+        $statement = $this->getPdoDriver()->prepare('CALL BookRisk(:objectId, :riskType)');
         $result = $statement->execute([
-            'contractNumber' => $contractNumber,
             'objectId' => $objectId,
             'riskType' => $riskType,
         ]);

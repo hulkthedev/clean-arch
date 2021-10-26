@@ -27,16 +27,16 @@ class BookRiskInteractor extends BaseInteractor
     public function execute(Request $request): BaseResponse
     {
         $code = ResultCodes::SUCCESS;
-        $contract = [];
 
         try {
             $this->validateRequest($request);
-            $this->getRepository()->bookRisk((int)$request->get('contractNumber'), (int)$request->get('objectId'), (int)$request->get('riskType'));
+            $this->getRepository()->bookRisk((int)$request->get('objectId'), (int)$request->get('riskType'));
         } catch (Throwable $throwable) {
+            var_dump($throwable->getMessage());
             $code = $throwable->getCode();
         }
 
-        return new BaseResponse($code, [$contract]);
+        return new BaseResponse($code, []);
     }
 
     /**

@@ -33,12 +33,11 @@ interface RepositoryInterface
     public function terminateContractByNumber(int $contractNumber, string $date): bool;
 
     /**
-     * @param int $contractNumber
      * @param int $objectId
      * @param int $riskType
      * @return bool
      * @throws DatabaseUnreachableException
      * @throws RiskCanNotBeBookedException
      */
-    public function bookRisk(int $contractNumber, int $objectId, int $riskType): bool;
+    public function bookRisk(int $objectId, int $riskType): bool;
 }

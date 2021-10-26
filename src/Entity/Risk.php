@@ -31,4 +31,23 @@ class Risk
             self::DAMAGE_PROTECTION_OTHER
         ];
     }
+
+    /**
+     * @param string $name
+     * @return string
+     */
+    public static function getTypeByName(string $name): string
+    {
+        $mapper = [
+            'THEFT_PROTECTION_SMARTPHONE' => self::THEFT_PROTECTION_SMARTPHONE,
+            'THEFT_PROTECTION_TV' => self::THEFT_PROTECTION_TV,
+            'THEFT_PROTECTION_OTHER' => self::THEFT_PROTECTION_OTHER,
+            'DAMAGE_PROTECTION_SMARTPHONE' => self::DAMAGE_PROTECTION_SMARTPHONE,
+            'DAMAGE_PROTECTION_TV' =>  self::DAMAGE_PROTECTION_TV,
+            'DAMAGE_PROTECTION_PC' => self::DAMAGE_PROTECTION_PC,
+            'DAMAGE_PROTECTION_OTHER' => self::DAMAGE_PROTECTION_OTHER
+        ];
+
+        return $mapper[$name];
+    }
 }
