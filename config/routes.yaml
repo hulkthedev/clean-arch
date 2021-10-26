@@ -13,6 +13,6 @@ terminate_contract:
   methods: [PUT]
 
 book_risk:
-  path: /clean-arch/contract/{contractNumber}/{objectId}/book-risk/{riskType}
+  path: /clean-arch/contract/{contractNumber}/object/{objectId}/book-risk/{riskType}
   controller: App\Controller\ObjectController::bookRisk
-  methods: [PUT]
+  methods: [GET]

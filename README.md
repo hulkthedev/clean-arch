@@ -164,3 +164,19 @@ Unfortunately, Travis CI does not yet support PHP 8.x
   ]
 }
 ```
+
+> [PUT](http://localhost:3699/clean-arch/contract/1000/terminate/2022-12-31) /clean-arch/contract/1000/terminate/2022-12-31
+```json
+{
+  "code": 1,
+  "contracts": []
+}
+```
+
+> [PUT](http://localhost:3699/clean-arch/contract/1000/object/1/book-risk/THEFT_PROTECTION) /clean-arch/contract/1000/object/1/book-risk/THEFT_PROTECTION
+```json
+{
+  "code": 1,
+  "contracts": []
+}
+```

@@ -25,7 +25,7 @@ class BookRiskInteractor extends BaseInteractor
             $this->validateRequest($request);
 
 
-
+            die('TOT');
 
         } catch (Throwable $throwable) {
             $code = $throwable->getCode();
@@ -43,11 +43,11 @@ class BookRiskInteractor extends BaseInteractor
     {
         $this->validateContractNumber($request);
 
-        if (null === $request->get('toDate') || null === $request->get('riskType') ) {
+        if (null === $request->get('objectId') || null === $request->get('riskType') ) {
             throw new BadRequestException();
         }
 
-        if ('' === $request->get('toDate') || '' === $request->get('riskType') ) {
+        if ('' === $request->get('objectId') || '' === $request->get('riskType') ) {
             throw new MissingParameterException();
         }
     }
