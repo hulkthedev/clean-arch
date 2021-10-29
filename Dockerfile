@@ -12,14 +12,16 @@ RUN apk update && \
         bash
 
 RUN pecl install \
-    xdebug-3.1.0
+    xdebug-3.1.0 \
+    redis
 
 RUN docker-php-ext-install \
     pdo \
     pdo_mysql
 
 RUN docker-php-ext-enable \
-    xdebug
+    xdebug \
+    redis
 
 RUN echo Europe/Berlin > /etc/timezone
 

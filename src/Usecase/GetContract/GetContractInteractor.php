@@ -25,6 +25,8 @@ class GetContractInteractor extends BaseInteractor
             $this->validateRequest($request);
             $contract = $this->getRepository()->getContractByNumber((int)$request->get('contractNumber'));
         } catch (Throwable $throwable) {
+            var_dump($throwable->getTraceAsString());
+            var_dump($throwable->getMessage());exit;
             $code = $throwable->getCode();
         }
 

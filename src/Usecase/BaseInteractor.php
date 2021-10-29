@@ -7,6 +7,7 @@ use App\Repository\Exception\ContractNotFoundException;
 use App\Repository\Exception\DatabaseUnreachableException;
 use App\Repository\Exception\ObjectNotFoundException;
 use App\Repository\Exception\RisksNotFoundException;
+use App\Repository\RedisRepository;
 use App\Repository\RepositoryInterface as Repository;
 use App\Usecase\Exception\BadRequestException;
 use App\Usecase\Exception\DeclineByContractException;
@@ -15,13 +16,13 @@ use Symfony\Component\HttpFoundation\Request;
 
 abstract class BaseInteractor
 {
-    private Repository $repository;
+    private RedisRepository $repository;
     protected Contract $contract;
 
     /**
-     * @param Repository $repository
+     * @param RedisRepository $repository
      */
-    public function __construct(Repository $repository)
+    public function __construct(RedisRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -32,9 +33,9 @@ abstract class BaseInteractor
     abstract protected function validateRequest(Request $request): void;
 
     /**
-     * @return Repository
+     * @return RedisRepository
      */
-    protected function getRepository(): Repository
+    protected function getRepository(): RedisRepository
     {
         return $this->repository;
     }
