@@ -8,22 +8,9 @@ use App\Usecase\GetUser\GetUserInteractor;
 use App\Usecase\UpdateUser\UpdateUserInteractor;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\SerializerInterface;
 
 class UserController
 {
-//    private SerializerInterface $serializer;
-//
-//    public function __construct()
-//    {
-//        $serializer = new Serializer([new ObjectNormalizer(), new DateTimeNormalizer()], [new JsonEncoder()]);
-//        $this->serializer =  $serializer;
-//    }
-
     /**
      * @param Request $request
      * @param GetUserInteractor $interactor

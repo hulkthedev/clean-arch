@@ -4,7 +4,7 @@ namespace App\Mapper;
 
 use App\Entity\User;
 
-class MariaDbMapper
+class MariaDbMapper implements Mapper
 {
     /**
      * @param array $userList

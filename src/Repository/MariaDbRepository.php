@@ -2,26 +2,27 @@
 
 namespace App\Repository;
 
+use App\Client\Client;
 use App\Entity\User;
+use App\Mapper\Mapper;
 use App\Repository\Exception\DatabaseException;
 use App\Usecase\ResultCodes;
 use PDO;
-use App\Mapper\MariaDbMapper as Mapper;
 
 class MariaDbRepository implements RepositoryInterface
 {
     use UserHelper;
 
-    private const DATABASE_CONNECTION_TIMEOUT = 30;
-
-    private ?PDO $pdo = null;
     private Mapper $mapper;
+    private Client $client;
 
     /**
+     * @param Client $client
      * @param Mapper $mapper
      */
-    public function __construct(Mapper $mapper)
+    public function __construct(Client $client, Mapper $mapper)
     {
+        $this->client = $client;
         $this->mapper = $mapper;
     }
 
@@ -30,7 +31,9 @@ class MariaDbRepository implements RepositoryInterface
      */
     public function addUser(User $user): int
     {
-        $statement = $this->getPdoDriver()->prepare('INSERT INTO ca_user (firstname, lastname, age, gender, street, houseNumber, postcode, city, country) VALUES (:firstname, :lastname, :age, :gender, :street, :houseNumber, :postcode, :city, :country); SELECT LAST_INSERT_ID();');
+        $client = $this->getClient();
+
+        $statement = $client->prepare('INSERT INTO ca_user (firstname, lastname, age, gender, street, houseNumber, postcode, city, country) VALUES (:firstname, :lastname, :age, :gender, :street, :houseNumber, :postcode, :city, :country); SELECT LAST_INSERT_ID();');
         $statement->execute([
             'firstname' => $user->firstname,
             'lastname' => $user->lastname,
@@ -43,7 +46,7 @@ class MariaDbRepository implements RepositoryInterface
             'country' => $user->country,
         ]);
 
-        $userId = $this->getPdoDriver()->lastInsertId();
+        $userId = $client->lastInsertId();
         if (empty($userId)){
             throw new DatabaseException(ResultCodes::USER_CAN_NOT_BE_SAVED);
         }
@@ -56,7 +59,7 @@ class MariaDbRepository implements RepositoryInterface
      */
     public function getUserById(int $userId): array
     {
-        $statement = $this->getPdoDriver()->prepare('SELECT * FROM ca_user WHERE id=:id');
+        $statement = $this->getClient()->prepare('SELECT * FROM ca_user WHERE id=:id');
         $statement->execute(['id' => $userId]);
         $user = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -72,7 +75,7 @@ class MariaDbRepository implements RepositoryInterface
      */
     public function deleteUserById(int $userId): bool
     {
-        $statement = $this->getPdoDriver()->prepare('DELETE FROM ca_user WHERE id=:id');
+        $statement = $this->getClient()->prepare('DELETE FROM ca_user WHERE id=:id');
         if (true !== $statement->execute(['id' => $userId])) {
             throw new DatabaseException(ResultCodes::USER_CAN_NOT_BE_DELETED);
         }
@@ -88,7 +91,7 @@ class MariaDbRepository implements RepositoryInterface
         $changedData = $this->getChangedData($user);
         $changedSql = $this->getChangedDataSQLStatement($changedData);
 
-        $statement = $this->getPdoDriver()->prepare("UPDATE ca_user SET $changedSql  WHERE id=:id");
+        $statement = $this->getClient()->prepare("UPDATE ca_user SET $changedSql  WHERE id=:id");
         $result = $statement->execute($changedData);
 
         if (true !== $result) {
@@ -107,38 +110,10 @@ class MariaDbRepository implements RepositoryInterface
     }
 
     /**
-     * @param PDO $pdo
+     * @return Client
      */
-    public function setPdoDriver(PDO $pdo): void
+    private function getClient(): Client
     {
-        $this->pdo = $pdo;
-    }
-
-    /**
-     * @return PDO
-     * @throws DatabaseException
-     * @codeCoverageIgnore
-     */
-    private function getPdoDriver(): PDO
-    {
-        if (null === $this->pdo) {
-            $host = getenv('MARIADB_HOST');
-            $user = getenv('MARIADB_USER');
-            $password = getenv('MARIADB_PASSWORD');
-            $name = getenv('MARIADB_NAME');
-            $port = getenv('MARIADB_PORT');
-
-            if (empty($host) || empty($user) || empty($password) || empty($name) || empty($port)) {
-                throw new DatabaseException(ResultCodes::PDO_EXCEPTION_NO_LOGIN_DATA);
-            }
-
-            $pdo = new PDO("mysql:dbname=$name;host=$host;port=$port;charset=utf8mb4", $user, $password, [
-                PDO::ATTR_TIMEOUT => self::DATABASE_CONNECTION_TIMEOUT
-            ]);
-
-            $this->setPdoDriver($pdo);
-        }
-
-        return $this->pdo;
+        return $this->client;
     }
 }
