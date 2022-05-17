@@ -7,24 +7,22 @@ use App\Usecase\BaseInteractor;
 use App\Usecase\BaseResponse;
 use App\Usecase\ResultCodes;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\UnsupportedMediaTypeHttpException;
 use Throwable;
 
 class GetUserInteractor extends BaseInteractor
 {
     /**
-     * @param Request $request
+     * @param GetUserRequest $request
      * @return BaseResponse
      */
-    public function execute(Request $request): BaseResponse
+    public function execute(GetUserRequest $request): BaseResponse
     {
         $code = ResultCodes::SUCCESS;
         $user = [];
 
         try {
             $this->validateRequest($request);
-            $user = $this->getRepository()->getUserById((int)$request->get('userId'));
+            $user = $this->getRepository()->getUserById($request->userId);
         } catch (BadRequestException $exception) {
             $code = ResultCodes::INVALID_SYNTAX;
         } catch (DatabaseException $exception) {
@@ -37,17 +35,16 @@ class GetUserInteractor extends BaseInteractor
     }
 
     /**
-     * @param Request $request
-     * @throws UnsupportedMediaTypeHttpException
+     * @param GetUserRequest $request
      * @throws BadRequestException
      */
-    private function validateRequest(Request $request): void
+    private function validateRequest(GetUserRequest $request): void
     {
-        if (null === $request->get('userId')) {
+        if (null === $request->userId) {
             throw new BadRequestException('No userId transmitted!');
         }
 
-        if ((int)$request->get('userId') === 0) {
+        if (0 === $request->userId) {
             throw new BadRequestException('No valid userId transmitted!');
         }
     }
